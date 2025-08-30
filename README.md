@@ -7,7 +7,6 @@ A modern, web-based configuration generator for Counter-Strike 2. Create profess
 **USE AT YOUR OWN RISK**: This tool generates configuration files for Counter-Strike 2. The author(s) are NOT responsible for:
 - Game crashes or instability
 - FPS drops or performance issues
-- VAC bans or account issues
 - Hardware damage or system problems
 - Any other issues that may arise from using generated configs
 

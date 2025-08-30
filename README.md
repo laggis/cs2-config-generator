@@ -90,7 +90,6 @@ C:\Program Files (x86)\Steam\userdata\[USERID]\730\local\cfg\
 
 ### File Structure
 - `index.html` - Main application (single file, no dependencies)
-- `STEAM_GUIDE.md` - Comprehensive user guide for Steam
 - `README.md` - This file
 
 ### Browser Compatibility

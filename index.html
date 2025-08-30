@@ -597,6 +597,15 @@
                     <span class="help-text">🔄 Use interpolation for network buffer ticks</span>
                 </div>
                 <div class="setting-group">
+                    <label>Interpolation Ratio:</label>
+                    <select id="cl_interp_ratio">
+                        <option value="0" selected>0 (Recommended)</option>
+                        <option value="1">1 (Packet Loss)</option>
+                        <option value="2">2 (High Packet Loss)</option>
+                    </select>
+                    <span class="help-text">📡 Interpolation ratio for network smoothing (0 recommended, 1-2 for packet loss)</span>
+                </div>
+                <div class="setting-group">
                     <label>Tick Packet Queue Length:</label>
                     <input type="number" id="cl_tickpacket_desired_queuelength" value="0">
                     <span class="help-text">📦 Desired queue length for tick packets (0 = automatic)</span>
@@ -2367,6 +2376,7 @@
                 cl_predict_head_shot_fx: document.getElementById('cl_predict_head_shot_fx').value,
                 cl_predict_kill_ragdolls: document.getElementById('cl_predict_kill_ragdolls').value,
                 cl_net_buffer_ticks_use_interp: document.getElementById('cl_net_buffer_ticks_use_interp').value,
+                cl_interp_ratio: document.getElementById('cl_interp_ratio').value,
                 cl_tickpacket_desired_queuelength: document.getElementById('cl_tickpacket_desired_queuelength').value,
                 mm_session_search_qos_timeout: document.getElementById('mm_session_search_qos_timeout').value,
                 mm_csgo_community_search_players_min: document.getElementById('mm_csgo_community_search_players_min').value,
@@ -2580,6 +2590,7 @@
                 `cl_predict_head_shot_fx "${config.cl_predict_head_shot_fx}"  // Predict headshot effects`,
                 `cl_predict_kill_ragdolls "${config.cl_predict_kill_ragdolls}"  // Predict kill ragdolls`,
                 `cl_net_buffer_ticks_use_interp "${config.cl_net_buffer_ticks_use_interp}"  // Use interpolation for network buffer ticks`,
+                `cl_interp_ratio "${config.cl_interp_ratio}"  // Interpolation ratio (0 recommended, 1-2 for packet loss)`,
                 `cl_tickpacket_desired_queuelength "${config.cl_tickpacket_desired_queuelength}"  // Desired queue length for tick packets`,
                 `mm_session_search_qos_timeout "${config.mm_session_search_qos_timeout}"  // QoS timeout for session search`,
                 `mm_csgo_community_search_players_min "${config.mm_csgo_community_search_players_min}"  // Minimum players for community search`,
@@ -2642,7 +2653,7 @@
                 '',
                 '// HUD & Interface Settings',
                 `hud_scaling "${config.hud_scaling}"  // HUD scale`,
-                `cl_hud_color "${config.cl_hud_color}"  // HUD color scheme`,
+                `cl_hud_color "${config.cl_hud_color}"  // HUD color scheme (Note: Blue may appear white in some CS2 versions)`,
                 `cl_hud_radar_scale "${config.cl_hud_radar_scale}"  // Radar HUD element size`,
                 `cl_radar_scale "${config.cl_radar_scale}"  // Radar zoom level`,
                 `cl_radar_always_centered "${config.cl_radar_always_centered}"  // Radar centering`,

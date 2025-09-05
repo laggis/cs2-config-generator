@@ -510,6 +510,39 @@
                 padding: 20px;
             }
         }
+
+        /* Crosshair Preview Styles */
+        .crosshair-preview-container {
+            background: rgba(15, 20, 25, 0.9);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .crosshair-preview-container h4 {
+            color: #f1f5f9;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #crosshairPreview {
+            background: #2d3748;
+            border: 2px solid rgba(255, 165, 0, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #crosshairPreview:hover {
+            border-color: rgba(255, 165, 0, 0.4);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -1509,6 +1542,10 @@
 
             <div class="config-section">
                 <h3>🎯 Crosshair Settings</h3>
+                <div class="crosshair-preview-container">
+                    <h4>Live Preview:</h4>
+                    <canvas id="crosshairPreview" width="200" height="200"></canvas>
+                </div>
                 <div class="setting-group">
                     <label>Size:</label>
                     <input type="number" id="cl_crosshairsize" value="4">
@@ -3299,6 +3336,142 @@
 
         // Initialize resolution on page load
         window.currentResolution = { width: 1920, height: 1080 };
+
+        // Crosshair Preview Functions
+        function drawCrosshair() {
+            const canvas = document.getElementById('crosshairPreview');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Get crosshair settings
+            const size = parseInt(document.getElementById('cl_crosshairsize').value) || 4;
+            const thickness = parseInt(document.getElementById('cl_crosshairthickness').value) || 1;
+            const gap = parseInt(document.getElementById('cl_crosshairgap').value) || -1;
+            const color = document.getElementById('cl_crosshaircolor').value;
+            const outline = document.getElementById('cl_crosshair_drawoutline').value === '1';
+            const style = parseInt(document.getElementById('cl_crosshairstyle').value) || 4;
+            const dot = document.getElementById('cl_crosshairdot').value === '1';
+            const tStyle = document.getElementById('cl_crosshair_t').value === '1';
+            
+            // Color mapping
+            const colors = {
+                '0': '#FF0000', // Red
+                '1': '#00FF00', // Green
+                '2': '#FFFF00', // Yellow
+                '3': '#0000FF', // Blue
+                '4': '#00FFFF', // Cyan
+                '5': `rgb(${document.getElementById('cl_crosshaircolor_R').value}, ${document.getElementById('cl_crosshaircolor_G').value}, ${document.getElementById('cl_crosshaircolor_B').value})` // Custom
+            };
+            
+            const crosshairColor = colors[color] || '#00FF00';
+            
+            // Scale factor for better visibility
+            const scale = 3;
+            const scaledSize = size * scale;
+            const scaledThickness = Math.max(1, thickness * scale);
+            const scaledGap = gap * scale;
+            
+            // Draw outline if enabled
+            if (outline) {
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = scaledThickness + 2;
+                ctx.lineCap = 'square';
+                
+                // Draw outline lines
+                if (style === 0 || style === 1 || style === 4) {
+                    // Horizontal line
+                    ctx.beginPath();
+                    ctx.moveTo(centerX - scaledSize - scaledGap, centerY);
+                    ctx.lineTo(centerX - scaledGap, centerY);
+                    ctx.moveTo(centerX + scaledGap, centerY);
+                    ctx.lineTo(centerX + scaledSize + scaledGap, centerY);
+                    ctx.stroke();
+                    
+                    // Vertical line (skip top if T-style)
+                    if (!tStyle) {
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY - scaledSize - scaledGap);
+                        ctx.lineTo(centerX, centerY - scaledGap);
+                        ctx.stroke();
+                    }
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY + scaledGap);
+                    ctx.lineTo(centerX, centerY + scaledSize + scaledGap);
+                    ctx.stroke();
+                }
+            }
+            
+            // Draw main crosshair
+            ctx.strokeStyle = crosshairColor;
+            ctx.lineWidth = scaledThickness;
+            ctx.lineCap = 'square';
+            
+            if (style === 0 || style === 1 || style === 4) {
+                // Horizontal line
+                ctx.beginPath();
+                ctx.moveTo(centerX - scaledSize - scaledGap, centerY);
+                ctx.lineTo(centerX - scaledGap, centerY);
+                ctx.moveTo(centerX + scaledGap, centerY);
+                ctx.lineTo(centerX + scaledSize + scaledGap, centerY);
+                ctx.stroke();
+                
+                // Vertical line (skip top if T-style)
+                if (!tStyle) {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY - scaledSize - scaledGap);
+                    ctx.lineTo(centerX, centerY - scaledGap);
+                    ctx.stroke();
+                }
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY + scaledGap);
+                ctx.lineTo(centerX, centerY + scaledSize + scaledGap);
+                ctx.stroke();
+            }
+            
+            // Draw center dot if enabled
+            if (dot) {
+                ctx.fillStyle = crosshairColor;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, scaledThickness, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                if (outline) {
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+        }
+        
+        // Initialize crosshair preview on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Draw initial crosshair
+            setTimeout(drawCrosshair, 100);
+            
+            // Add event listeners to all crosshair inputs
+            const crosshairInputs = [
+                'cl_crosshairsize', 'cl_crosshairthickness', 'cl_crosshairgap',
+                'cl_crosshaircolor', 'cl_crosshair_drawoutline', 'cl_crosshairstyle',
+                'cl_crosshairdot', 'cl_crosshair_t', 'cl_crosshaircolor_R',
+                'cl_crosshaircolor_G', 'cl_crosshaircolor_B'
+            ];
+            
+            crosshairInputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', drawCrosshair);
+                    element.addEventListener('change', drawCrosshair);
+                }
+            });
+        });
     </script>
 </body>
 </html>

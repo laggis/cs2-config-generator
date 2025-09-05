@@ -880,9 +880,10 @@
                     <label>Clutch Mode:</label>
                     <select id="cl_clutch_mode">
                         <option value="0" selected>Disabled</option>
-                        <option value="1">Enabled</option>
+                        <option value="1">Teammates Muted</option>
+                        <option value="2">Enhanced Mode</option>
                     </select>
-                    <span class="help-text">🎯 Enable clutch mode audio filtering</span>
+                    <span class="help-text">🎯 Special voice filter for clutch situations: 0=Normal voice chat, 1=Mutes teammates when you're last alive, 2=Also affects enemy chat in some circumstances. Automatically restores normal voice when round ends.</span>
                 </div>
                 <div class="setting-group">
                     <label>Voice Loopback:</label>
@@ -1791,6 +1792,14 @@
                         <option value="1">Don't Show Again</option>
                     </select>
                     <span class="help-text">⚡ Hide low latency VSync recommendations</span>
+                </div>
+                <div class="setting-group">
+                    <label>Show Build Info:</label>
+                    <select id="r_show_build_info">
+                        <option value="0">Disabled</option>
+                        <option value="1" selected>Enabled</option>
+                    </select>
+                    <span class="help-text">🔧 Displays build information on the screen. It is recommended to leave this enabled when submitting bug reports in the form of screenshots or videos</span>
                 </div>
 
             </div>

@@ -1294,6 +1294,15 @@
                     <span class="help-text">🏷️ Show clan tags in death notices</span>
                 </div>
                 <div class="setting-group">
+                    <label>Show Team Equipment:</label>
+                    <select id="cl_show_team_equipment">
+                        <option value="0">Hidden</option>
+                        <option value="1" selected>Visible</option>
+                        <option value="+cl_show_team_equipment">Show All</option>
+                    </select>
+                    <span class="help-text">🎒 Display teammate equipment and utility in HUD for better team coordination</span>
+                </div>
+                <div class="setting-group">
                     <label>Spectator Vote HUD:</label>
                     <select id="cl_drawhud_specvote">
                         <option value="0">Hidden</option>
@@ -1807,6 +1816,22 @@
                     <span class="help-text">💻 Enable developer console (~ key)</span>
                 </div>
                 <div class="setting-group">
+                    <label>Show Client/Server Errors:</label>
+                    <select id="cl_showerror">
+                        <option value="0" selected>Hidden</option>
+                        <option value="1">Show in Console</option>
+                    </select>
+                    <span class="help-text">🐛 Display client and server error messages in console for debugging</span>
+                </div>
+                <div class="setting-group">
+                    <label>Debug Damage Info:</label>
+                    <select id="player_debug_print_damage">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Show in Console</option>
+                    </select>
+                    <span class="help-text">💥 Print detailed damage information to console for analysis and debugging</span>
+                </div>
+                <div class="setting-group">
                     <label>Graphics Driver Warning:</label>
                     <select id="cl_graphics_driver_warning_dont_show_again">
                         <option value="0" selected>Show Warning</option>
@@ -2273,6 +2298,14 @@
                     <span class="help-text">💥 Explosion/smoke effects. Low = easier to see through smoke</span>
                 </div>
                 <div class="setting-group">
+                    <label>Draw Particles:</label>
+                    <select id="r_drawparticles">
+                        <option value="0">Disabled (No Smoke/Explosions)</option>
+                        <option value="1" selected>Enabled (Normal)</option>
+                    </select>
+                    <span class="help-text">🚫 Completely disable smoke and explosion particle effects for maximum visibility (may affect gameplay)</span>
+                </div>
+                <div class="setting-group">
                     <label>Ambient Occlusion:</label>
                     <select id="setting_videocfg_ao_detail">
                         <option value="0" selected>Disabled (Best FPS)</option>
@@ -2291,6 +2324,22 @@
                         <option value="3" selected>Ultra Quality</option>
                     </select>
                     <span class="help-text">🌈 High Dynamic Range lighting. Minimal FPS impact, Quality recommended</span>
+                </div>
+                <div class="setting-group">
+                    <label>Fog Override:</label>
+                    <select id="fog_override">
+                        <option value="0" selected>Disabled (Default Fog)</option>
+                        <option value="1">Enabled (Manual Control)</option>
+                    </select>
+                    <span class="help-text">🌫️ Override automatic fog settings for manual control of atmospheric effects</span>
+                </div>
+                <div class="setting-group">
+                    <label>Animated Material Effects:</label>
+                    <select id="animated_material_attributes">
+                        <option value="0">Disabled (Better Performance)</option>
+                        <option value="1" selected>Enabled (Full Effects)</option>
+                    </select>
+                    <span class="help-text">✨ Enable animated material effects like flowing water and moving textures</span>
                 </div>
             </div>
 
@@ -2331,6 +2380,14 @@
                         <option value="1" selected>Enabled</option>
                     </select>
                     <span class="help-text">📱 Minimize game when clicking outside (recommended: Enabled)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Visual Profiling Tool:</label>
+                    <select id="vprof_off">
+                        <option value="0">Enabled</option>
+                        <option value="1" selected>Disabled (Better Performance)</option>
+                    </select>
+                    <span class="help-text">🔧 Disable visual profiling tool to improve CPU performance and reduce overhead</span>
                 </div>
             </div>
 
@@ -2443,6 +2500,7 @@
                 fps_max: document.getElementById('fps_max').value,
                 // mat_queue_mode removed - deprecated in CS2
                 cl_disable_ragdolls: document.getElementById('cl_disable_ragdolls').value,
+                vprof_off: document.getElementById('vprof_off').value,
                 // r_dynamic and muzzleflash_light removed - deprecated in CS2
                 // cl_forcepreload removed - deprecated in CS2
                 fps_max_ui: document.getElementById('fps_max_ui').value,
@@ -2531,6 +2589,7 @@
                 cl_drawhud_force_radar: document.getElementById('cl_drawhud_force_radar').value,
                 cl_drawhud_force_teamid_overhead: document.getElementById('cl_drawhud_force_teamid_overhead').value,
                 cl_teamid_overhead_colors_show: document.getElementById('cl_teamid_overhead_colors_show').value,
+                cl_show_team_equipment: document.getElementById('cl_show_team_equipment').value,
                 cl_draw_only_deathnotices: document.getElementById('cl_draw_only_deathnotices').value,
                 cl_show_clan_in_death_notice: document.getElementById('cl_show_clan_in_death_notice').value,
                 cl_drawhud_specvote: document.getElementById('cl_drawhud_specvote').value,
@@ -2614,10 +2673,17 @@
                 violence_hblood: document.getElementById('violence_hblood').value,
                 cl_join_advertise: document.getElementById('cl_join_advertise').value,
                 con_enable: document.getElementById('con_enable').value,
+                cl_showerror: document.getElementById('cl_showerror').value,
+                player_debug_print_damage: document.getElementById('player_debug_print_damage').value,
                 cl_graphics_driver_warning_dont_show_again: document.getElementById('cl_graphics_driver_warning_dont_show_again').value,
                 cl_vrr_recommendation_dont_show_again: document.getElementById('cl_vrr_recommendation_dont_show_again').value,
                 cl_refresh_rate_recommendation_dont_show_again: document.getElementById('cl_refresh_rate_recommendation_dont_show_again').value,
                 cl_low_latency_vsync_recommendation_dont_show_again: document.getElementById('cl_low_latency_vsync_recommendation_dont_show_again').value,
+                
+                // Visual Effects Settings
+                r_drawparticles: document.getElementById('r_drawparticles').value,
+                fog_override: document.getElementById('fog_override').value,
+                animated_material_attributes: document.getElementById('animated_material_attributes').value,
                 
                 // Input & Control Settings
                 cl_input_enable_raw_keyboard: document.getElementById('cl_input_enable_raw_keyboard').value,
@@ -2658,6 +2724,7 @@
                 `fps_max "${config.fps_max}"  // Maximum FPS (0 = unlimited)`,
                 // mat_queue_mode removed - deprecated in CS2
                 `cl_disable_ragdolls "${config.cl_disable_ragdolls}"  // Disable ragdoll physics`,
+                `vprof_off "${config.vprof_off}"  // Disable visual profiling tool`,
                 // r_dynamic and muzzleflash_light removed - deprecated in CS2
                 // cl_forcepreload removed - deprecated in CS2
                 `fps_max_ui "${config.fps_max_ui}"  // Maximum FPS for UI elements`,
@@ -2751,6 +2818,7 @@
                 `cl_drawhud_specvote "${config.cl_drawhud_specvote}"  // Draw HUD spec vote`,
                 `cl_observed_bot_crosshair "${config.cl_observed_bot_crosshair}"  // Observed bot crosshair`,
                 `cl_teamid_overhead_colors_show "${config.cl_teamid_overhead_colors_show}"  // Team ID overhead colors`,
+                `cl_show_team_equipment "${config.cl_show_team_equipment}"  // Show teammate equipment`,
                 `cl_teamid_overhead_fade_near_crosshair "${config.cl_teamid_overhead_fade_near_crosshair}"  // Team ID overhead fade near crosshair`,
                 `cl_deathnotices_show_numbers "${config.cl_deathnotices_show_numbers}"  // Death notices show numbers`,
                 `cl_scoreboard_survivors_always_on "${config.cl_scoreboard_survivors_always_on}"  // Scoreboard survivors always on`,
@@ -2828,6 +2896,11 @@
                 'cl_crosshair_outlinethickness "1"  // Crosshair outline thickness',
                 'cl_crosshairusealpha "1"  // Use crosshair alpha',
                 'cl_crosshairalpha "255"  // Crosshair alpha value',
+                '',
+                '// Visual Effects Settings',
+                `r_drawparticles "${config.r_drawparticles}"  // Draw particle effects`,
+                `fog_override "${config.fog_override}"  // Override automatic fog settings`,
+                `animated_material_attributes "${config.animated_material_attributes}"  // Animated material effects`,
                 '',
                 '// Advanced Settings',
                 `violence_hblood "${config.violence_hblood}"  // Blood effects`,

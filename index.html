@@ -735,6 +735,11 @@
                     <input type="number" id="engine_no_focus_sleep" value="15">
                     <span class="help-text">😴 Sleep time when game loses focus (15ms recommended)</span>
                 </div>
+                <div class="setting-group">
+                    <label>Fullscreen Gamma:</label>
+                    <input type="number" step="0.1" min="1" max="3" id="r_fullscreen_gamma" value="2.2">
+                    <span class="help-text">🌟 Gamma correction for fullscreen mode. Set to 2 for a more CSGO-like appearance (default: 2.2)</span>
+                </div>
             </div>
 
             <div class="config-section">
@@ -2442,6 +2447,7 @@
                 thread_pool_option: document.getElementById('thread_pool_option').value,
                 engine_low_latency_sleep_after_client_tick: document.getElementById('engine_low_latency_sleep_after_client_tick').value,
                 engine_no_focus_sleep: document.getElementById('engine_no_focus_sleep').value,
+                r_fullscreen_gamma: document.getElementById('r_fullscreen_gamma').value,
                 
                 // Mouse Settings
                 sensitivity: document.getElementById('sensitivity').value,
@@ -2656,6 +2662,7 @@
                 `thread_pool_option "${config.thread_pool_option}"  // Thread pool configuration`,
                 `engine_low_latency_sleep_after_client_tick "${config.engine_low_latency_sleep_after_client_tick}"  // Low latency sleep`,
                 `engine_no_focus_sleep "${config.engine_no_focus_sleep}"  // Sleep when game loses focus`,
+                `r_fullscreen_gamma "${config.r_fullscreen_gamma}"  // Gamma correction for fullscreen mode`,
                 `r_player_visibility_mode "${config.r_player_visibility_mode}"  // Enhanced player visibility`,
                 '',
                 '// Mouse Settings',
@@ -3461,7 +3468,7 @@
                 'cl_crosshairsize', 'cl_crosshairthickness', 'cl_crosshairgap',
                 'cl_crosshaircolor', 'cl_crosshair_drawoutline', 'cl_crosshairstyle',
                 'cl_crosshairdot', 'cl_crosshair_t', 'cl_crosshaircolor_R',
-                'cl_crosshaircolor_G', 'cl_crosshaircolor_B'
+                'cl_crosshaircolor_G', 'cl_crosshaircolor_B', 'r_fullscreen_gamma'
             ];
             
             crosshairInputs.forEach(id => {

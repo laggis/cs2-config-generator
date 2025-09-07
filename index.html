@@ -732,8 +732,11 @@
                 </div>
                 <div class="setting-group">
                     <label>No Focus Sleep:</label>
-                    <input type="number" id="engine_no_focus_sleep" value="15">
-                    <span class="help-text">😴 Tells CS2 what to do when the game window is not in focus (like when you alt-tab or click another program). 0 (default): Game reduces FPS/"sleeps" to save resources while unfocused. 1: Game keeps running at full FPS even when unfocused (useful if alt-tabbing causes FPS bugs or for streamers who want the game smooth in background). ⚡ In short: it controls whether CS2 idles or keeps running full speed when the window isn't active.</span>
+                    <select id="engine_no_focus_sleep">
+                        <option value="0" selected>Save Resources (Recommended) - Lower FPS when alt-tabbed</option>
+                        <option value="1">Full Performance - Keep high FPS when alt-tabbed (for streamers)</option>
+                    </select>
+                    <span class="help-text">😴 Boolean setting (0 or 1 only) that controls CS2 behavior when window loses focus. 0 (default): Game reduces FPS to save resources while unfocused. 1: Game keeps running at full FPS even when unfocused (useful for streamers or fixing alt-tab FPS bugs). ⚠️ WARNING: Never use values higher than 1 (like 15) as this causes undefined behavior, unstable performance, and can trigger the exact FPS drops you're trying to avoid!</span>
                 </div>
                 <div class="setting-group">
                     <label>Fullscreen Gamma:</label>

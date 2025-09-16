@@ -1,12 +1,17 @@
-# CS2 Config Generator 🎮
+# CS2 Configuration Generator 🎮
 
-A modern, web-based configuration generator for Counter-Strike 2. Create professional configs with an intuitive interface featuring key capture, smart resolution matching, and comprehensive settings coverage.
+**Open Source & Privacy-First** - A modern, web-based configuration generator for Counter-Strike 2. Create professional configs with an intuitive interface featuring key capture, smart resolution matching, and comprehensive settings coverage.
+
+[![100% Client-Side](https://img.shields.io/badge/100%25-Client--Side-4CAF50?style=flat-square)](https://github.com/LaGgIs/cs2-config-generator)
+[![Privacy Protected](https://img.shields.io/badge/Privacy-Protected-2196F3?style=flat-square)](#-privacy--security)
+[![Open Source](https://img.shields.io/badge/Open-Source-ff6b35?style=flat-square)](https://github.com/LaGgIs/cs2-config-generator)
 
 ## ⚠️ IMPORTANT DISCLAIMER
 
 **USE AT YOUR OWN RISK**: This tool generates configuration files for Counter-Strike 2. The author(s) are NOT responsible for:
 - Game crashes or instability
 - FPS drops or performance issues
+- VAC bans or account issues
 - Hardware damage or system problems
 - Any other issues that may arise from using generated configs
 
@@ -19,23 +24,47 @@ A modern, web-based configuration generator for Counter-Strike 2. Create profess
 
 **YOU ARE RESPONSIBLE** for ensuring the configs work properly with your system and CS2 installation.
 
+## 🛡️ Privacy & Security
+
+### 100% Client-Side Operation
+- **No Data Collection**: We don't collect, store, or have access to any of your data
+- **Local Storage Only**: Your browser stores settings locally using localStorage
+- **No External Servers**: Everything runs in your browser - no data sent anywhere
+- **Complete Privacy**: Your configurations never leave your device
+- **Open Source**: Full transparency - [view the source code](https://github.com/LaGgIs/cs2-config-generator)
+
+### What's Stored Locally
+- Your username and password (base64 encoded) for convenience
+- Your CS2 game configurations and preferences
+- All data stays in your browser's local storage
+
+### What We DON'T Do
+- ❌ No IP address logging
+- ❌ No analytics or tracking
+- ❌ No external API calls
+- ❌ No data transmission to servers
+- ❌ No cookies or persistent tracking
+
 ## 🚀 Features
 
 ### Core Functionality
-- **🎯 Complete Config Generation**: autoexec.cfg, video.cfg, binds
-- **⌨️ Interactive Key Capture**: Press any key to auto-detect and bind
-- **📺 Smart Resolution Matching**: Aspect ratio updates available resolutions
-- **🎨 Modern UI**: CS2-themed dark interface with glassmorphism effects
-- **💾 Multiple Export Options**: Download individual or complete config packages
+- **🎯 Complete Config Generation**: autoexec.cfg, video.cfg, binds, and more
+- **⌨️ Interactive Key Capture**: Press any key to auto-detect and bind instantly
+- **📺 Smart Resolution Matching**: Aspect ratio automatically updates available resolutions
+- **🎨 Modern Dark UI**: CS2-themed interface with glassmorphism effects and smooth animations
+- **💾 Multiple Export Options**: Download individual configs or complete packages
+- **🔄 Real-time Preview**: See changes instantly as you configure settings
+- **💾 Auto-Save**: Your settings are automatically saved locally as you work
 
-### Supported Settings
-- **Game Settings**: Rates, FPS limits, network optimization
-- **Mouse Settings**: Sensitivity, acceleration, zoom ratios
-- **Video Settings**: Resolution, graphics quality, display options
-- **Audio Settings**: Volume, Steam Audio, voice chat
-- **Crosshair Settings**: Complete customization with all CS2 options
-- **HUD Settings**: Radar, UI elements, spectator options
-- **Key Binds**: Movement, weapons, utilities, custom commands
+### Comprehensive Settings Coverage
+- **🎮 Game Settings**: Network rates, FPS limits, performance optimization, developer options
+- **🖱️ Mouse Settings**: Sensitivity, acceleration, zoom ratios, raw input
+- **📺 Video Settings**: Resolution, aspect ratio, graphics quality, display modes
+- **🔊 Audio Settings**: Master/game/voice volumes, Steam Audio, voice chat settings
+- **🎯 Crosshair Settings**: Complete customization with all CS2 crosshair options and real-time preview
+- **🖥️ HUD Settings**: Radar configuration, UI elements, spectator options, scaling
+- **⌨️ Advanced Binds**: Movement, weapons, utilities, grenades, custom commands
+- **⚙️ Autoexec Settings**: Launch options, console commands, advanced configurations
 
 ## 🖥️ System Requirements
 
@@ -46,12 +75,15 @@ A modern, web-based configuration generator for Counter-Strike 2. Create profess
 
 ## 📋 Quick Start
 
-1. **Open the Tool**: Navigate to `index.html` in your browser
-2. **Configure Settings**: Adjust values in each section as needed
-3. **Use Key Capture**: Click "Capture" buttons to auto-detect keys
-4. **Generate Configs**: Click "Generate" for each section you want
-5. **Download Files**: Save the .cfg files to your CS2 config folder
-6. **Install Configs**: Copy files to your CS2 cfg directory
+1. **Open the Tool**: Navigate to `index.html` in your browser or visit the hosted version
+2. **Login (Optional)**: Create a username/password to save your configurations locally
+3. **Configure Settings**: 
+   - Navigate through tabs (Game, Mouse, Video, Audio, Crosshair, HUD, Binds, Autoexec)
+   - Adjust values - they auto-save as you work
+   - Use "Capture" buttons for instant key detection
+4. **Generate Configs**: Click "Generate" buttons for each section you want to export
+5. **Download Files**: Save the .cfg files (browser may warn - click "Keep" to proceed)
+6. **Install Configs**: Copy files to your CS2 cfg directory (see paths below)
 
 ## 📁 Installation Paths
 
@@ -86,11 +118,29 @@ C:\Program Files (x86)\Steam\userdata\[USERID]\730\local\cfg\
 - **Custom Binds**: Add your own commands and key combinations
 - **Export Options**: Generate individual sections or complete config packages
 
+## ⚠️ Browser Security Notice
+
+When downloading .cfg files, browsers may show security warnings like "This file could harm your computer" or "Potentially dangerous file." This is **normal behavior** because:
+
+- Browsers flag any executable/configuration files as potentially risky
+- .cfg files are text-based configuration files, not executable programs
+- The files are completely safe - they only contain CS2 console commands
+- **Solution**: Click "Keep," "Allow," or "Download anyway" when prompted
+
+This security warning appears for ALL .cfg files, regardless of source. It's a browser safety feature, not an indication of malicious content.
+
 ## ⚙️ Technical Details
 
+### Architecture
+- **Single File Application**: Everything contained in `index.html` - no external dependencies
+- **Pure Client-Side**: No server required, runs entirely in your browser
+- **Zero Dependencies**: No frameworks, libraries, or external resources needed
+- **Lightweight**: Fast loading and responsive performance
+
 ### File Structure
-- `index.html` - Main application (single file, no dependencies)
-- `README.md` - This file
+- `index.html` - Complete application (HTML, CSS, JavaScript all-in-one)
+- `README.md` - This documentation file
+- `STEAM_GUIDE.md` - Comprehensive user guide for Steam (if present)
 
 ### Browser Compatibility
 - ✅ Chrome 80+
@@ -104,23 +154,30 @@ C:\Program Files (x86)\Steam\userdata\[USERID]\730\local\cfg\
 - Scroll wheel (up/down)
 - Special keys (F1-F12, arrows, etc.)
 
-## 🌐 Hosting
+## 🌐 Hosting & Deployment
 
-### Local Hosting
-1. Download/clone the files
-2. Open `index.html` in any modern browser
-3. No server required for basic functionality
+### Local Usage (Recommended)
+1. Download `index.html` 
+2. Double-click to open in your browser
+3. **That's it!** - No installation, no server, no setup required
+4. Works completely offline
 
-### Web Server Hosting
-1. Upload `index.html` to your web server
-2. Ensure proper MIME types for .cfg downloads
-3. Configure HTTPS (recommended)
-4. Test all features work correctly
+### Web Hosting (Optional)
+1. Upload `index.html` to any web server
+2. Access via your domain - fully functional immediately
+3. **Zero Configuration** - no database, no backend setup needed
+
+### Deployment Benefits
+- **Instant Setup**: Single file deployment
+- **No Dependencies**: No Node.js, PHP, databases, or frameworks required
+- **Universal Compatibility**: Works on any web server or locally
+- **Privacy by Design**: No server-side data processing or storage
+- **Minimal Resources**: Tiny bandwidth usage, fast loading
 
 ### Server Requirements
-- Static file hosting (Apache, Nginx, or any HTTP server)
-- No database or backend required
-- Minimal bandwidth usage
+- **Static File Hosting**: Any web server (Apache, Nginx, GitHub Pages, Netlify, etc.)
+- **HTTPS**: Recommended for web deployment
+- **MIME Types**: Ensure .cfg files download properly (usually automatic)
 
 ## 🐛 Troubleshooting
 
@@ -196,12 +253,29 @@ help [command]         // Get command help
 
 ## 🤝 Contributing
 
-This is a community project. Feel free to:
-- Report bugs or issues
-- Suggest new features
-- Share improved configs
-- Help with documentation
-- Translate to other languages
+This is an open-source community project. Contributions welcome:
+- 🐛 Report bugs or issues
+- 💡 Suggest new features or improvements
+- 📝 Help with documentation
+- 🌍 Translate to other languages
+- 🔧 Submit code improvements
+- 📊 Share config optimizations
+
+**GitHub Repository**: [LaGgIs/cs2-config-generator](https://github.com/LaGgIs/cs2-config-generator)
+
+## 🎯 Project Philosophy
+
+### Privacy-First Design
+- **Your Data, Your Device**: Everything stays local - we never see your configurations
+- **No Tracking**: Zero analytics, cookies, or data collection
+- **Open Source**: Complete transparency in how your data is handled
+- **Offline Capable**: Works without internet connection
+
+### Community-Driven
+- Built by the CS2 community, for the CS2 community
+- Feedback and suggestions drive development
+- Professional player insights incorporated
+- Continuous improvement based on user needs
 
 ## 📄 License
 
@@ -209,13 +283,18 @@ This project is provided "as-is" for educational and community purposes. Use res
 
 ## 🙏 Acknowledgments
 
-- CS2 community for testing and feedback
-- Professional players for config insights
-- Valve for Counter-Strike 2
-- Open source community for inspiration
+- **CS2 Community**: For testing, feedback, and feature requests
+- **Professional Players**: For sharing optimal configuration insights
+- **Privacy Advocates**: For inspiring the privacy-first approach
+- **Open Source Community**: For tools, inspiration, and best practices
+- **Valve**: For Counter-Strike 2 and comprehensive console documentation
 
 ---
 
+## 💭 Final Notes
+
 **Remember**: The best config is one that works for YOUR setup and playstyle. Use this tool as a starting point, then customize based on your needs and preferences.
+
+**Privacy Matters**: Your gaming configurations are personal. That's why this tool keeps everything local and private.
 
 **Stay safe, play fair, and have fun! 🎯**

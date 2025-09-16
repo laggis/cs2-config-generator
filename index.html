@@ -13,8 +13,8 @@
 
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #2d3748 100%);
-            color: #e2e8f0;
+            background: #2c3e50;
+            color: #ecf0f1;
             min-height: 100vh;
             line-height: 1.6;
             position: relative;
@@ -36,16 +36,16 @@
             max-width: 1400px;
             margin: 20px auto;
             padding: 0;
-            background: rgba(15, 20, 25, 0.95);
+            background: #34495e;
             border-radius: 20px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 165, 0, 0.2);
+            border: 1px solid #4a5f7a;
         }
 
         .header {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffb347 100%);
-            color: #1a1a1a;
+            background: #ff6b35;
+            color: #2c3e50;
             padding: 40px;
             text-align: center;
             border-radius: 20px 20px 0 0;
@@ -84,12 +84,13 @@
 
         .tabs {
             display: flex;
-            background: rgba(30, 41, 59, 0.8);
+            background: #3c5068;
             border-radius: 15px;
             margin: 30px 20px;
             overflow: hidden;
-            border: 1px solid rgba(255, 165, 0, 0.3);
+            border: 2px solid #5a7491;
             backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .tab-button {
@@ -99,24 +100,28 @@
             border: none;
             font-size: 0.95rem;
             font-weight: 600;
-            color: #94a3b8;
+            color: #bdc3c7;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-right: 2px solid #5a7491;
+        }
+
+        .tab-button:last-child {
+            border-right: none;
         }
 
         .tab-button:hover {
-            background: rgba(255, 165, 0, 0.1);
-            color: #ffa500;
+            background: #4a5f7a;
+            color: #ecf0f1;
             transform: translateY(-1px);
         }
 
         .tab-button.active {
-            color: #ffa500;
-            background: rgba(255, 165, 0, 0.15);
-            text-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+            background: #ff6b35;
+            color: #2c3e50;
         }
 
         .tab-button.active::after {
@@ -139,25 +144,39 @@
         }
 
         .config-section {
-            background: rgba(30, 41, 59, 0.6);
+            background: #3c5068;
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 25px;
-            border-left: 4px solid #ffa500;
-            border: 1px solid rgba(255, 165, 0, 0.2);
+            border-left: 6px solid #ff6b35;
+            border: 2px solid #5a7491;
+            border-top: 2px solid #6b8bb3;
+            border-right: 2px solid #6b8bb3;
+            border-bottom: 2px solid #6b8bb3;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 107, 53, 0.2);
         }
 
         .config-section h3 {
             color: #f1f5f9;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             font-size: 1.4rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-bottom: 2px solid rgba(255, 165, 0, 0.3);
-            padding-bottom: 15px;
+            border-bottom: 3px solid #ff6b35;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .config-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35 0%, rgba(255, 107, 53, 0.3) 70%, transparent 100%);
         }
 
         .setting-group {
@@ -165,12 +184,20 @@
             align-items: center;
             margin-bottom: 18px;
             gap: 20px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 165, 0, 0.1);
+            padding: 15px 0;
+            border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .setting-group:hover {
+            border-left: 3px solid #ff6b35;
+            background: rgba(255, 107, 53, 0.05);
+            padding-left: 10px;
         }
 
         .setting-group:last-child {
-            border-bottom: none;
+            border-bottom: 2px solid rgba(255, 107, 53, 0.2);
         }
 
         .setting-group label {
@@ -182,28 +209,33 @@
 
         .setting-group input,
         .setting-group select {
-            padding: 10px 15px;
-            border: 2px solid rgba(255, 165, 0, 0.3);
+            padding: 12px 16px;
+            border: 2px solid #5a7491;
             border-radius: 8px;
             font-size: 0.9rem;
             min-width: 140px;
             transition: all 0.3s ease;
-            background: rgba(15, 20, 25, 0.8);
-            color: #e2e8f0;
+            background: #2c3e50;
+            color: #ecf0f1;
             backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .setting-group input:focus,
         .setting-group select:focus {
             outline: none;
-            border-color: #ffa500;
-            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2), 0 0 20px rgba(255, 165, 0, 0.1);
-            background: rgba(15, 20, 25, 0.9);
+            border-color: #ff6b35;
+            border-width: 3px;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3), 0 0 20px rgba(255, 107, 53, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+            background: #34495e;
+            transform: translateY(-1px);
         }
 
         .setting-group input:hover,
         .setting-group select:hover {
-            border-color: rgba(255, 165, 0, 0.5);
+            border-color: #6b8bb3;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transform: translateY(-1px);
         }
 
         .help-text {
@@ -252,11 +284,11 @@
         }
 
         .output-section {
-            background: rgba(30, 41, 59, 0.6);
+            background: #3c5068;
             padding: 30px;
             border-radius: 15px;
             margin: 30px 20px 20px 20px;
-            border: 1px solid rgba(255, 165, 0, 0.2);
+            border: 1px solid #4a5f7a;
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
@@ -276,22 +308,23 @@
             width: 100%;
             height: 350px;
             padding: 20px;
-            border: 2px solid rgba(255, 165, 0, 0.3);
+            border: 2px solid #5a7491;
             border-radius: 12px;
             font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
             font-size: 0.9rem;
-            background: rgba(15, 20, 25, 0.9);
-            color: #e2e8f0;
+            background: #2c3e50;
+            color: #ecf0f1;
             resize: vertical;
             line-height: 1.5;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         .output-textarea:focus {
             outline: none;
-            border-color: #ffa500;
-            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2), 0 0 20px rgba(255, 165, 0, 0.1);
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2), 0 0 20px rgba(255, 107, 53, 0.1);
         }
 
         .download-buttons {
@@ -313,29 +346,58 @@
         }
 
         .download-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            min-width: 100px;
+            margin: 0 4px;
         }
 
         .download-btn:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            min-width: 100px;
+            margin: 0 4px;
+        }
+
+        .copy-btn:hover {
             background: linear-gradient(135deg, #059669 0%, #047857 100%);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
 
-        .copy-btn {
-            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        .save-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             color: white;
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            box-shadow: 0 4px 15px rgba(100, 116, 139, 0.3);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
         }
 
-        .copy-btn:hover {
-            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+        .save-btn:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(100, 116, 139, 0.4);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
         }
 
         .bind-row {
@@ -424,6 +486,8 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+
+
 
         .bind-row {
             display: flex;
@@ -543,6 +607,10 @@
             border-color: rgba(255, 165, 0, 0.4);
             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
         }
+
+
+
+
     </style>
 </head>
 <body>
@@ -556,6 +624,7 @@
             <button class="tab-button active" onclick="switchTab('autoexec')">Autoexec.cfg</button>
             <button class="tab-button" onclick="switchTab('binds')">Key Binds</button>
             <button class="tab-button" onclick="switchTab('video')">Video Settings</button>
+            <button class="tab-button" onclick="switchTab('account')">Account</button>
         </div>
 
         <!-- Autoexec Tab -->
@@ -565,12 +634,12 @@
                 <div class="setting-group">
                     <label>Rate:</label>
                     <input type="number" id="rate" value="1000000">
-                    <span class="help-text">🚀 Network data rate - Higher = better connection quality (1000000 recommended for modern internet)</span>
+                    <span class="help-text">🚀 Network data rate - 1000000 is optimal for modern internet. If you experience lag, try 786432 or 524288</span>
                 </div>
                 <div class="setting-group">
                     <label>Max Ping:</label>
-                    <input type="number" id="mm_dedicated_search_maxping" value="25">
-                    <span class="help-text">🎯 Maximum ping for matchmaking - Lower = better connection but fewer servers</span>
+                    <input type="number" id="mm_dedicated_search_maxping" value="50">
+                    <span class="help-text">🎯 Maximum ping for matchmaking - Lower = better connection but fewer servers (50ms recommended)</span>
                 </div>
                 <!-- cl_lagcompensation and cl_predictweapons removed - deprecated in CS2 due to sub-tick system -->
                 <div class="setting-group">
@@ -705,13 +774,13 @@
                 <!-- cl_forcepreload removed - deprecated in CS2 -->
                 <div class="setting-group">
                     <label>FPS Max UI:</label>
-                    <input type="number" id="fps_max_ui" value="200">
-                    <span class="help-text">🖥️ Maximum FPS for UI elements (200 recommended)</span>
+                    <input type="number" id="fps_max_ui" value="400">
+                    <span class="help-text">🖥️ Maximum FPS for UI elements (400 recommended for smooth menus)</span>
                 </div>
                 <div class="setting-group">
                     <label>FPS Max Tools:</label>
-                    <input type="number" id="fps_max_tools" value="144">
-                    <span class="help-text">🔧 Maximum FPS for tools/menus (144 recommended)</span>
+                    <input type="number" id="fps_max_tools" value="300">
+                    <span class="help-text">🔧 Maximum FPS for tools/menus (300 recommended for responsive interface)</span>
                 </div>
                 <div class="setting-group">
                     <label>Thread Pool Option:</label>
@@ -1882,6 +1951,7 @@
                 <div class="download-buttons">
                     <button class="download-btn" onclick="downloadFile('autoexec', 'autoexec.cfg')">Download autoexec.cfg</button>
                     <button class="copy-btn" onclick="copyToClipboard('autoexec')">Copy to Clipboard</button>
+                    <button class="save-btn" id="save-autoexec-btn" onclick="saveConfiguration('autoexec')" style="display: none;">💾 Save Configuration</button>
                 </div>
             </div>
         </div>
@@ -2146,11 +2216,21 @@
 
             <div class="config-section">
                 <h3>Custom Binds</h3>
-                <div id="custom-binds"></div>
+                <div id="custom-binds">
+                    <div class="bind-row">
+                        <div class="key-input-group">
+                            <input type="text" placeholder="Key" value="f9" class="key-input">
+                            <button class="capture-btn" onclick="captureKey(this)">Capture</button>
+                        </div>
+                        <input type="text" placeholder="Command" value="clutch_mode_toggle" style="flex: 1; min-width: 150px;">
+                        <input type="text" placeholder="Description" value="Toggle clutch mode (disable voice/chat for round)" style="flex: 1; min-width: 150px;">
+                        <button class="remove-btn" onclick="removeBind(this)">Remove</button>
+                    </div>
+                </div>
                 <button class="add-btn" onclick="addBind('custom-binds')">Add Custom Bind</button>
                 <div class="help-text" style="margin-top: 15px;">
                     <p><strong>Common keys:</strong> a-z, 0-9, f1-f12, space, enter, tab, shift, ctrl, alt</p>
-                    <p><strong>Mouse:</strong> mouse1 (left), mouse2 (right), mouse3 (middle), mwheelup, mwheeldown</p>
+                    <p><strong>Mouse:</strong> mouse1 (left), mouse2 (right), mouse3 (middle), mouse4, mouse5, mwheelup, mwheeldown</p>
                     <p><strong>Example commands:</strong> +jump, +duck, buy ak47, say "Hello!", disconnect</p>
                 </div>
             </div>
@@ -2163,6 +2243,7 @@
                 <div class="download-buttons">
                     <button class="download-btn" onclick="downloadFile('binds', 'binds.cfg')">Download binds.cfg</button>
                     <button class="copy-btn" onclick="copyToClipboard('binds')">Copy to Clipboard</button>
+                    <button class="save-btn" id="save-binds-btn" onclick="saveConfiguration('binds')" style="display: none;">💾 Save Configuration</button>
                 </div>
             </div>
         </div>
@@ -2437,6 +2518,22 @@
                 </div>
             </div>
 
+            <!-- Performance Recommendations Section -->
+            <div class="config-section">
+                <h3>🚀 Performance Recommendations</h3>
+                <div class="setting-group">
+                    <button class="generate-btn" onclick="analyzePerformance()" style="background: linear-gradient(135deg, #4CAF50, #45a049); margin-bottom: 15px;">
+                        🔍 Analyze Current Settings
+                    </button>
+                    <div id="performance-analysis" style="display: none;">
+                        <div id="performance-results" style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                            <!-- Performance analysis results will appear here -->
+                        </div>
+                    </div>
+                    <span class="help-text">💡 Get personalized recommendations to optimize your settings for better performance</span>
+                </div>
+            </div>
+
             <button class="generate-btn" onclick="generateVideo()">Generate Video Settings</button>
 
             <div id="video-output" class="output-section" style="display: none;">
@@ -2449,6 +2546,117 @@
                 <div class="help-text" style="margin-top: 15px;">
                     <p><strong>Installation:</strong> Place this file in your CS2 config folder:</p>
                     <p><code>Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg\</code></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Tab -->
+        <div id="account" class="tab-content">
+            <div class="config-section">
+                <h3>🔐 Account Management</h3>
+                
+                <!-- Privacy Disclaimer -->
+                <div class="setting-group" style="background: #f0f8ff; border: 1px solid #4a90e2; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #2c5aa0;">🛡️ Privacy & Data Storage</h4>
+                    <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #333;">
+                        <strong>What's stored locally:</strong> Your browser stores your username, password (base64 encoded), and CS2 game configurations in localStorage.<br>
+                        <strong>What we DON'T collect:</strong> We don't collect, store, or have access to any of your data, IP addresses, or personal information.<br>
+                        <strong>Where it's stored:</strong> Everything stays in your browser's local storage - nothing is sent to our servers or external services.<br>
+                        <strong>Your privacy:</strong> Your data never leaves your device and is completely private to you. We have no access to it.<br>
+                        <strong>Open Source:</strong> <a href="https://github.com/LaGgIs/cs2-config-generator" target="_blank" style="color: #4a90e2; text-decoration: none;">View the source code on GitHub</a> to verify our privacy claims.
+                    </p>
+                </div>
+                
+                <div id="login-section">
+                    <div class="setting-group">
+                        <label>Username:</label>
+                        <input type="text" id="username" placeholder="Enter your username">
+                        <span class="help-text">👤 Create an account to save and manage your configurations</span>
+                    </div>
+                    <div class="setting-group">
+                        <label>Password:</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                        <span class="help-text">🔒 Your password is stored locally in your browser</span>
+                    </div>
+                    <div class="setting-group">
+                        <button class="generate-btn" onclick="login()">Login</button>
+                        <button class="generate-btn" onclick="register()">Register</button>
+                        <span class="help-text">💡 No account needed to use the site - only for saving configurations</span>
+                    </div>
+                </div>
+
+                <div id="logged-in-section" style="display: none;">
+                    <div class="setting-group">
+                        <label>Welcome back!</label>
+                        <span id="logged-in-username" class="help-text"></span>
+                        <button class="generate-btn" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="saved-configs-section" class="config-section" style="display: none;">
+                <h3>💾 Saved Configurations</h3>
+                
+                <!-- Import/Export Section -->
+                <div class="setting-group" style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #495057;">📤📥 Import & Export</h4>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                        <button onclick="exportAllConfigs()" 
+                                style="background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; border-radius: 8px; padding: 10px 16px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.2); margin: 5px;"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.2)'">
+                            📤 EXPORT ALL
+                        </button>
+                        <button onclick="document.getElementById('import-file').click()" 
+                                style="background: linear-gradient(135deg, #17a2b8, #20c997); color: white; border: none; border-radius: 8px; padding: 10px 16px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.2); margin: 5px;"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.2)'">
+                            📥 IMPORT
+                        </button>
+                        <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importConfigs(event)">
+                        <span class="help-text">💡 Share configs with friends or backup your settings</span>
+                    </div>
+                </div>
+
+                <!-- One-Click Restore System -->
+                <div class="setting-group" style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #856404;">🔄 One-Click Restore System</h4>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 10px;">
+                        <button onclick="createBackup()" 
+                                style="background: linear-gradient(135deg, #fd7e14, #ff8c42); color: white; border: none; border-radius: 8px; padding: 10px 16px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.2); margin: 5px;"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.2)'">
+                            💾 CREATE BACKUP
+                        </button>
+                        <button onclick="showRestoreOptions()" 
+                                style="background: linear-gradient(135deg, #6f42c1, #8e44ad); color: white; border: none; border-radius: 8px; padding: 10px 16px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.2); margin: 5px;"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.2)'">
+                            🔄 QUICK RESTORE
+                        </button>
+                        <span class="help-text">⚡ Instant backup and restore of all settings</span>
+                    </div>
+                    <div id="restore-options" style="display: none; margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <div style="margin-bottom: 10px;">
+                            <strong>📋 Available Backups:</strong>
+                        </div>
+                        <div id="backup-list" style="margin-bottom: 10px;">
+                            <!-- Backup list will be populated here -->
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <button class="generate-btn" onclick="restoreFromFile()" style="background: #20c997; font-size: 12px;">📁 Restore from File</button>
+                            <input type="file" id="restore-file" accept=".json" style="display: none;" onchange="performRestore(event)">
+                            <span class="help-text" style="font-size: 12px;">🔍 Select a backup file to restore</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="saved-configs-list">
+                    <!-- Saved configurations will be displayed here -->
+                </div>
+                <div class="setting-group">
+                    <button class="generate-btn" onclick="loadSavedConfigs()">Refresh List</button>
+                    <span class="help-text">🔄 Load your saved configurations</span>
                 </div>
             </div>
         </div>
@@ -2473,6 +2681,284 @@
         }
 
         // Autoexec generation
+        // Config validation functions
+        function validateConfigValues(config, configType) {
+            const errors = [];
+            const warnings = [];
+            
+            if (configType === 'autoexec') {
+                // Validate numeric ranges
+                const numericValidations = {
+                    'sensitivity': { min: 0.1, max: 50, value: parseFloat(config.sensitivity) },
+                    'volume': { min: 0, max: 1, value: parseFloat(config.volume) },
+                    'fps_max': { min: 0, max: 2000, value: parseInt(config.fps_max) }, // 0 = unlimited
+                    'rate': { min: 80000, max: 1000000, value: parseInt(config.rate) }, // Updated for CS2
+                    'mm_dedicated_search_maxping': { min: 25, max: 350, value: parseInt(config.mm_dedicated_search_maxping) },
+                    'cl_crosshairsize': { min: 0, max: 10, value: parseFloat(config.cl_crosshairsize) },
+                    'viewmodel_fov': { min: 54, max: 68, value: parseInt(config.viewmodel_fov) },
+                    'hud_scaling': { min: 0.5, max: 1.3, value: parseFloat(config.hud_scaling) }
+                };
+                
+                for (const [setting, validation] of Object.entries(numericValidations)) {
+                    if (isNaN(validation.value)) {
+                        errors.push(`${setting}: Invalid number format`);
+                    } else if (validation.value < validation.min || validation.value > validation.max) {
+                        errors.push(`${setting}: Value ${validation.value} is outside valid range (${validation.min}-${validation.max})`);
+                    }
+                }
+                
+                // Check for common conflicts
+                if (parseInt(config.fps_max) > 0 && parseInt(config.fps_max) < 60) {
+                    warnings.push('FPS Max below 60 may cause gameplay issues');
+                }
+                
+                if (parseFloat(config.sensitivity) > 10) {
+                    warnings.push('Very high sensitivity detected - this may affect aim precision');
+                }
+                
+                if (parseFloat(config.volume) < 0.1) {
+                    warnings.push('Very low volume may make it hard to hear important game sounds');
+                }
+                
+                if (parseInt(config.mm_dedicated_search_maxping) < 50) {
+                     warnings.push('Very low max ping may limit available servers');
+                 }
+             } else if (configType === 'binds') {
+                 // Validate binds for duplicates and conflicts
+                 const usedKeys = new Map();
+                 const sections = ['slot-binds', 'movement-binds', 'weapon-binds', 'utility-binds', 'custom-binds'];
+                 
+                 sections.forEach(sectionId => {
+                     const container = document.getElementById(sectionId);
+                     if (container) {
+                         const bindRows = container.querySelectorAll('.bind-row');
+                         bindRows.forEach(row => {
+                             const keyInput = row.querySelector('.key-input');
+                             const commandInput = row.querySelector('.command-input');
+                             
+                             if (keyInput && commandInput) {
+                                 const key = keyInput.value.trim();
+                                 const command = commandInput.value.trim();
+                                 
+                                 if (key && command) {
+                                     if (usedKeys.has(key)) {
+                                         errors.push(`Duplicate key binding: "${key}" is bound to both "${usedKeys.get(key)}" and "${command}"`);
+                                     } else {
+                                         usedKeys.set(key, command);
+                                     }
+                                     
+                                     // Check for potentially problematic binds
+                                     if (key.toLowerCase() === 'w' && !command.includes('forward')) {
+                                         warnings.push(`Key "W" is not bound to forward movement - this may affect gameplay`);
+                                     }
+                                     if (key.toLowerCase() === 's' && !command.includes('back')) {
+                                         warnings.push(`Key "S" is not bound to backward movement - this may affect gameplay`);
+                                     }
+                                     if (key.toLowerCase() === 'a' && !command.includes('left')) {
+                                         warnings.push(`Key "A" is not bound to left movement - this may affect gameplay`);
+                                     }
+                                     if (key.toLowerCase() === 'd' && !command.includes('right')) {
+                                         warnings.push(`Key "D" is not bound to right movement - this may affect gameplay`);
+                                     }
+                                 }
+                             }
+                         });
+                     }
+                 });
+                 
+                 if (usedKeys.size === 0) {
+                     warnings.push('No key bindings found - make sure to add some binds before generating');
+                 }
+             } else if (configType === 'video') {
+                 // Validate video settings for performance conflicts
+                 const resolution = document.getElementById('resolution')?.value;
+                 const refreshRate = parseInt(document.getElementById('refresh_rate')?.value);
+                 const msaaSamples = parseInt(document.getElementById('setting_msaa_samples')?.value);
+                 const shaderQuality = parseInt(document.getElementById('setting_shaderquality')?.value);
+                 const shadowQuality = parseInt(document.getElementById('setting_videocfg_shadow_quality')?.value);
+                 const textureDetail = parseInt(document.getElementById('setting_videocfg_texture_detail')?.value);
+                 const vsync = parseInt(document.getElementById('setting_mat_vsync')?.value);
+                 
+                 if (resolution) {
+                     const [width, height] = resolution.split('x').map(Number);
+                     
+                     // Check for very high resolution with high settings
+                     if (width >= 2560 && height >= 1440) {
+                         if (msaaSamples >= 4) {
+                             warnings.push('High resolution (1440p+) with 4x+ MSAA may cause performance issues');
+                         }
+                         if (shaderQuality >= 2 && shadowQuality >= 2) {
+                             warnings.push('High resolution with high shader and shadow quality may impact FPS');
+                         }
+                     }
+                     
+                     // Check for 4K with demanding settings
+                     if (width >= 3840 && height >= 2160) {
+                         if (textureDetail >= 2 || shadowQuality >= 2) {
+                             warnings.push('4K resolution with high texture/shadow detail requires powerful GPU');
+                         }
+                     }
+                 }
+                 
+                 // Check refresh rate conflicts
+                 if (refreshRate >= 144 && vsync === 1) {
+                     warnings.push('V-Sync enabled with high refresh rate may limit FPS - consider disabling V-Sync');
+                 }
+                 
+                 // Check for performance-demanding combinations
+                 if (msaaSamples >= 8 && shaderQuality >= 2) {
+                     warnings.push('8x MSAA with high shader quality is very demanding - consider lowering settings');
+                 }
+                 
+                 if (refreshRate > 240) {
+                     warnings.push('Refresh rates above 240Hz require high-end hardware and may not provide noticeable benefits');
+                 }
+             }
+             
+             // Cross-category conflict detection
+             detectCrossConfigConflicts(errors, warnings);
+             
+             return { errors, warnings };
+        }
+        
+        function detectCrossConfigConflicts(errors, warnings) {
+            // Audio conflicts
+            const volume = parseFloat(document.getElementById('volume')?.value || 0.5);
+            const musicVolume = parseFloat(document.getElementById('snd_musicvolume')?.value || 0);
+            const voiceVolume = parseFloat(document.getElementById('snd_voipvolume')?.value || 0.4);
+            
+            if (volume > 0.8 && musicVolume > 0.1) {
+                warnings.push('High master volume with music enabled may mask important game sounds');
+            }
+            
+            if (voiceVolume < 0.1) {
+                warnings.push('Very low voice volume may prevent team communication');
+            }
+            
+            // Performance vs Quality conflicts
+            const fpsMax = parseInt(document.getElementById('fps_max')?.value || 0);
+            const refreshRate = parseInt(document.getElementById('refresh_rate')?.value || 60);
+            const msaa = parseInt(document.getElementById('setting_msaa_samples')?.value || 0);
+            const shaderQuality = parseInt(document.getElementById('setting_shaderquality')?.value || 0);
+            
+            if (fpsMax > 0 && fpsMax < refreshRate) {
+                warnings.push(`FPS limit (${fpsMax}) is lower than refresh rate (${refreshRate}Hz) - consider increasing FPS limit`);
+            }
+            
+            if (refreshRate >= 144 && (msaa >= 4 || shaderQuality >= 2)) {
+                warnings.push('High refresh rate with demanding graphics settings may cause frame drops');
+            }
+            
+            // Sensitivity conflicts
+            const sensitivity = parseFloat(document.getElementById('sensitivity')?.value || 2.5);
+            const zoomSensitivity = parseFloat(document.getElementById('zoom_sensitivity_ratio')?.value || 1.0);
+            
+            if (sensitivity > 5 && zoomSensitivity > 1.2) {
+                warnings.push('High sensitivity with high zoom ratio may make scoped weapons difficult to control');
+            }
+            
+            if (sensitivity < 0.5) {
+                warnings.push('Very low sensitivity may require excessive mouse movement');
+            }
+            
+            // Network vs Performance conflicts
+            const rate = parseInt(document.getElementById('rate')?.value || 786432);
+            const maxPing = parseInt(document.getElementById('mm_dedicated_search_maxping')?.value || 25);
+            
+            if (rate < 196608 && refreshRate >= 144) {
+                warnings.push('Low network rate with high refresh rate may cause network bottlenecks');
+            }
+            
+            if (maxPing < 30 && rate > 524288) {
+                warnings.push('Very low ping limit with high rate may limit server availability');
+            }
+            
+            // HUD scaling conflicts
+            const hudScaling = parseFloat(document.getElementById('hud_scaling')?.value || 0.95);
+            const radarScale = parseFloat(document.getElementById('cl_hud_radar_scale')?.value || 1.15);
+            const resolution = document.getElementById('resolution')?.value;
+            
+            if (resolution) {
+                const [width] = resolution.split('x').map(Number);
+                if (width >= 2560 && hudScaling < 0.8) {
+                    warnings.push('Very small HUD scaling on high resolution may make UI elements hard to see');
+                }
+                if (width <= 1920 && hudScaling > 1.2) {
+                    warnings.push('Large HUD scaling on lower resolution may clutter the screen');
+                }
+            }
+            
+            // Crosshair conflicts
+            const crosshairSize = parseFloat(document.getElementById('cl_crosshairsize')?.value || 4);
+            const crosshairThickness = parseFloat(document.getElementById('cl_crosshairthickness')?.value || 1);
+            const crosshairGap = parseFloat(document.getElementById('cl_crosshairgap')?.value || -1);
+            
+            if (crosshairSize > 8 && crosshairThickness > 3) {
+                warnings.push('Very large crosshair with thick lines may obstruct vision');
+            }
+            
+            if (crosshairGap < -5 && crosshairSize > 6) {
+                warnings.push('Large crosshair with negative gap may create visual clutter');
+            }
+            
+            // Viewmodel conflicts
+            const viewmodelFov = parseInt(document.getElementById('viewmodel_fov')?.value || 68);
+            const viewmodelX = parseFloat(document.getElementById('viewmodel_offset_x')?.value || 1.5);
+            const viewmodelY = parseFloat(document.getElementById('viewmodel_offset_y')?.value || 0);
+            
+            if (viewmodelFov < 60 && Math.abs(viewmodelX) > 1.5) {
+                warnings.push('Low viewmodel FOV with extreme X offset may cause weapon clipping');
+            }
+            
+            if (Math.abs(viewmodelY) > 1.5 && viewmodelFov > 65) {
+                warnings.push('High viewmodel FOV with extreme Y offset may obstruct view');
+            }
+            
+            // Input conflicts
+            const rawInput = document.getElementById('cl_input_enable_raw_keyboard')?.value;
+            const duckMethod = document.getElementById('option_duck_method')?.value;
+            
+            // Raw input warning removed - setting is in Binds tab but affects autoexec.cfg, causing user confusion
+            
+            // V-Sync and low latency conflicts
+            const vsync = parseInt(document.getElementById('setting_mat_vsync')?.value || 0);
+            const lowLatency = parseInt(document.getElementById('setting_r_low_latency')?.value || 0);
+            
+            if (vsync === 1 && lowLatency === 2) {
+                warnings.push('V-Sync with Ultra Low Latency may cause conflicts - consider disabling V-Sync');
+            }
+            
+            // Fullscreen conflicts
+            const fullscreen = parseInt(document.getElementById('setting_fullscreen')?.value || 1);
+            const fullscreenMinOnFocus = parseInt(document.getElementById('setting_fullscreen_min_on_focus_loss')?.value || 0);
+            
+            if (fullscreen === 0 && refreshRate >= 144) {
+                warnings.push('Windowed mode with high refresh rate may not achieve optimal performance');
+            }
+        }
+        
+        function showValidationResults(validation) {
+            let message = '';
+            
+            if (validation.errors.length > 0) {
+                message += '❌ ERRORS FOUND:\n';
+                validation.errors.forEach(error => message += `• ${error}\n`);
+                message += '\nPlease fix these errors before downloading.\n\n';
+            }
+            
+            if (validation.warnings.length > 0) {
+                message += '⚠️ WARNINGS:\n';
+                validation.warnings.forEach(warning => message += `• ${warning}\n`);
+                message += '\nThese settings may work but could cause issues.\n\n';
+            }
+            
+            if (validation.errors.length === 0 && validation.warnings.length === 0) {
+                message = '✅ Configuration validated successfully!\nNo issues found.';
+            }
+            
+            return message;
+        }
+
         function generateAutoexec() {
             const config = {
                 // Network Settings
@@ -2696,7 +3182,7 @@
             const configLines = [
                 '// CS2 Autoexec Configuration',
                 '// Generated by CS2 Config Generator',
-                '// Updated for CS2 Sub-tick System (2024)',
+                '// Made by LaGgIs',
                 '',
                 '// Network Settings (Sub-tick optimized)',
                 `rate "${config.rate}"  // Max bandwidth (1000000 = 1MB/s)`,
@@ -2918,6 +3404,24 @@
             ];
 
             const configContent = configLines.join('\n');
+            
+            // Validate configuration before displaying
+            const validation = validateConfigValues(config, 'autoexec');
+            const validationMessage = showValidationResults(validation);
+            
+            // Show validation results
+            if (validation.errors.length > 0) {
+                alert(validationMessage);
+                return; // Don't generate config if there are errors
+            } else if (validation.warnings.length > 0) {
+                if (!confirm(validationMessage + '\nDo you want to continue anyway?')) {
+                    return; // User chose not to continue
+                }
+            } else {
+                // Show success message for clean configs
+                alert(validationMessage);
+            }
+            
             document.getElementById('autoexec-textarea').value = configContent;
             document.getElementById('autoexec-output').style.display = 'block';
         }
@@ -2955,6 +3459,8 @@
             captureButton = button;
             keyInput = button.parentElement.querySelector('.key-input');
             
+
+            
             // Update button appearance
             button.textContent = 'Press Key...';
             button.classList.add('capturing');
@@ -2962,6 +3468,13 @@
             // Focus on the document to capture key events
             document.addEventListener('keydown', handleKeyCapture, true);
             document.addEventListener('keyup', handleKeyCapture, true);
+            
+            // Add mouse event listeners during capture
+            document.addEventListener('mousedown', handleMouseCapture, true);
+            document.addEventListener('mouseup', handleMouseCapture, true);
+            document.addEventListener('wheel', handleWheelCapture, true);
+            
+
             
             // Add timeout to stop capturing after 10 seconds
             setTimeout(() => {
@@ -2986,14 +3499,54 @@
             }
         }
 
+        function handleMouseCapture(event) {
+            if (!isCapturing) return;
+            
+            // Prevent default browser behavior for both mousedown and mouseup
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Don't capture clicks on the capture button itself
+            if (event.target === captureButton) return;
+            
+            // Only register the key on mousedown, not mouseup
+            if (event.type === 'mousedown') {
+                const keyName = getCS2KeyName(event);
+                if (keyName) {
+                    keyInput.value = keyName;
+                    stopCapturing();
+                }
+            }
+        }
+
+        function handleWheelCapture(event) {
+            if (!isCapturing) return;
+            
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const keyName = event.deltaY > 0 ? 'mwheeldown' : 'mwheelup';
+            keyInput.value = keyName;
+            stopCapturing();
+        }
+
+
+
         function stopCapturing() {
             if (!isCapturing) return;
             
             isCapturing = false;
             
+
+            
             // Remove event listeners
             document.removeEventListener('keydown', handleKeyCapture, true);
             document.removeEventListener('keyup', handleKeyCapture, true);
+            document.removeEventListener('mousedown', handleMouseCapture, true);
+            document.removeEventListener('mouseup', handleMouseCapture, true);
+            document.removeEventListener('wheel', handleWheelCapture, true);
+            
+
             
             // Reset button appearance
             if (captureButton) {
@@ -3087,31 +3640,9 @@
             return keyMap[event.code] || event.code.toLowerCase();
         }
 
-        // Add mouse capture support
-        document.addEventListener('mousedown', function(event) {
-            if (isCapturing && event.target !== captureButton) {
-                event.preventDefault();
-                event.stopPropagation();
-                
-                const keyName = getCS2KeyName(event);
-                if (keyName) {
-                    keyInput.value = keyName;
-                    stopCapturing();
-                }
-            }
-        }, true);
 
-        // Add wheel capture support
-        document.addEventListener('wheel', function(event) {
-            if (isCapturing) {
-                event.preventDefault();
-                event.stopPropagation();
-                
-                const keyName = event.deltaY > 0 ? 'mwheeldown' : 'mwheelup';
-                keyInput.value = keyName;
-                stopCapturing();
-            }
-        }, true);
+
+
 
         // Stop capturing when clicking outside
         document.addEventListener('click', function(event) {
@@ -3207,6 +3738,21 @@
             configLines.push('echo "Key binds loaded successfully!"');
             
             const configContent = configLines.join('\n');
+            
+            // Validate binds configuration
+            const validation = validateConfigValues('binds');
+            showValidationResults(validation);
+            
+            if (validation.errors.length > 0) {
+                alert('❌ Cannot generate binds config due to errors. Please fix the issues shown above.');
+                return;
+            }
+            
+            if (validation.warnings.length > 0) {
+                const proceed = confirm('⚠️ There are warnings with your binds configuration. Do you want to continue anyway?');
+                if (!proceed) return;
+            }
+            
             document.getElementById('binds-textarea').value = configContent;
             document.getElementById('binds-output').style.display = 'block';
         }
@@ -3352,6 +3898,21 @@
             ];
 
             const configContent = configLines.join('\n');
+            
+            // Validate video configuration
+            const validation = validateConfigValues('video');
+            showValidationResults(validation);
+            
+            if (validation.errors.length > 0) {
+                alert('❌ Cannot generate video config due to errors. Please fix the issues shown above.');
+                return;
+            }
+            
+            if (validation.warnings.length > 0) {
+                const proceed = confirm('⚠️ There are warnings with your video configuration. Do you want to continue anyway?');
+                if (!proceed) return;
+            }
+            
             document.getElementById('video-textarea').value = configContent;
             document.getElementById('video-output').style.display = 'block';
         }
@@ -3555,6 +4116,846 @@
                 }
             });
         });
+
+        // Authentication functions
+        function register() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('Please enter both username and password');
+                return;
+            }
+            
+            // Check if user already exists
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            if (users[username]) {
+                alert('Username already exists. Please choose a different username or login.');
+                return;
+            }
+            
+            // Simple password hashing (in real app, use proper hashing)
+            const hashedPassword = btoa(password);
+            users[username] = {
+                password: hashedPassword,
+                created: new Date().toISOString(),
+                configs: {}
+            };
+            
+            localStorage.setItem('cs2_users', JSON.stringify(users));
+            localStorage.setItem('cs2_current_user', username);
+            
+            updateLoginState();
+            alert('Account created successfully!');
+        }
+        
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('Please enter both username and password');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            const user = users[username];
+            
+            if (!user || user.password !== btoa(password)) {
+                alert('Invalid username or password');
+                return;
+            }
+            
+            localStorage.setItem('cs2_current_user', username);
+            updateLoginState();
+            alert('Login successful!');
+        }
+        
+        function logout() {
+            localStorage.removeItem('cs2_current_user');
+            updateLoginState();
+            alert('Logged out successfully!');
+        }
+        
+        function updateLoginState() {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            const loginSection = document.getElementById('login-section');
+            const loggedInSection = document.getElementById('logged-in-section');
+            const savedConfigsSection = document.getElementById('saved-configs-section');
+            const saveAutoexecBtn = document.getElementById('save-autoexec-btn');
+            const saveBindsBtn = document.getElementById('save-binds-btn');
+            
+            if (currentUser) {
+                // User is logged in
+                loginSection.style.display = 'none';
+                loggedInSection.style.display = 'block';
+                savedConfigsSection.style.display = 'block';
+                document.getElementById('logged-in-username').textContent = `Welcome, ${currentUser}!`;
+                
+                // Show save buttons
+                if (saveAutoexecBtn) saveAutoexecBtn.style.display = 'inline-block';
+                if (saveBindsBtn) saveBindsBtn.style.display = 'inline-block';
+                
+                loadSavedConfigs();
+            } else {
+                // User is not logged in
+                loginSection.style.display = 'block';
+                loggedInSection.style.display = 'none';
+                savedConfigsSection.style.display = 'none';
+                
+                // Hide save buttons
+                if (saveAutoexecBtn) saveAutoexecBtn.style.display = 'none';
+                if (saveBindsBtn) saveBindsBtn.style.display = 'none';
+                
+                // Clear form
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+        
+        async function saveConfiguration(type) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) {
+                alert('Please login to save configurations');
+                return;
+            }
+            
+            const configName = await showInputModal(
+                `Enter a name for this ${type} configuration:`,
+                'Configuration name...'
+            );
+            if (!configName) return;
+            
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            if (!users[currentUser].configs) {
+                users[currentUser].configs = {};
+            }
+            
+            let configData;
+            if (type === 'autoexec') {
+                configData = document.getElementById('autoexec-textarea').value;
+            } else if (type === 'binds') {
+                configData = document.getElementById('binds-textarea').value;
+            }
+            
+            users[currentUser].configs[`${type}_${configName}`] = {
+                name: configName,
+                type: type,
+                data: configData,
+                saved: new Date().toISOString()
+            };
+            
+            localStorage.setItem('cs2_users', JSON.stringify(users));
+            alert(`${type} configuration "${configName}" saved successfully!`);
+            loadSavedConfigs();
+        }
+        
+        function loadSavedConfigs() {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) return;
+            
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            const userConfigs = users[currentUser]?.configs || {};
+            
+            const configsList = document.getElementById('saved-configs-list');
+            configsList.innerHTML = '';
+            
+            const configs = Object.values(userConfigs);
+            if (configs.length === 0) {
+                configsList.innerHTML = '<p class="help-text">No saved configurations yet. Generate and save some configurations!</p>';
+                return;
+            }
+            
+            configs.forEach(config => {
+                const configDiv = document.createElement('div');
+                configDiv.className = 'setting-group';
+                configDiv.innerHTML = `
+                    <label>${config.name} (${config.type})</label>
+                    <span class="help-text">Saved: ${new Date(config.saved).toLocaleDateString()}</span>
+                    <button class="copy-btn" onclick="loadConfiguration('${config.type}_${config.name}')">Load</button>
+                    <button class="download-btn" onclick="downloadSavedConfig('${config.type}_${config.name}')">Download</button>
+                    <button onclick="deleteSavedConfig('${config.type}_${config.name}')" 
+                            style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); min-width: 100px; margin: 0 4px;"
+                            onmouseover="this.style.background='linear-gradient(135deg, #dc2626, #b91c1c)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(239, 68, 68, 0.4)'"
+                            onmouseout="this.style.background='linear-gradient(135deg, #ef4444, #dc2626)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(239, 68, 68, 0.3)'">
+                        🗑️ Delete
+                    </button>
+                `;
+                configsList.appendChild(configDiv);
+            });
+        }
+        
+        function loadConfiguration(configKey) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) return;
+            
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            const config = users[currentUser]?.configs?.[configKey];
+            
+            if (!config) {
+                alert('Configuration not found');
+                return;
+            }
+            
+            if (config.type === 'autoexec') {
+                document.getElementById('autoexec-textarea').value = config.data;
+                document.getElementById('autoexec-output').style.display = 'block';
+                switchTab('autoexec');
+            } else if (config.type === 'binds') {
+                document.getElementById('binds-textarea').value = config.data;
+                document.getElementById('binds-output').style.display = 'block';
+                switchTab('binds');
+            }
+            
+            alert(`Configuration "${config.name}" loaded successfully!`);
+        }
+        
+        function downloadSavedConfig(configKey) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) return;
+            
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            const config = users[currentUser]?.configs?.[configKey];
+            
+            if (!config) {
+                alert('Configuration not found');
+                return;
+            }
+            
+            const blob = new Blob([config.data], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${config.name}_${config.type}.cfg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function deleteSavedConfig(configKey) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) return;
+            
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            const config = users[currentUser]?.configs?.[configKey];
+            
+            if (!config) {
+                alert('Configuration not found');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to delete "${config.name}"?`)) {
+                delete users[currentUser].configs[configKey];
+                localStorage.setItem('cs2_users', JSON.stringify(users));
+                alert('Configuration deleted successfully!');
+                loadSavedConfigs();
+            }
+        }
+        
+        // Export all configurations to JSON file
+        function exportAllConfigs() {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) {
+                alert('Please login first to export configurations');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            const userConfigs = users[currentUser]?.configs || {};
+            
+            if (Object.keys(userConfigs).length === 0) {
+                alert('No configurations to export. Save some configurations first!');
+                return;
+            }
+            
+            const exportData = {
+                version: "1.0",
+                exportDate: new Date().toISOString(),
+                username: currentUser,
+                configurations: userConfigs
+            };
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `CS2_Configs_${currentUser}_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ Exported ${Object.keys(userConfigs).length} configurations successfully!`);
+        }
+        
+        // Import configurations from JSON file
+        function importConfigs(event) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) {
+                alert('Please login first to import configurations');
+                return;
+            }
+            
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    // Validate import data structure
+                    if (!importData.configurations || typeof importData.configurations !== 'object') {
+                        throw new Error('Invalid configuration file format');
+                    }
+                    
+                    const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+                    if (!users[currentUser]) {
+                        users[currentUser] = { configs: {} };
+                    }
+                    if (!users[currentUser].configs) {
+                        users[currentUser].configs = {};
+                    }
+                    
+                    let importedCount = 0;
+                    let skippedCount = 0;
+                    
+                    // Import each configuration
+                    for (const [configKey, config] of Object.entries(importData.configurations)) {
+                        if (users[currentUser].configs[configKey]) {
+                            // Configuration already exists, ask user
+                            if (confirm(`Configuration "${config.name}" already exists. Overwrite it?`)) {
+                                users[currentUser].configs[configKey] = config;
+                                importedCount++;
+                            } else {
+                                skippedCount++;
+                            }
+                        } else {
+                            users[currentUser].configs[configKey] = config;
+                            importedCount++;
+                        }
+                    }
+                    
+                    localStorage.setItem('cs2_users', JSON.stringify(users));
+                    loadSavedConfigs(); // Refresh the list
+                    
+                    let message = `✅ Import completed!\n`;
+                    message += `📥 Imported: ${importedCount} configurations\n`;
+                    if (skippedCount > 0) {
+                        message += `⏭️ Skipped: ${skippedCount} configurations`;
+                    }
+                    
+                    alert(message);
+                    
+                } catch (error) {
+                    alert('❌ Error importing configurations: Invalid file format or corrupted data');
+                    console.error('Import error:', error);
+                }
+            };
+            
+            reader.readAsText(file);
+            // Reset file input
+            event.target.value = '';
+        }
+        
+        // One-Click Restore System Functions
+        async function createBackup() {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) {
+                alert('Please login first to create backups');
+                return;
+            }
+            
+            // Collect all current form data
+            const backupData = {
+                timestamp: new Date().toISOString(),
+                version: '1.0',
+                type: 'full_backup',
+                settings: {}
+            };
+            
+            // Collect all form inputs
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                if (input.id && input.value !== undefined) {
+                    backupData.settings[input.id] = {
+                        value: input.value,
+                        type: input.type || input.tagName.toLowerCase()
+                    };
+                }
+            });
+            
+            // Store backup in localStorage with timestamp
+            const backups = JSON.parse(localStorage.getItem('cs2_backups') || '{}');
+            if (!backups[currentUser]) {
+                backups[currentUser] = [];
+            }
+            
+            const backupId = `backup_${Date.now()}`;
+            const backupName = await showInputModal(
+                'Enter a name for this backup:',
+                'Backup name...',
+                `Backup ${new Date().toLocaleString()}`
+            );
+            if (!backupName) return;
+            
+            backupData.name = backupName;
+            backupData.id = backupId;
+            
+            backups[currentUser].push(backupData);
+            
+            // Keep only last 10 backups per user
+            if (backups[currentUser].length > 10) {
+                backups[currentUser] = backups[currentUser].slice(-10);
+            }
+            
+            localStorage.setItem('cs2_backups', JSON.stringify(backups));
+            
+            alert(`✅ Backup "${backupName}" created successfully!\n📊 ${Object.keys(backupData.settings).length} settings saved`);
+            
+            // Refresh backup list if visible
+            if (document.getElementById('restore-options').style.display !== 'none') {
+                loadBackupList();
+            }
+        }
+        
+        function showRestoreOptions() {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) {
+                alert('Please login first to access restore options');
+                return;
+            }
+            
+            const restoreOptions = document.getElementById('restore-options');
+            if (restoreOptions.style.display === 'none') {
+                restoreOptions.style.display = 'block';
+                loadBackupList();
+            } else {
+                restoreOptions.style.display = 'none';
+            }
+        }
+        
+        function loadBackupList() {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            const backups = JSON.parse(localStorage.getItem('cs2_backups') || '{}');
+            const userBackups = backups[currentUser] || [];
+            
+            const backupList = document.getElementById('backup-list');
+            
+            if (userBackups.length === 0) {
+                backupList.innerHTML = '<div style="color: #b8c5d1; font-style: italic; text-align: center; padding: 20px; background: linear-gradient(135deg, rgba(42, 52, 65, 0.5), rgba(30, 40, 50, 0.5)); border: 2px dashed #4a5f7a; border-radius: 10px; backdrop-filter: blur(10px);">📦 No backups found. Create your first backup!</div>';
+                return;
+            }
+            
+            backupList.innerHTML = userBackups.map(backup => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: linear-gradient(135deg, rgba(42, 52, 65, 0.8), rgba(30, 40, 50, 0.8)); border: 2px solid #4a5f7a; border-radius: 10px; margin-bottom: 8px; backdrop-filter: blur(10px); box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+                    <div style="flex: 1;">
+                        <div style="color: #ff6b35; font-weight: bold; font-size: 14px; margin-bottom: 4px;">${backup.name}</div>
+                        <div style="color: #b8c5d1; font-size: 12px; opacity: 0.8;">
+                            📅 ${new Date(backup.timestamp).toLocaleString()} 
+                            | 📊 ${Object.keys(backup.settings).length} settings
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button onclick="restoreBackup('${backup.id}')" 
+                                style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white; border: none; border-radius: 8px; padding: 14px 24px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3); min-width: 110px;"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(76, 175, 80, 0.4)'; this.style.background='linear-gradient(135deg, #5CBF60, #4CAF50)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(76, 175, 80, 0.3)'; this.style.background='linear-gradient(135deg, #4CAF50, #45a049)'">
+                            🔄 Load
+                        </button>
+                        <button onclick="deleteBackup('${backup.id}')" 
+                                style="background: linear-gradient(135deg, #f44336, #d32f2f); color: white; border: none; border-radius: 8px; padding: 14px 24px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3); min-width: 110px;"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(244, 67, 54, 0.4)'; this.style.background='linear-gradient(135deg, #EF5350, #f44336)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(244, 67, 54, 0.3)'; this.style.background='linear-gradient(135deg, #f44336, #d32f2f)'">
+                            🗑️ Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function restoreBackup(backupId) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            const backups = JSON.parse(localStorage.getItem('cs2_backups') || '{}');
+            const userBackups = backups[currentUser] || [];
+            
+            const backup = userBackups.find(b => b.id === backupId);
+            if (!backup) {
+                alert('❌ Backup not found');
+                return;
+            }
+            
+            if (!confirm(`🔄 Restore backup "${backup.name}"?\n\nThis will overwrite all current settings with the backup data.`)) {
+                return;
+            }
+            
+            // Restore all settings
+            let restoredCount = 0;
+            for (const [elementId, setting] of Object.entries(backup.settings)) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.value = setting.value;
+                    restoredCount++;
+                }
+            }
+            
+            alert(`✅ Backup restored successfully!\n📊 ${restoredCount} settings restored\n🔄 Page will refresh to apply changes`);
+            
+            // Refresh the page to ensure all changes are applied
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+        
+        function deleteBackup(backupId) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            const backups = JSON.parse(localStorage.getItem('cs2_backups') || '{}');
+            const userBackups = backups[currentUser] || [];
+            
+            const backup = userBackups.find(b => b.id === backupId);
+            if (!backup) return;
+            
+            if (!confirm(`🗑️ Delete backup "${backup.name}"?\n\nThis action cannot be undone.`)) {
+                return;
+            }
+            
+            backups[currentUser] = userBackups.filter(b => b.id !== backupId);
+            localStorage.setItem('cs2_backups', JSON.stringify(backups));
+            
+            loadBackupList();
+            alert('✅ Backup deleted successfully');
+        }
+        
+        function restoreFromFile() {
+            document.getElementById('restore-file').click();
+        }
+        
+        function performRestore(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    // Validate backup data structure
+                    if (!backupData.settings || typeof backupData.settings !== 'object') {
+                        throw new Error('Invalid backup file format');
+                    }
+                    
+                    const settingsCount = Object.keys(backupData.settings).length;
+                    const backupName = backupData.name || 'Imported Backup';
+                    const backupDate = backupData.timestamp ? new Date(backupData.timestamp).toLocaleString() : 'Unknown date';
+                    
+                    if (!confirm(`🔄 Restore from file "${backupName}"?\n\n📅 Created: ${backupDate}\n📊 Settings: ${settingsCount}\n\nThis will overwrite all current settings.`)) {
+                        return;
+                    }
+                    
+                    // Restore all settings
+                    let restoredCount = 0;
+                    for (const [elementId, setting] of Object.entries(backupData.settings)) {
+                        const element = document.getElementById(elementId);
+                        if (element) {
+                            element.value = setting.value;
+                            restoredCount++;
+                        }
+                    }
+                    
+                    alert(`✅ Backup restored from file!\n📊 ${restoredCount} settings restored\n🔄 Page will refresh to apply changes`);
+                    
+                    // Refresh the page to ensure all changes are applied
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                    
+                } catch (error) {
+                    alert('❌ Error restoring from file: Invalid backup format or corrupted data');
+                    console.error('Restore error:', error);
+                }
+            };
+            
+            reader.readAsText(file);
+            // Reset file input
+            event.target.value = '';
+        }
+        
+        // Performance Analysis Function
+        function analyzePerformance() {
+            const analysisDiv = document.getElementById('performance-analysis');
+            const resultsDiv = document.getElementById('performance-results');
+            
+            // Gather all relevant settings
+            const settings = {
+                resolution: document.getElementById('resolution')?.value,
+                refreshRate: parseInt(document.getElementById('refresh_rate')?.value || 60),
+                fpsMax: parseInt(document.getElementById('fps_max')?.value || 0),
+                msaa: parseInt(document.getElementById('setting_msaa_samples')?.value || 0),
+                shaderQuality: parseInt(document.getElementById('setting_shaderquality')?.value || 0),
+                shadowQuality: parseInt(document.getElementById('setting_videocfg_shadow_quality')?.value || 0),
+                textureDetail: parseInt(document.getElementById('setting_videocfg_texture_detail')?.value || 0),
+                particleDetail: parseInt(document.getElementById('setting_videocfg_particle_detail')?.value || 0),
+                aoDetail: parseInt(document.getElementById('setting_videocfg_ao_detail')?.value || 0),
+                vsync: parseInt(document.getElementById('setting_mat_vsync')?.value || 0),
+                lowLatency: parseInt(document.getElementById('setting_r_low_latency')?.value || 0),
+                fullscreen: parseInt(document.getElementById('setting_fullscreen')?.value || 1),
+                ragdolls: parseInt(document.getElementById('cl_disable_ragdolls')?.value || 0),
+                sensitivity: parseFloat(document.getElementById('sensitivity')?.value || 2.5),
+                rate: parseInt(document.getElementById('rate')?.value || 786432),
+                maxPing: parseInt(document.getElementById('mm_dedicated_search_maxping')?.value || 25)
+            };
+            
+            // Calculate performance score and generate recommendations
+            const analysis = generatePerformanceAnalysis(settings);
+            
+            // Display results
+            resultsDiv.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #ff6b35; margin-bottom: 10px;">📊 Performance Analysis</h4>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <div style="background: ${analysis.scoreColor}; color: white; padding: 8px 15px; border-radius: 20px; font-weight: bold;">
+                            Performance Score: ${analysis.score}/100
+                        </div>
+                        <span style="font-size: 24px;">${analysis.emoji}</span>
+                    </div>
+                    <p style="margin-bottom: 15px; font-style: italic;">${analysis.summary}</p>
+                </div>
+                
+                ${analysis.recommendations.length > 0 ? `
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #4CAF50; margin-bottom: 10px;">💡 Recommendations</h4>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        ${analysis.recommendations.map(rec => `<li style="margin-bottom: 8px;">${rec}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                ${analysis.optimizations.length > 0 ? `
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #2196F3; margin-bottom: 10px;">⚡ Quick Optimizations</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        ${analysis.optimizations.map(opt => `
+                            <button onclick="${opt.action}" style="background: #2196F3; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+                                ${opt.label}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div>
+                    <h4 style="color: #FF9800; margin-bottom: 10px;">🎯 Hardware Recommendations</h4>
+                    <p style="margin: 0; font-size: 14px; opacity: 0.9;">${analysis.hardwareAdvice}</p>
+                </div>
+            `;
+            
+            analysisDiv.style.display = 'block';
+        }
+        
+        function generatePerformanceAnalysis(settings) {
+            let score = 100;
+            const recommendations = [];
+            const optimizations = [];
+            let emoji = '🚀';
+            let scoreColor = '#4CAF50';
+            
+            // Resolution analysis
+            if (settings.resolution) {
+                const [width, height] = settings.resolution.split('x').map(Number);
+                const pixelCount = width * height;
+                
+                if (pixelCount >= 8294400) { // 4K
+                    score -= 30;
+                    recommendations.push('4K resolution is very demanding - consider 1440p for better performance');
+                } else if (pixelCount >= 3686400) { // 1440p
+                    score -= 15;
+                    recommendations.push('1440p resolution requires a powerful GPU for high refresh rates');
+                } else if (pixelCount <= 1228800) { // 720p or lower
+                    recommendations.push('Low resolution detected - you can likely increase graphics quality');
+                }
+            }
+            
+            // Graphics quality analysis
+            if (settings.msaa >= 4) {
+                score -= 20;
+                recommendations.push('High MSAA (4x+) significantly impacts performance - consider 2x or disable');
+                optimizations.push({label: 'Set MSAA to 2x', action: 'document.getElementById("setting_msaa_samples").value="2"'});
+            }
+            
+            if (settings.shaderQuality >= 2 && settings.shadowQuality >= 2) {
+                score -= 15;
+                recommendations.push('High shader and shadow quality together are very demanding');
+                optimizations.push({label: 'Lower Shadow Quality', action: 'document.getElementById("setting_videocfg_shadow_quality").value="1"'});
+            }
+            
+            if (settings.textureDetail >= 2 && settings.particleDetail >= 2) {
+                score -= 10;
+                recommendations.push('High texture and particle detail may cause VRAM issues on lower-end GPUs');
+            }
+            
+            // FPS and refresh rate analysis
+            if (settings.fpsMax > 0 && settings.fpsMax < settings.refreshRate) {
+                score -= 15;
+                recommendations.push(`FPS limit (${settings.fpsMax}) is lower than refresh rate (${settings.refreshRate}Hz)`);
+                optimizations.push({label: 'Match FPS to Refresh Rate', action: `document.getElementById("fps_max").value="${settings.refreshRate}"`});
+            }
+            
+            if (settings.refreshRate >= 144 && (settings.msaa >= 4 || settings.shaderQuality >= 2)) {
+                score -= 20;
+                recommendations.push('High refresh rate with demanding graphics may cause frame drops');
+            }
+            
+            // V-Sync analysis
+            if (settings.vsync === 1 && settings.refreshRate >= 144) {
+                score -= 10;
+                recommendations.push('V-Sync with high refresh rate may limit performance');
+                optimizations.push({label: 'Disable V-Sync', action: 'document.getElementById("setting_mat_vsync").value="0"'});
+            }
+            
+            // Network optimization
+            if (settings.rate < 196608 && settings.refreshRate >= 144) {
+                score -= 10;
+                recommendations.push('Low network rate may bottleneck high refresh rate gaming');
+                optimizations.push({label: 'Increase Network Rate', action: 'document.getElementById("rate").value="786432"'});
+            }
+            
+            // Competitive optimizations
+            if (settings.ragdolls === 0) {
+                recommendations.push('✅ Ragdolls disabled - good for competitive performance');
+            } else {
+                optimizations.push({label: 'Disable Ragdolls', action: 'document.getElementById("cl_disable_ragdolls").value="1"'});
+            }
+            
+            if (!settings.fullscreen) {
+                score -= 5;
+                recommendations.push('Windowed mode may reduce performance - consider fullscreen');
+                optimizations.push({label: 'Enable Fullscreen', action: 'document.getElementById("setting_fullscreen").value="1"'});
+            }
+            
+            // Determine score category and advice
+            let summary, hardwareAdvice;
+            
+            if (score >= 85) {
+                emoji = '🚀';
+                scoreColor = '#4CAF50';
+                summary = 'Excellent! Your settings are well-optimized for performance.';
+                hardwareAdvice = 'Your current settings should run smoothly on mid-range to high-end hardware.';
+            } else if (score >= 70) {
+                emoji = '⚡';
+                scoreColor = '#FF9800';
+                summary = 'Good performance setup with room for optimization.';
+                hardwareAdvice = 'Consider a mid-range GPU (RTX 3060/4060 or RX 6600 XT) for optimal performance.';
+            } else if (score >= 50) {
+                emoji = '⚠️';
+                scoreColor = '#FF5722';
+                summary = 'Your settings may cause performance issues. Consider the recommendations below.';
+                hardwareAdvice = 'A dedicated gaming GPU (GTX 1660 Super or better) is recommended for these settings.';
+            } else {
+                emoji = '🐌';
+                scoreColor = '#F44336';
+                summary = 'These settings are very demanding and may cause significant performance issues.';
+                hardwareAdvice = 'High-end hardware (RTX 4070+ or RX 7700 XT+) required for smooth gameplay with these settings.';
+            }
+            
+            return {
+                score: Math.max(0, score),
+                emoji,
+                scoreColor,
+                summary,
+                recommendations,
+                optimizations,
+                hardwareAdvice
+            };
+        }
+        
+        // Check login state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLoginState();
+        });
+
+        // Modal Dialog Functions
+        let modalResolve = null;
+
+        function showInputModal(title, placeholder = '', defaultValue = '') {
+            return new Promise((resolve) => {
+                modalResolve = resolve;
+                document.getElementById('modal-title').textContent = title;
+                document.getElementById('modal-input').placeholder = placeholder;
+                document.getElementById('modal-input').value = defaultValue;
+                document.getElementById('input-modal').style.display = 'block';
+                document.getElementById('modal-input').focus();
+                document.getElementById('modal-input').select();
+            });
+        }
+
+        function closeInputModal(confirmed) {
+            const modal = document.getElementById('input-modal');
+            const input = document.getElementById('modal-input');
+            
+            if (modalResolve) {
+                if (confirmed && input.value.trim()) {
+                    modalResolve(input.value.trim());
+                } else {
+                    modalResolve(null);
+                }
+                modalResolve = null;
+            }
+            
+            modal.style.display = 'none';
+            input.value = '';
+        }
+
+        // Handle Enter key in modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('input-modal').style.display === 'block') {
+                closeInputModal(true);
+            } else if (e.key === 'Escape' && document.getElementById('input-modal').style.display === 'block') {
+                closeInputModal(false);
+            }
+        });
     </script>
+
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, #3c5068, #34495e); color: #ecf0f1; text-align: center; padding: 30px; margin-top: 40px; border-top: 3px solid #ff6b35; border-radius: 0 0 20px 20px; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p style="margin: 0 0 10px 0; font-size: 16px; color: #ecf0f1;">
+                🎮 <strong>CS2 Configuration Generator</strong> - Open Source & Privacy-First
+            </p>
+            <p style="margin: 0 0 15px 0; font-size: 14px; opacity: 0.8; color: #bdc3c7;">
+                Generate professional CS2 configs with autoexec, key binds, and video settings
+            </p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center;">
+                <a href="https://github.com/LaGgIs/cs2-config-generator" target="_blank" 
+                   style="color: #ff6b35; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: all 0.3s ease; padding: 8px 12px; border-radius: 8px; background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.3);"
+                   onmouseover="this.style.background='rgba(255, 107, 53, 0.2)'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(255, 107, 53, 0.1)'; this.style.transform='translateY(0)'">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    View Source Code
+                </a>
+                <span style="color: #5a7491;">•</span>
+                <span style="color: #4CAF50; font-weight: bold; padding: 4px 8px; background: rgba(76, 175, 80, 0.1); border-radius: 6px; border: 1px solid rgba(76, 175, 80, 0.3);">✓ 100% Client-Side</span>
+                <span style="color: #5a7491;">•</span>
+                <span style="color: #2196F3; font-weight: bold; padding: 4px 8px; background: rgba(33, 150, 243, 0.1); border-radius: 6px; border: 1px solid rgba(33, 150, 243, 0.3);">🛡️ Privacy Protected</span>
+            </div>
+            <p style="margin: 15px 0 0 0; font-size: 12px; opacity: 0.6; color: #95a5a6;">
+                Made with ❤️ for the CS2 community | No data collection, no tracking
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modal Dialog for Input -->
+    <div id="input-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; backdrop-filter: blur(5px);">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #2a3441, #1e2832); border: 2px solid #5a7491; border-radius: 15px; padding: 30px; min-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+            <h3 id="modal-title" style="color: #ff6b35; margin: 0 0 20px 0; font-size: 18px; text-align: center;"></h3>
+            <input type="text" id="modal-input" style="width: 100%; padding: 12px; border: 2px solid #4a5f7a; border-radius: 8px; background: rgba(42, 52, 65, 0.8); color: white; font-size: 16px; margin-bottom: 20px; box-sizing: border-box;" placeholder="Enter name...">
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button onclick="closeInputModal(false)" style="padding: 10px 20px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Cancel</button>
+                <button onclick="closeInputModal(true)" style="padding: 10px 20px; background: #ff6b35; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold;">OK</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

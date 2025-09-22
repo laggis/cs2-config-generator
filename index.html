@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CS2 Configuration Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -624,7 +625,9 @@
             <button class="tab-button active" onclick="switchTab('autoexec')">Autoexec.cfg</button>
             <button class="tab-button" onclick="switchTab('binds')">Key Binds</button>
             <button class="tab-button" onclick="switchTab('video')">Video Settings</button>
-            <button class="tab-button" onclick="switchTab('account')">Account</button>
+            <button class="tab-button" onclick="switchTab('practice')">Practice & Training</button>
+                <button class="tab-button" onclick="switchTab('pro')">⚡ Pro Settings</button>
+                <button class="tab-button" onclick="switchTab('account')">Account</button>
         </div>
 
         <!-- Autoexec Tab -->
@@ -751,6 +754,22 @@
                     </select>
                     <span class="help-text">🎮 Only allow invites when in main menu</span>
                 </div>
+                <div class="setting-group">
+                    <label>Network Graph:</label>
+                    <select id="net_graph">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <span class="help-text">📊 Show network performance graph (FPS, ping, loss)</span>
+                </div>
+                <div class="setting-group">
+                    <label>CS2 Network Graph:</label>
+                    <select id="cq_netgraph">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <span class="help-text">📈 CS2's new network performance graph</span>
+                </div>
             </div>
 
             <div class="config-section">
@@ -811,6 +830,32 @@
                     <label>Fullscreen Gamma:</label>
                     <input type="number" step="0.1" min="1" max="3" id="r_fullscreen_gamma" value="2.2">
                     <span class="help-text">🌟 Gamma correction for fullscreen mode. Set to 2 for a more CSGO-like appearance (default: 2.2)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Visual Profiling:</label>
+                    <select id="vprof_off">
+                        <option value="0">Enabled</option>
+                        <option value="1" selected>Disabled</option>
+                    </select>
+                    <span class="help-text">📊 Disable visual profiling tool for better CPU performance</span>
+                </div>
+                <div class="setting-group">
+                    <label>First Person Tracers:</label>
+                    <select id="r_drawtracers_firstperson">
+                        <option value="0">Disabled</option>
+                        <option value="1" selected>Enabled</option>
+                    </select>
+                    <span class="help-text">💥 Toggle bullet tracers visibility in first person view</span>
+                </div>
+                <div class="setting-group">
+                    <label>Particle Fallback Base:</label>
+                    <input type="number" id="cl_particle_fallback_base" value="0">
+                    <span class="help-text">✨ Particle system fallback base value (0 for best performance)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Particle Fallback Multiplier:</label>
+                    <input type="number" step="0.1" id="cl_particle_fallback_multiplier" value="1">
+                    <span class="help-text">🎆 Particle multiplier for performance tuning (1.0 = default)</span>
                 </div>
             </div>
 
@@ -903,8 +948,8 @@
                 </div>
                 <div class="setting-group">
                     <label>Mix Ahead (seconds):</label>
-                    <input type="number" step="0.001" min="0" max="0.1" id="snd_mixahead" value="0.001">
-                    <span class="help-text">🎵 Audio buffer mix ahead time (0.001 recommended)</span>
+                    <input type="number" step="0.001" min="0" max="0.1" id="snd_mixahead" value="0.05">
+                    <span class="help-text">🎵 Audio buffer mix ahead time (0.05 recommended for best audio latency, lower values may cause crackling)</span>
                 </div>
                 <div class="setting-group">
                     <label>Menu Music Volume:</label>
@@ -935,6 +980,9 @@
                     <label>10-Second Warning Volume:</label>
                     <input type="number" step="0.01" min="0" max="1" id="snd_tensecondwarning_volume" value="0.12">
                     <span class="help-text">⏰ Bomb timer warning volume</span>
+                    <div id="warning-music-volume" class="warning-message" style="display: none; margin-top: 8px; padding: 8px; background-color: #ff6b6b; color: white; border-radius: 4px; font-size: 12px;">
+                        ⚠️ <strong>Warning:</strong> 10-second warning won't be audible because Music Volume is set to 0! The bomb timer warning is part of the music system.
+                    </div>
                 </div>
                 <div class="setting-group">
                     <label>Mute MVP Music (Live Players):</label>
@@ -1002,6 +1050,27 @@
                         <option value="1">Enabled</option>
                     </select>
                     <span class="help-text">🎤 Hear your own voice through speakers</span>
+                </div>
+                <div class="setting-group">
+                    <label>Voice Enable:</label>
+                    <select id="voice_enable">
+                        <option value="0">Disabled</option>
+                        <option value="1" selected>Enabled</option>
+                    </select>
+                    <span class="help-text">🎤 Enable/disable voice chat entirely</span>
+                </div>
+                <div class="setting-group">
+                    <label>Voice Scale:</label>
+                    <input type="number" step="0.1" min="0" max="1" id="voice_scale" value="0.4">
+                    <span class="help-text">📢 Voice chat volume scale (0.4 recommended)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Legacy Surround:</label>
+                    <select id="snd_legacy_surround">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <span class="help-text">🔊 Legacy surround sound mode for older audio systems</span>
                 </div>
                 <div class="setting-group">
                     <label>Voice Threshold:</label>
@@ -2550,6 +2619,400 @@
             </div>
         </div>
 
+        <!-- Practice & Training Tab -->
+        <div id="practice" class="tab-content">
+            <div class="config-section">
+                <h3>🎯 Bot Management</h3>
+                <div class="setting-group">
+                    <label>Add Bot Team:</label>
+                    <select id="bot_add">
+                        <option value="">Disabled</option>
+                        <option value="ct">Add CT Bot</option>
+                        <option value="t">Add T Bot</option>
+                    </select>
+                    <span class="help-text">🤖 Add bots to specific teams for practice</span>
+                </div>
+                <div class="setting-group">
+                    <label>Bot Difficulty:</label>
+                    <select id="bot_difficulty">
+                        <option value="0">Easy</option>
+                        <option value="1">Normal</option>
+                        <option value="2">Hard</option>
+                        <option value="3">Expert</option>
+                    </select>
+                    <span class="help-text">🎮 Set bot difficulty level (0=easy, 3=expert)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Kick All Bots:</label>
+                    <select id="bot_kick">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">🚫 Remove all bots from the game</span>
+                </div>
+                <div class="setting-group">
+                    <label>Stop Bots:</label>
+                    <select id="bot_stop">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">⏸️ Freeze all bots in place</span>
+                </div>
+                <div class="setting-group">
+                    <label>Bot Place at Crosshair:</label>
+                    <select id="bot_place">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">📍 Spawn bot at crosshair location</span>
+                </div>
+                <div class="setting-group">
+                    <label>Bot Mimic:</label>
+                    <select id="bot_mimic">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">👥 Make bots copy your movements</span>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>⚠️ Practice Commands (Requires sv_cheats 1)</h3>
+                <div class="setting-group" style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #856404;">⚠️ Important Notice</h4>
+                    <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #856404;">
+                        <strong>These commands require sv_cheats 1 and only work in practice mode or offline servers.</strong><br>
+                        They will not work in competitive matchmaking or official servers.
+                    </p>
+                </div>
+                <div class="setting-group">
+                    <label>Enable Cheats:</label>
+                    <select id="sv_cheats">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">🔓 Enable cheat commands (required for practice features)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Infinite Ammo:</label>
+                    <select id="sv_infinite_ammo">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                        <option value="2">Infinite Clip</option>
+                    </select>
+                    <span class="help-text">♾️ Infinite ammunition (1=reload required, 2=no reload)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Grenade Trajectory:</label>
+                    <select id="sv_grenade_trajectory">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">📈 Show grenade flight paths</span>
+                </div>
+                <div class="setting-group">
+                    <label>CT Instant Respawn:</label>
+                    <select id="mp_respawn_on_death_ct">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">⚡ Instant respawn for Counter-Terrorists</span>
+                </div>
+                <div class="setting-group">
+                    <label>T Instant Respawn:</label>
+                    <select id="mp_respawn_on_death_t">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">⚡ Instant respawn for Terrorists</span>
+                </div>
+                <div class="setting-group">
+                    <label>Buy Anywhere:</label>
+                    <select id="mp_buy_anywhere">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">🛒 Allow buying weapons anywhere on the map</span>
+                </div>
+                <div class="setting-group">
+                    <label>Buy Time (seconds):</label>
+                    <input type="number" id="mp_buytime" value="15" min="0" max="300">
+                    <span class="help-text">⏰ Time allowed to buy equipment (default: 15)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Round Time (minutes):</label>
+                    <input type="number" id="mp_roundtime" value="2" min="1" max="60">
+                    <span class="help-text">⏱️ Round duration in minutes (default: 2)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Max Money:</label>
+                    <input type="number" id="mp_maxmoney" value="16000" min="0" max="65000">
+                    <span class="help-text">💰 Maximum money limit (default: 16000)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Starting Money:</label>
+                    <input type="number" id="mp_startmoney" value="800" min="0" max="65000">
+                    <span class="help-text">💵 Starting money amount (default: 800)</span>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>🎬 Demo Recording</h3>
+                <div class="setting-group">
+                    <label>Demo Name:</label>
+                    <input type="text" id="demo_name" value="practice_demo" placeholder="Enter demo name">
+                    <span class="help-text">📹 Name for recorded demo file</span>
+                </div>
+                <div class="setting-group">
+                    <label>Record Demo:</label>
+                    <select id="record_demo">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">🔴 Start recording demo with specified name</span>
+                </div>
+                <div class="setting-group">
+                    <label>Stop Recording:</label>
+                    <select id="stop_demo">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">⏹️ Stop current demo recording</span>
+                </div>
+                <div class="setting-group">
+                    <label>Demo Pause:</label>
+                    <select id="demo_pause">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">⏸️ Pause demo playback</span>
+                </div>
+                <div class="setting-group">
+                    <label>Demo Resume:</label>
+                    <select id="demo_resume">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">▶️ Resume demo playback</span>
+                </div>
+                <div class="setting-group">
+                    <label>Demo Toggle Pause:</label>
+                    <select id="demo_togglepause">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                    <span class="help-text">⏯️ Toggle demo pause/play</span>
+                </div>
+                <div class="setting-group">
+                    <label>Demo Timescale:</label>
+                    <input type="number" id="demo_timescale" value="1.0" min="0.1" max="5.0" step="0.1">
+                    <span class="help-text">⏱️ Demo playback speed (1.0 = normal, 0.5 = half speed, 2.0 = double speed)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pro Settings Tab -->
+        <div id="pro" class="tab-content">
+            <div class="config-section">
+                <h3>🏆 Professional Player Profiles</h3>
+                <p style="margin-bottom: 20px; color: #666;">Choose from the world's best CS2 players and apply their complete settings with one click.</p>
+                
+                <div class="pro-players-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    
+                    <!-- m0NESY Profile -->
+                    <div class="pro-player-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; padding: 20px; color: white; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;"">
+                        <div style="width: 80px !important; height: 80px !important; background-color: #667eea !important; border-radius: 50% !important; margin: 0 auto 15px !important; display: flex !important; align-items: center !important; justify-content: center !important; color: white !important; font-size: 24px !important; font-weight: bold !important; border: 3px solid rgba(255,255,255,0.3) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;">
+                            M0
+                        </div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.4em;">m0NESY 🇷🇺</h4>
+                        <p style="margin: 0 0 15px 0; opacity: 0.9; font-size: 0.9em;">Falcons Esports</p>
+                        <div class="player-stats" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Sensitivity:</span>
+                                <span><strong>2.3</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>DPI:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Resolution:</span>
+                                <span><strong>1280x960</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Max FPS:</span>
+                                <span><strong>999</strong></span>
+                            </div>
+                        </div>
+                        <button style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;" onclick="downloadProConfig('m0nesy'); event.stopPropagation();">📥 Download Config</button>
+                    </div>
+
+                    <!-- donk Profile -->
+                    <div class="pro-player-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 15px; padding: 20px; color: white; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;"">
+                        <div style="width: 80px !important; height: 80px !important; background-color: #f093fb !important; border-radius: 50% !important; margin: 0 auto 15px !important; display: flex !important; align-items: center !important; justify-content: center !important; color: white !important; font-size: 24px !important; font-weight: bold !important; border: 3px solid rgba(255,255,255,0.3) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;">
+                            DO
+                        </div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.4em;">donk 🇷🇺</h4>
+                        <p style="margin: 0 0 15px 0; opacity: 0.9; font-size: 0.9em;">Team Spirit</p>
+                        <div class="player-stats" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Sensitivity:</span>
+                                <span><strong>1.25</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>DPI:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Resolution:</span>
+                                <span><strong>1280x960</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Max FPS:</span>
+                                <span><strong>500</strong></span>
+                            </div>
+                        </div>
+                        <button style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;" onclick="downloadProConfig('donk'); event.stopPropagation();">📥 Download Config</button>
+                    </div>
+
+                    <!-- s1mple Profile -->
+                    <div class="pro-player-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 15px; padding: 20px; color: white; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;"">
+                        <div style="width: 80px !important; height: 80px !important; background-color: #4facfe !important; border-radius: 50% !important; margin: 0 auto 15px !important; display: flex !important; align-items: center !important; justify-content: center !important; color: white !important; font-size: 24px !important; font-weight: bold !important; border: 3px solid rgba(255,255,255,0.3) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;">
+                            S1
+                        </div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.4em;">s1mple 🇺🇦</h4>
+                        <p style="margin: 0 0 15px 0; opacity: 0.9; font-size: 0.9em;">BC.Game</p>
+                        <div class="player-stats" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Sensitivity:</span>
+                                <span><strong>3.09</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>DPI:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Resolution:</span>
+                                <span><strong>1280x960</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Max FPS:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                        </div>
+                        <button style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;" onclick="downloadProConfig('s1mple'); event.stopPropagation();">📥 Download Config</button>
+                    </div>
+
+                    <!-- ZywOo Profile -->
+                    <div class="pro-player-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); border-radius: 15px; padding: 20px; color: white; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;"">
+                        <div style="width: 80px !important; height: 80px !important; background-color: #fa709a !important; border-radius: 50% !important; margin: 0 auto 15px !important; display: flex !important; align-items: center !important; justify-content: center !important; color: white !important; font-size: 20px !important; font-weight: bold !important; border: 3px solid rgba(255,255,255,0.3) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;">
+                            ZY
+                        </div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.4em;">ZywOo 🇫🇷</h4>
+                        <p style="margin: 0 0 15px 0; opacity: 0.9; font-size: 0.9em;">Team Vitality</p>
+                        <div class="player-stats" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Sensitivity:</span>
+                                <span><strong>2.0</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>DPI:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Resolution:</span>
+                                <span><strong>1024x768</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Max FPS:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                        </div>
+                        <button style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;" onclick="downloadProConfig('zywoo'); event.stopPropagation();">📥 Download Config</button>
+                    </div>
+
+                    <!-- NiKo Profile -->
+                    <div class="pro-player-card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 15px; padding: 20px; color: #333; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;"">
+                        <div style="width: 80px !important; height: 80px !important; background-color: #a8edea !important; border-radius: 50% !important; margin: 0 auto 15px !important; display: flex !important; align-items: center !important; justify-content: center !important; color: #333 !important; font-size: 20px !important; font-weight: bold !important; border: 3px solid rgba(0,0,0,0.3) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;">
+                            NI
+                        </div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.4em;">NiKo 🇧🇦</h4>
+                        <p style="margin: 0 0 15px 0; opacity: 0.7; font-size: 0.9em;">Falcons Esports</p>
+                        <div class="player-stats" style="background: rgba(0,0,0,0.1); border-radius: 8px; padding: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Sensitivity:</span>
+                                <span><strong>1.35</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>DPI:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Resolution:</span>
+                                <span><strong>1280x960</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Max FPS:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                        </div>
+                        <button style="background: rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.3); color: #333; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;" onclick="downloadProConfig('niko'); event.stopPropagation();">📥 Download Config</button>
+                    </div>
+
+                    <!-- sh1ro Profile -->
+                    <div class="pro-player-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); border-radius: 15px; padding: 20px; color: #333; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;"">
+                        <div style="width: 80px !important; height: 80px !important; background-color: #ffecd2 !important; border-radius: 50% !important; margin: 0 auto 15px !important; display: flex !important; align-items: center !important; justify-content: center !important; color: #333 !important; font-size: 20px !important; font-weight: bold !important; border: 3px solid rgba(0,0,0,0.3) !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;">
+                            SH
+                        </div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.4em;">sh1ro 🇷🇺</h4>
+                        <p style="margin: 0 0 15px 0; opacity: 0.7; font-size: 0.9em;">Cloud9</p>
+                        <div class="player-stats" style="background: rgba(0,0,0,0.1); border-radius: 8px; padding: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Sensitivity:</span>
+                                <span><strong>1.3</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>DPI:</span>
+                                <span><strong>400</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Resolution:</span>
+                                <span><strong>1280x960</strong></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Max FPS:</span>
+                                <span><strong>300</strong></span>
+                            </div>
+                        </div>
+                        <button style="background: rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.3); color: #333; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;" onclick="downloadProConfig('sh1ro'); event.stopPropagation();">📥 Download Config</button>
+                    </div>
+
+                </div>
+
+                <div class="pro-info-section" style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-top: 20px;">
+                    <h4 style="margin: 0 0 15px 0; color: #333;">📋 What Gets Applied:</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #4facfe;">
+                            <h5 style="margin: 0 0 8px 0; color: #4facfe;">🖱️ Mouse Settings</h5>
+                            <p style="margin: 0; font-size: 0.9em; color: #666;">Sensitivity, DPI, zoom ratio</p>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                            <h5 style="margin: 0 0 8px 0; color: #667eea;">🎮 Viewmodel</h5>
+                            <p style="margin: 0; font-size: 0.9em; color: #666;">FOV, position, preset</p>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f5576c;">
+                            <h5 style="margin: 0 0 8px 0; color: #f5576c;">🖥️ Video Settings</h5>
+                            <p style="margin: 0; font-size: 0.9em; color: #666;">Resolution, FPS, quality</p>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #fa709a;">
+                            <h5 style="margin: 0 0 8px 0; color: #fa709a;">🎯 Crosshair</h5>
+                            <p style="margin: 0; font-size: 0.9em; color: #666;">Size, color, style, gap</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Account Tab -->
         <div id="account" class="tab-content">
             <div class="config-section">
@@ -2714,6 +3177,13 @@
                 
                 if (parseFloat(config.sensitivity) > 10) {
                     warnings.push('Very high sensitivity detected - this may affect aim precision');
+                }
+                
+                // Check for music volume vs 10-second warning conflict
+                const musicVolume = parseFloat(config.snd_musicvolume || 0);
+                const warningVolume = parseFloat(config.snd_tensecondwarning_volume || 0);
+                if (musicVolume === 0 && warningVolume > 0) {
+                    warnings.push('10-second warning won\'t be audible because Music Volume is set to 0! The bomb timer warning is part of the music system.');
                 }
                 
                 if (parseFloat(config.volume) < 0.1) {
@@ -2981,11 +3451,37 @@
                 ui_setting_advertiseforhire_auto: document.getElementById('ui_setting_advertiseforhire_auto').value,
                 cl_invites_only_friends: document.getElementById('cl_invites_only_friends').value,
                 cl_invites_only_mainmenu: document.getElementById('cl_invites_only_mainmenu').value,
+                net_graph: document.getElementById('net_graph').value,
+                cq_netgraph: document.getElementById('cq_netgraph').value,
                 
                 // Performance Settings
                 fps_max: document.getElementById('fps_max').value,
-                // mat_queue_mode removed - deprecated in CS2
                 cl_disable_ragdolls: document.getElementById('cl_disable_ragdolls').value,
+                cl_forcepreload: document.getElementById('cl_forcepreload').value,
+                mat_queue_mode: document.getElementById('mat_queue_mode').value,
+                
+                // Pro Settings - Mouse
+                pro_sensitivity: document.getElementById('pro_sensitivity').value,
+                pro_zoom_sensitivity_ratio: document.getElementById('pro_zoom_sensitivity_ratio').value,
+                
+                // Pro Settings - Viewmodel
+                pro_viewmodel_fov: document.getElementById('pro_viewmodel_fov').value,
+                pro_viewmodel_offset_x: document.getElementById('pro_viewmodel_offset_x').value,
+                pro_viewmodel_offset_y: document.getElementById('pro_viewmodel_offset_y').value,
+                pro_viewmodel_offset_z: document.getElementById('pro_viewmodel_offset_z').value,
+                pro_viewmodel_presetpos: document.getElementById('pro_viewmodel_presetpos').value,
+                
+                // Pro Settings - Competitive
+                cl_autowepswitch: document.getElementById('cl_autowepswitch').value,
+                cl_teamid_overhead: document.getElementById('cl_teamid_overhead').value,
+                cl_teamid_overhead_always: document.getElementById('cl_teamid_overhead_always').value,
+                cl_interp: document.getElementById('cl_interp').value,
+                
+                // Pro Settings - Advanced Optimization
+                mat_disable_fancy_blending: document.getElementById('mat_disable_fancy_blending').value,
+                r_texturestreaming: document.getElementById('r_texturestreaming').value,
+                cl_predictweapons: document.getElementById('cl_predictweapons').value,
+                cl_disablehtmlmotd: document.getElementById('cl_disablehtmlmotd').value,
                 vprof_off: document.getElementById('vprof_off').value,
                 // r_dynamic and muzzleflash_light removed - deprecated in CS2
                 // cl_forcepreload removed - deprecated in CS2
@@ -2995,6 +3491,9 @@
                 engine_low_latency_sleep_after_client_tick: document.getElementById('engine_low_latency_sleep_after_client_tick').value,
                 engine_no_focus_sleep: document.getElementById('engine_no_focus_sleep').value,
                 r_fullscreen_gamma: document.getElementById('r_fullscreen_gamma').value,
+                r_drawtracers_firstperson: document.getElementById('r_drawtracers_firstperson').value,
+                cl_particle_fallback_base: document.getElementById('cl_particle_fallback_base').value,
+                cl_particle_fallback_multiplier: document.getElementById('cl_particle_fallback_multiplier').value,
                 
                 // Mouse Settings
                 sensitivity: document.getElementById('sensitivity').value,
@@ -3030,6 +3529,9 @@
                 cl_mute_all_but_friends_and_party: document.getElementById('cl_mute_all_but_friends_and_party').value,
                 cl_clutch_mode: document.getElementById('cl_clutch_mode').value,
                 voice_loopback: document.getElementById('voice_loopback').value,
+                voice_enable: document.getElementById('voice_enable').value,
+                voice_scale: document.getElementById('voice_scale').value,
+                snd_legacy_surround: document.getElementById('snd_legacy_surround').value,
                 voice_threshold: document.getElementById('voice_threshold').value,
                 voice_modenable: document.getElementById('voice_modenable').value,
                 voice_always_sample_mic: document.getElementById('voice_always_sample_mic').value,
@@ -3166,6 +3668,7 @@
                 cl_refresh_rate_recommendation_dont_show_again: document.getElementById('cl_refresh_rate_recommendation_dont_show_again').value,
                 cl_low_latency_vsync_recommendation_dont_show_again: document.getElementById('cl_low_latency_vsync_recommendation_dont_show_again').value,
                 
+                
                 // Visual Effects Settings
                 r_drawparticles: document.getElementById('r_drawparticles').value,
                 fog_override: document.getElementById('fog_override').value,
@@ -3176,15 +3679,45 @@
                 cl_debounce_zoom: document.getElementById('cl_debounce_zoom').value,
                 cl_use_opens_buy_menu: document.getElementById('cl_use_opens_buy_menu').value,
                 cl_scoreboard_mouse_enable_binding: document.getElementById('cl_scoreboard_mouse_enable_binding').value,
-                cl_buywheel_donate_key: document.getElementById('cl_buywheel_donate_key').value
+                cl_buywheel_donate_key: document.getElementById('cl_buywheel_donate_key').value,
+                
+                // Practice & Training Settings
+                bot_add: document.getElementById('bot_add').value,
+                bot_difficulty: document.getElementById('bot_difficulty').value,
+                bot_kick: document.getElementById('bot_kick').value,
+                bot_stop: document.getElementById('bot_stop').value,
+                bot_place: document.getElementById('bot_place').value,
+                bot_mimic: document.getElementById('bot_mimic').value,
+                sv_cheats: document.getElementById('sv_cheats').value,
+                sv_infinite_ammo: document.getElementById('sv_infinite_ammo').value,
+                sv_grenade_trajectory: document.getElementById('sv_grenade_trajectory').value,
+                mp_respawn_on_death_ct: document.getElementById('mp_respawn_on_death_ct').value,
+                mp_respawn_on_death_t: document.getElementById('mp_respawn_on_death_t').value,
+                mp_buy_anywhere: document.getElementById('mp_buy_anywhere').value,
+                mp_buytime: document.getElementById('mp_buytime').value,
+                mp_roundtime: document.getElementById('mp_roundtime').value,
+                mp_maxmoney: document.getElementById('mp_maxmoney').value,
+                mp_startmoney: document.getElementById('mp_startmoney').value,
+                demo_name: document.getElementById('demo_name').value,
+                record_demo: document.getElementById('record_demo').value,
+                stop_demo: document.getElementById('stop_demo').value,
+                demo_pause: document.getElementById('demo_pause').value,
+                demo_resume: document.getElementById('demo_resume').value,
+                demo_togglepause: document.getElementById('demo_togglepause').value,
+                demo_timescale: document.getElementById('demo_timescale').value
             };
 
             const configLines = [
+                '// ========================================',
                 '// CS2 Autoexec Configuration',
                 '// Generated by CS2 Config Generator',
                 '// Made by LaGgIs',
+                '// ========================================',
                 '',
-                '// Network Settings (Sub-tick optimized)',
+                '// ========================================',
+                '// NETWORK SETTINGS',
+                '// ========================================',
+                '',
                 `rate "${config.rate}"  // Max bandwidth (1000000 = 1MB/s)`,
                 `mm_dedicated_search_maxping "${config.mm_dedicated_search_maxping}"  // Max ping for matchmaking`,
                 // cl_lagcompensation and cl_predictweapons removed - deprecated in CS2 sub-tick system
@@ -3205,11 +3738,17 @@
                 `ui_setting_advertiseforhire_auto "${config.ui_setting_advertiseforhire_auto}"  // Auto advertise for hire`,
                 `cl_invites_only_friends "${config.cl_invites_only_friends}"  // Restrict invites to friends only`,
                 `cl_invites_only_mainmenu "${config.cl_invites_only_mainmenu}"  // Only allow invites in main menu`,
+                `net_graph "${config.net_graph}"  // Show network performance graph`,
+                `cq_netgraph "${config.cq_netgraph}"  // CS2's new network graph`,
                 '',
-                '// Performance Settings',
+                '// ========================================',
+                '// PERFORMANCE & FPS OPTIMIZATION',
+                '// ========================================',
+                '',
                 `fps_max "${config.fps_max}"  // Maximum FPS (0 = unlimited)`,
-                // mat_queue_mode removed - deprecated in CS2
                 `cl_disable_ragdolls "${config.cl_disable_ragdolls}"  // Disable ragdoll physics`,
+                ...(config.cl_forcepreload ? [`cl_forcepreload "${config.cl_forcepreload}"  // Preload all assets for smoother gameplay`] : []),
+                ...(config.mat_queue_mode ? [`mat_queue_mode "${config.mat_queue_mode}"  // Multi-core rendering (-1=disabled, 2=enabled)`] : []),
                 `vprof_off "${config.vprof_off}"  // Disable visual profiling tool`,
                 // r_dynamic and muzzleflash_light removed - deprecated in CS2
                 // cl_forcepreload removed - deprecated in CS2
@@ -3219,16 +3758,55 @@
                 `engine_low_latency_sleep_after_client_tick "${config.engine_low_latency_sleep_after_client_tick}"  // Low latency sleep`,
                 `engine_no_focus_sleep "${config.engine_no_focus_sleep}"  // Sleep when game loses focus`,
                 `r_fullscreen_gamma "${config.r_fullscreen_gamma}"  // Gamma correction for fullscreen mode`,
+                `r_drawtracers_firstperson "${config.r_drawtracers_firstperson}"  // Toggle bullet tracers in first person`,
+                `cl_particle_fallback_base "${config.cl_particle_fallback_base}"  // Particle system fallback base`,
+                `cl_particle_fallback_multiplier "${config.cl_particle_fallback_multiplier}"  // Particle fallback multiplier`,
                 `r_player_visibility_mode "${config.r_player_visibility_mode}"  // Enhanced player visibility`,
                 '',
-                '// Mouse Settings',
+                '// ========================================',
+                '// PRO SETTINGS - COMPETITIVE',
+                '// ========================================',
+                '',
+                ...(config.cl_autowepswitch ? [`cl_autowepswitch "${config.cl_autowepswitch}"  // Auto weapon switch on pickup`] : []),
+                ...(config.cl_teamid_overhead ? [`cl_teamid_overhead "${config.cl_teamid_overhead}"  // Show teammate names above heads`] : []),
+                ...(config.cl_teamid_overhead_always ? [`cl_teamid_overhead_always "${config.cl_teamid_overhead_always}"  // Show teammate equipment`] : []),
+                ...(config.cl_interp ? [`cl_interp "${config.cl_interp}"  // Network interpolation for hit registration`] : []),
+                '',
+                '// ========================================',
+                '// PRO SETTINGS - ADVANCED OPTIMIZATION',
+                '// ========================================',
+                '',
+                ...(config.mat_disable_fancy_blending ? [`mat_disable_fancy_blending "${config.mat_disable_fancy_blending}"  // Disable fancy blending for performance`] : []),
+                ...(config.r_texturestreaming ? [`r_texturestreaming "${config.r_texturestreaming}"  // Texture streaming for lower VRAM usage`] : []),
+                ...(config.cl_predictweapons ? [`cl_predictweapons "${config.cl_predictweapons}"  // Predict weapon animations`] : []),
+                ...(config.cl_disablehtmlmotd ? [`cl_disablehtmlmotd "${config.cl_disablehtmlmotd}"  // Disable HTML MOTD for faster loading`] : []),
+                '',
+                '// ========================================',
+                '// PRO SETTINGS - MOUSE & VIEWMODEL',
+                '// ========================================',
+                '',
+                ...(config.pro_sensitivity ? [`sensitivity "${config.pro_sensitivity}"  // Pro mouse sensitivity (m0NESY: 2.3, donk: 1.25)`] : []),
+                ...(config.pro_zoom_sensitivity_ratio ? [`zoom_sensitivity_ratio "${config.pro_zoom_sensitivity_ratio}"  // Pro scoped sensitivity multiplier`] : []),
+                ...(config.pro_viewmodel_fov ? [`viewmodel_fov "${config.pro_viewmodel_fov}"  // Pro viewmodel FOV (m0NESY & donk: 68)`] : []),
+                ...(config.pro_viewmodel_offset_x ? [`viewmodel_offset_x "${config.pro_viewmodel_offset_x}"  // Pro viewmodel X position (m0NESY & donk: 2.5)`] : []),
+                ...(config.pro_viewmodel_offset_y ? [`viewmodel_offset_y "${config.pro_viewmodel_offset_y}"  // Pro viewmodel Y position (m0NESY & donk: 0)`] : []),
+                ...(config.pro_viewmodel_offset_z ? [`viewmodel_offset_z "${config.pro_viewmodel_offset_z}"  // Pro viewmodel Z position (m0NESY & donk: -1.5)`] : []),
+                ...(config.pro_viewmodel_presetpos ? [`viewmodel_presetpos "${config.pro_viewmodel_presetpos}"  // Pro viewmodel preset (m0NESY: 3, donk: 2)`] : []),
+                '',
+                '// ========================================',
+                '// MOUSE SETTINGS',
+                '// ========================================',
+                '',
                 `sensitivity "${config.sensitivity}"  // Mouse sensitivity`,
                 `zoom_sensitivity_ratio "${config.zoom_sensitivity_ratio}"  // Scoped sensitivity`,
                 // m_rawinput removed - CS2 uses raw input by default
                 `m_pitch "${config.m_pitch}"  // Vertical sensitivity multiplier`,
                 `m_yaw "${config.m_yaw}"  // Horizontal sensitivity multiplier`,
                 '',
-                '// Audio Settings',
+                '// ========================================',
+                '// AUDIO SETTINGS',
+                '// ========================================',
+                '',
                 `volume "${config.volume}"  // Master volume`,
                 `snd_musicvolume "${config.snd_musicvolume}"  // Music volume`,
                 `snd_voipvolume "${config.snd_voipvolume}"  // Voice chat volume`,
@@ -3255,12 +3833,18 @@
                 `cl_mute_all_but_friends_and_party "${config.cl_mute_all_but_friends_and_party}"  // Mute all but friends`,
                 `cl_clutch_mode "${config.cl_clutch_mode}"  // Clutch mode`,
                 `voice_loopback "${config.voice_loopback}"  // Voice loopback`,
+                `voice_enable "${config.voice_enable}"  // Enable voice communication`,
+                `voice_scale "${config.voice_scale}"  // Voice volume scale`,
+                `snd_legacy_surround "${config.snd_legacy_surround}"  // Legacy surround sound`,
                 `voice_threshold "${config.voice_threshold}"  // Voice threshold`,
                 `voice_modenable "${config.voice_modenable}"  // Voice mode enable`,
                 `voice_always_sample_mic "${config.voice_always_sample_mic}"  // Always sample mic`,
                 `voice_device_override "${config.voice_device_override}"  // Voice device override`,
                 '',
-                '// HUD & Interface Settings',
+                '// ========================================',
+                '// HUD & INTERFACE SETTINGS',
+                '// ========================================',
+                '',
                 `hud_scaling "${config.hud_scaling}"  // HUD scale`,
                 `cl_hud_color "${config.cl_hud_color}"  // HUD color scheme (Note: Blue may appear white in some CS2 versions)`,
                 `cl_hud_radar_scale "${config.cl_hud_radar_scale}"  // Radar HUD element size`,
@@ -3337,14 +3921,20 @@
                 `safezoney "${config.safezoney}"  // Safe zone Y`,
                 `eom_local_player_defeat_anim_enabled "${config.eom_local_player_defeat_anim_enabled}"  // End of match defeat animation`,
                 '',
-                '// Viewmodel Settings',
+                '// ========================================',
+                '// VIEWMODEL SETTINGS',
+                '// ========================================',
+                '',
                 `viewmodel_presetpos "${config.viewmodel_presetpos}"  // Viewmodel preset position`,
                 `viewmodel_fov "${config.viewmodel_fov}"  // Viewmodel field of view`,
                 `viewmodel_offset_x "${config.viewmodel_offset_x}"  // Viewmodel X offset`,
                 `viewmodel_offset_y "${config.viewmodel_offset_y}"  // Viewmodel Y offset`,
                 `viewmodel_offset_z "${config.viewmodel_offset_z}"  // Viewmodel Z offset`,
                 '',
-                '// Crosshair Settings',
+                '// ========================================',
+                '// CROSSHAIR SETTINGS',
+                '// ========================================',
+                '',
                 `cl_crosshairsize "${config.cl_crosshairsize}"  // Crosshair size`,
                 `cl_crosshairthickness "${config.cl_crosshairthickness}"  // Crosshair thickness`,
                 `cl_crosshairgap "${config.cl_crosshairgap}"  // Crosshair gap`,
@@ -3383,12 +3973,18 @@
                 'cl_crosshairusealpha "1"  // Use crosshair alpha',
                 'cl_crosshairalpha "255"  // Crosshair alpha value',
                 '',
-                '// Visual Effects Settings',
+                '// ========================================',
+                '// VISUAL EFFECTS SETTINGS',
+                '// ========================================',
+                '',
                 `r_drawparticles "${config.r_drawparticles}"  // Draw particle effects`,
                 `fog_override "${config.fog_override}"  // Override automatic fog settings`,
                 `animated_material_attributes "${config.animated_material_attributes}"  // Animated material effects`,
                 '',
-                '// Advanced Settings',
+                '// ========================================',
+                '// ADVANCED SETTINGS',
+                '// ========================================',
+                '',
                 `violence_hblood "${config.violence_hblood}"  // Blood effects`,
                 `cl_join_advertise "${config.cl_join_advertise}"  // Join advertising`,
                 `con_enable "${config.con_enable}"  // Enable console`,
@@ -3397,10 +3993,56 @@
                 `cl_refresh_rate_recommendation_dont_show_again "${config.cl_refresh_rate_recommendation_dont_show_again}"  // Refresh rate recommendation`,
                 `cl_low_latency_vsync_recommendation_dont_show_again "${config.cl_low_latency_vsync_recommendation_dont_show_again}"  // Low latency VSync recommendation`,
                 'cl_dm_buyrandomweapons "0"  // Disable random weapon buying in DM',
+                'cl_autowepswitch "0"  // Disable auto weapon switch',
+                'cl_spec_follow_grenade_key "1"  // Follow grenades with key',
                 'gameinstructor_enable "0"  // Disable game instructor',
                 'cl_autohelp "0"  // Disable automatic help messages',
                 '',
-                'echo "CS2 Autoexec loaded successfully! (Sub-tick optimized)"'
+                '// ========================================',
+                '// DEMO COMMANDS',
+                '// ========================================',
+                '',
+                'demo_flush "0"  // Demo flush setting',
+                'tv_listen_voice_indices_h "-1"  // Disable HLTV voice chat filtering (hear all players)',
+                'tv_listen_voice_indices "-1"  // Disable demo voice chat filtering (hear all players)',
+                '',
+                '// ========================================',
+                '// PRACTICE & TRAINING SETTINGS',
+                '// ========================================',
+                '',
+                ...(config.bot_add ? [`bot_add "${config.bot_add}"  // Add bot to team`] : []),
+                `bot_difficulty "${config.bot_difficulty}"  // Bot difficulty level`,
+                ...(config.bot_kick === '1' ? ['bot_kick  // Remove all bots'] : []),
+                ...(config.bot_stop === '1' ? ['bot_stop "1"  // Freeze all bots'] : []),
+                ...(config.bot_place === '1' ? ['bot_place  // Spawn bot at crosshair'] : []),
+                ...(config.bot_mimic === '1' ? ['bot_mimic "1"  // Make bots copy movements'] : []),
+                '',
+                '// Practice Commands (Requires sv_cheats 1)',
+                ...(config.sv_cheats === '1' ? ['sv_cheats "1"  // Enable cheat commands'] : []),
+                ...(config.sv_infinite_ammo !== '0' ? [`sv_infinite_ammo "${config.sv_infinite_ammo}"  // Infinite ammo`] : []),
+                ...(config.sv_grenade_trajectory === '1' ? ['sv_grenade_trajectory "1"  // Show grenade trajectories'] : []),
+                ...(config.mp_respawn_on_death_ct === '1' ? ['mp_respawn_on_death_ct "1"  // Instant CT respawn'] : []),
+                ...(config.mp_respawn_on_death_t === '1' ? ['mp_respawn_on_death_t "1"  // Instant T respawn'] : []),
+                ...(config.mp_buy_anywhere === '1' ? ['mp_buy_anywhere "1"  // Buy anywhere on map'] : []),
+                `mp_buytime "${config.mp_buytime}"  // Buy time in seconds`,
+                `mp_roundtime "${config.mp_roundtime}"  // Round time in minutes`,
+                `mp_maxmoney "${config.mp_maxmoney}"  // Maximum money`,
+                `mp_startmoney "${config.mp_startmoney}"  // Starting money`,
+                '',
+                '// Demo Recording Commands',
+                ...(config.record_demo === '1' ? [`record "${config.demo_name}"  // Start recording demo`] : []),
+                ...(config.stop_demo === '1' ? ['stop  // Stop demo recording'] : []),
+                ...(config.demo_pause === '1' ? ['demo_pause  // Pause demo playback'] : []),
+                ...(config.demo_resume === '1' ? ['demo_resume  // Resume demo playback'] : []),
+                ...(config.demo_togglepause === '1' ? ['demo_togglepause  // Toggle demo pause/play'] : []),
+                `demo_timescale "${config.demo_timescale}"  // Demo playback speed`,
+                '',
+                '// ========================================',
+                '// SAVE CONFIG & CONFIRMATION',
+                '// ========================================',
+                '',
+                'host_writeconfig  // Save settings',
+                'echo "CS2 Competitive Config Loaded Successfully! By LaGgIs"'
             ];
 
             const configContent = configLines.join('\n');
@@ -3424,6 +4066,799 @@
             
             document.getElementById('autoexec-textarea').value = configContent;
             document.getElementById('autoexec-output').style.display = 'block';
+        }
+
+        // Pro Settings Presets
+        function applyProProfile(player) {
+            const profiles = {
+                'm0nesy': {
+                    name: 'm0NESY',
+                    team: 'Falcons Esports',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '2.3',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '3',
+                        
+                        // Video Settings
+                        fps_max: '999',
+                        cl_disable_ragdolls: '1',
+                        cl_forcepreload: '1',
+                        mat_queue_mode: '2',
+                        
+                        // Crosshair Settings
+                        cl_crosshair_size: '2',
+                        cl_crosshair_thickness: '0.5',
+                        cl_crosshair_gap: '-1',
+                        cl_crosshair_dot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshair_outlinethickness: '1',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_autowepswitch: '0',
+                        cl_teamid_overhead: '1',
+                        cl_interp: '0'
+                    }
+                },
+                'donk': {
+                    name: 'donk',
+                    team: 'Team Spirit',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '1.25',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '2',
+                        
+                        // Video Settings
+                        fps_max: '500',
+                        cl_disable_ragdolls: '1',
+                        cl_forcepreload: '1',
+                        mat_queue_mode: '2',
+                        
+                        // Crosshair Settings
+                        cl_crosshair_size: '1.5',
+                        cl_crosshair_thickness: '1',
+                        cl_crosshair_gap: '-2',
+                        cl_crosshair_dot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshair_outlinethickness: '1',
+                        cl_crosshaircolor: '4',
+                        
+                        // Competitive Settings
+                        cl_autowepswitch: '0',
+                        cl_teamid_overhead: '1',
+                        cl_interp: '0'
+                    }
+                },
+                's1mple': {
+                    name: 's1mple',
+                    team: 'BC.Game',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '3.09',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Video Settings
+                        fps_max: '400',
+                        cl_disable_ragdolls: '1',
+                        cl_forcepreload: '0',
+                        mat_queue_mode: '2',
+                        
+                        // Crosshair Settings
+                        cl_crosshair_size: '3',
+                        cl_crosshair_thickness: '0',
+                        cl_crosshair_gap: '-3',
+                        cl_crosshair_dot: '1',
+                        cl_crosshair_drawoutline: '0',
+                        cl_crosshair_outlinethickness: '1',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_autowepswitch: '0',
+                        cl_teamid_overhead: '2',
+                        cl_interp: '0.007813'
+                    }
+                },
+                'zywoo': {
+                    name: 'ZywOo',
+                    team: 'Team Vitality',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '2.0',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Video Settings
+                        fps_max: '400',
+                        cl_disable_ragdolls: '1',
+                        cl_forcepreload: '1',
+                        mat_queue_mode: '2',
+                        
+                        // Crosshair Settings
+                        cl_crosshair_size: '2',
+                        cl_crosshair_thickness: '1',
+                        cl_crosshair_gap: '-2',
+                        cl_crosshair_dot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshair_outlinethickness: '1',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_autowepswitch: '0',
+                        cl_teamid_overhead: '1',
+                        cl_interp: '0'
+                    }
+                },
+                'niko': {
+                    name: 'NiKo',
+                    team: 'Falcons Esports',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '1.35',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Video Settings
+                        fps_max: '400',
+                        cl_disable_ragdolls: '1',
+                        cl_forcepreload: '1',
+                        mat_queue_mode: '2',
+                        
+                        // Crosshair Settings
+                        cl_crosshair_size: '1',
+                        cl_crosshair_thickness: '1',
+                        cl_crosshair_gap: '-3',
+                        cl_crosshair_dot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshair_outlinethickness: '1',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_autowepswitch: '0',
+                        cl_teamid_overhead: '1',
+                        cl_interp: '0'
+                    }
+                },
+                'sh1ro': {
+                    name: 'sh1ro',
+                    team: 'Cloud9',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '1.3',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Video Settings
+                        fps_max: '300',
+                        cl_disable_ragdolls: '1',
+                        cl_forcepreload: '1',
+                        mat_queue_mode: '2',
+                        
+                        // Crosshair Settings
+                        cl_crosshair_size: '2',
+                        cl_crosshair_thickness: '0.5',
+                        cl_crosshair_gap: '-1',
+                        cl_crosshair_dot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshair_outlinethickness: '1',
+                        cl_crosshaircolor: '4',
+                        
+                        // Competitive Settings
+                        cl_autowepswitch: '0',
+                        cl_teamid_overhead: '1',
+                        cl_interp: '0'
+                    }
+                }
+            };
+
+            const profile = profiles[player];
+            if (!profile) {
+                alert('❌ Player profile not found!');
+                return;
+            }
+
+            // Apply all settings with correct field mapping
+             const fieldMapping = {
+                 // Mouse Settings
+                 'sensitivity': 'sensitivity',
+                 'zoom_sensitivity_ratio': 'zoom_sensitivity_ratio',
+                 
+                 // Viewmodel Settings
+                 'viewmodel_fov': 'viewmodel_fov',
+                 'viewmodel_offset_x': 'viewmodel_offset_x',
+                 'viewmodel_offset_y': 'viewmodel_offset_y',
+                 'viewmodel_offset_z': 'viewmodel_offset_z',
+                 'viewmodel_presetpos': 'viewmodel_presetpos',
+                 
+                 // Video Settings
+                 'fps_max': 'fps_max',
+                 'cl_disable_ragdolls': 'cl_disable_ragdolls',
+                 'mat_queue_mode': 'thread_pool_option',
+                 
+                 // Crosshair Settings
+                 'cl_crosshair_size': 'cl_crosshairsize',
+                 'cl_crosshair_thickness': 'cl_crosshairthickness',
+                 'cl_crosshair_gap': 'cl_crosshairgap',
+                 'cl_crosshair_dot': 'cl_crosshairdot',
+                 'cl_crosshair_drawoutline': 'cl_crosshair_drawoutline',
+                 'cl_crosshaircolor': 'cl_crosshaircolor',
+                 
+                 // Competitive Settings
+                 'cl_teamid_overhead': 'cl_teamid_overhead_mode',
+                 'cl_interp': 'cl_interp_ratio'
+             };
+
+             Object.keys(profile.settings).forEach(setting => {
+                 const fieldId = fieldMapping[setting];
+                 if (fieldId) {
+                     const element = document.getElementById(fieldId);
+                     if (element) {
+                         element.value = profile.settings[setting];
+                         // Trigger change event for any dependent updates
+                         element.dispatchEvent(new Event('change'));
+                     }
+                 }
+             });
+
+            // Show success message
+            alert(`✅ ${profile.name} (${profile.team}) settings applied!\n\n🖱️ Mouse:\n• Sensitivity: ${profile.settings.sensitivity}\n• Zoom Ratio: ${profile.settings.zoom_sensitivity_ratio}\n\n🎮 Viewmodel:\n• FOV: ${profile.settings.viewmodel_fov}\n• Position: ${profile.settings.viewmodel_offset_x}/${profile.settings.viewmodel_offset_y}/${profile.settings.viewmodel_offset_z}\n\n🖥️ Video:\n• Max FPS: ${profile.settings.fps_max}\n• Ragdolls: ${profile.settings.cl_disable_ragdolls === '1' ? 'Disabled' : 'Enabled'}\n\n🎯 Crosshair:\n• Size: ${profile.settings.cl_crosshair_size}\n• Gap: ${profile.settings.cl_crosshair_gap}\n• Color: ${profile.settings.cl_crosshaircolor}\n\nAll settings have been applied to match ${profile.name}'s configuration!`);
+        }
+
+        // Download Pro Config & Video Settings as ZIP
+        function downloadProConfig(player) {
+            const profiles = {
+                'm0nesy': {
+                    name: 'm0NESY',
+                    team: 'Falcons Esports',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '2.3',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '3',
+                        
+                        // Crosshair Settings
+                        cl_crosshairsize: '2',
+                        cl_crosshairthickness: '0.5',
+                        cl_crosshairgap: '-1',
+                        cl_crosshairdot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_teamid_overhead_mode: '1',
+                        cl_interp_ratio: '1'
+                    },
+                    videoSettings: {
+                        // Resolution & Display
+                        setting_fullscreen: '1',
+                        setting_resolution: '1920x1080',
+                        setting_refreshrate: '240',
+                        setting_aspectratio: '0',
+                        
+                        // Graphics Quality
+                        setting_cpu_level: '1',
+                        setting_gpu_level: '1',
+                        setting_mat_queue_mode: '2',
+                        setting_mat_vsync: '0',
+                        
+                        // Advanced Video
+                        setting_mat_triplebuffered: '0',
+                        setting_mat_grain_scale_override: '1',
+                        setting_mat_monitorgamma: '2.2',
+                        setting_mat_monitorgamma_tv_enabled: '0',
+                        
+                        // Performance
+                        fps_max: '999',
+                        fps_max_menu: '120',
+                        cl_disable_ragdolls: '1',
+                        r_dynamic: '0',
+                        r_drawtracers_firstperson: '1',
+                        
+                        // Shader Quality
+                        setting_mat_software_aa_strength: '0',
+                        setting_mat_texture_limit: '0',
+                        setting_mat_antialias: '0',
+                        setting_mat_aaquality: '0',
+                        
+                        // Shadow Quality
+                        setting_csm_quality_level: '0',
+                        setting_csm_max_shadow_dist: '400',
+                        setting_mat_shadowmapping: '0',
+                        
+                        // Effect Detail
+                        setting_r_player_visibility_mode: '1',
+                        setting_cl_particle_fallback_base: '0',
+                        setting_cl_particle_fallback_multiplier: '0',
+                        
+                        // NVIDIA Reflex
+                        setting_mat_low_latency_mode: '1',
+                        setting_mat_low_latency_mode_enabled: '1'
+                    }
+                },
+                'donk': {
+                    name: 'donk',
+                    team: 'Team Spirit',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '1.25',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '2',
+                        
+                        // Crosshair Settings
+                        cl_crosshairsize: '1.5',
+                        cl_crosshairthickness: '1',
+                        cl_crosshairgap: '-2',
+                        cl_crosshairdot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshaircolor: '4',
+                        
+                        // Competitive Settings
+                        cl_teamid_overhead_mode: '1',
+                        cl_interp_ratio: '1'
+                    },
+                    videoSettings: {
+                        // Resolution & Display
+                        setting_fullscreen: '1',
+                        setting_resolution: '1920x1080',
+                        setting_refreshrate: '240',
+                        setting_aspectratio: '0',
+                        
+                        // Graphics Quality
+                        setting_cpu_level: '0',
+                        setting_gpu_level: '0',
+                        setting_mat_queue_mode: '2',
+                        setting_mat_vsync: '0',
+                        
+                        // Advanced Video
+                        setting_mat_triplebuffered: '0',
+                        setting_mat_grain_scale_override: '1',
+                        setting_mat_monitorgamma: '2.2',
+                        setting_mat_monitorgamma_tv_enabled: '0',
+                        
+                        // Performance
+                        fps_max: '500',
+                        fps_max_menu: '120',
+                        cl_disable_ragdolls: '1',
+                        r_dynamic: '0',
+                        r_drawtracers_firstperson: '1',
+                        
+                        // Shader Quality
+                        setting_mat_software_aa_strength: '0',
+                        setting_mat_texture_limit: '0',
+                        setting_mat_antialias: '0',
+                        setting_mat_aaquality: '0',
+                        
+                        // Shadow Quality
+                        setting_csm_quality_level: '0',
+                        setting_csm_max_shadow_dist: '300',
+                        setting_mat_shadowmapping: '0',
+                        
+                        // Effect Detail
+                        setting_r_player_visibility_mode: '1',
+                        setting_cl_particle_fallback_base: '0',
+                        setting_cl_particle_fallback_multiplier: '0',
+                        
+                        // NVIDIA Reflex
+                        setting_mat_low_latency_mode: '1',
+                        setting_mat_low_latency_mode_enabled: '1'
+                    }
+                },
+                's1mple': {
+                    name: 's1mple',
+                    team: 'BC.Game',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '3.09',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Crosshair Settings
+                        cl_crosshairsize: '3',
+                        cl_crosshairthickness: '0',
+                        cl_crosshairgap: '-3',
+                        cl_crosshairdot: '1',
+                        cl_crosshair_drawoutline: '0',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_teamid_overhead_mode: '2',
+                        cl_interp_ratio: '2'
+                    },
+                    videoSettings: {
+                        // Resolution & Display
+                        setting_fullscreen: '1',
+                        setting_resolution: '1280x960',
+                        setting_refreshrate: '240',
+                        setting_aspectratio: '1',
+                        
+                        // Graphics Quality
+                        setting_cpu_level: '0',
+                        setting_gpu_level: '0',
+                        setting_mat_queue_mode: '2',
+                        setting_mat_vsync: '0',
+                        
+                        // Advanced Video
+                        setting_mat_triplebuffered: '0',
+                        setting_mat_grain_scale_override: '1',
+                        setting_mat_monitorgamma: '2.2',
+                        setting_mat_monitorgamma_tv_enabled: '0',
+                        
+                        // Performance
+                        fps_max: '400',
+                        fps_max_menu: '120',
+                        cl_disable_ragdolls: '1',
+                        r_dynamic: '0',
+                        r_drawtracers_firstperson: '1',
+                        
+                        // Shader Quality
+                        setting_mat_software_aa_strength: '0',
+                        setting_mat_texture_limit: '0',
+                        setting_mat_antialias: '0',
+                        setting_mat_aaquality: '0',
+                        
+                        // Shadow Quality
+                        setting_csm_quality_level: '0',
+                        setting_csm_max_shadow_dist: '400',
+                        setting_mat_shadowmapping: '0',
+                        
+                        // Effect Detail
+                        setting_r_player_visibility_mode: '1',
+                        setting_cl_particle_fallback_base: '0',
+                        setting_cl_particle_fallback_multiplier: '0',
+                        
+                        // NVIDIA Reflex
+                        setting_mat_low_latency_mode: '1',
+                        setting_mat_low_latency_mode_enabled: '1'
+                    }
+                },
+                'zywoo': {
+                    name: 'ZywOo',
+                    team: 'Team Vitality',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '2.0',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Crosshair Settings
+                        cl_crosshairsize: '2',
+                        cl_crosshairthickness: '1',
+                        cl_crosshairgap: '-2',
+                        cl_crosshairdot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_teamid_overhead_mode: '1',
+                        cl_interp_ratio: '1'
+                    },
+                    videoSettings: {
+                        // Resolution & Display
+                        setting_fullscreen: '1',
+                        setting_resolution: '1920x1080',
+                        setting_refreshrate: '240',
+                        setting_aspectratio: '0',
+                        
+                        // Graphics Quality
+                        setting_cpu_level: '1',
+                        setting_gpu_level: '1',
+                        setting_mat_queue_mode: '2',
+                        setting_mat_vsync: '0',
+                        
+                        // Advanced Video
+                        setting_mat_triplebuffered: '0',
+                        setting_mat_grain_scale_override: '1',
+                        setting_mat_monitorgamma: '2.2',
+                        setting_mat_monitorgamma_tv_enabled: '0',
+                        
+                        // Performance
+                        fps_max: '400',
+                        fps_max_menu: '120',
+                        cl_disable_ragdolls: '1',
+                        r_dynamic: '0',
+                        r_drawtracers_firstperson: '1',
+                        
+                        // Shader Quality
+                        setting_mat_software_aa_strength: '0',
+                        setting_mat_texture_limit: '0',
+                        setting_mat_antialias: '0',
+                        setting_mat_aaquality: '0',
+                        
+                        // Shadow Quality
+                        setting_csm_quality_level: '1',
+                        setting_csm_max_shadow_dist: '500',
+                        setting_mat_shadowmapping: '1',
+                        
+                        // Effect Detail
+                        setting_r_player_visibility_mode: '1',
+                        setting_cl_particle_fallback_base: '0',
+                        setting_cl_particle_fallback_multiplier: '0',
+                        
+                        // NVIDIA Reflex
+                        setting_mat_low_latency_mode: '1',
+                        setting_mat_low_latency_mode_enabled: '1'
+                    }
+                },
+                'niko': {
+                    name: 'NiKo',
+                    team: 'Falcons Esports',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '1.35',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Crosshair Settings
+                        cl_crosshairsize: '1',
+                        cl_crosshairthickness: '1',
+                        cl_crosshairgap: '-3',
+                        cl_crosshairdot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshaircolor: '1',
+                        
+                        // Competitive Settings
+                        cl_teamid_overhead_mode: '1',
+                        cl_interp_ratio: '1'
+                    },
+                    videoSettings: {
+                        // Resolution & Display
+                        setting_fullscreen: '1',
+                        setting_resolution: '1920x1080',
+                        setting_refreshrate: '240',
+                        setting_aspectratio: '0',
+                        
+                        // Graphics Quality
+                        setting_cpu_level: '1',
+                        setting_gpu_level: '1',
+                        setting_mat_queue_mode: '2',
+                        setting_mat_vsync: '0',
+                        
+                        // Advanced Video
+                        setting_mat_triplebuffered: '0',
+                        setting_mat_grain_scale_override: '1',
+                        setting_mat_monitorgamma: '2.2',
+                        setting_mat_monitorgamma_tv_enabled: '0',
+                        
+                        // Performance
+                        fps_max: '400',
+                        fps_max_menu: '120',
+                        cl_disable_ragdolls: '1',
+                        r_dynamic: '0',
+                        r_drawtracers_firstperson: '1',
+                        
+                        // Shader Quality
+                        setting_mat_software_aa_strength: '0',
+                        setting_mat_texture_limit: '0',
+                        setting_mat_antialias: '0',
+                        setting_mat_aaquality: '0',
+                        
+                        // Shadow Quality
+                        setting_csm_quality_level: '0',
+                        setting_csm_max_shadow_dist: '400',
+                        setting_mat_shadowmapping: '0',
+                        
+                        // Effect Detail
+                        setting_r_player_visibility_mode: '1',
+                        setting_cl_particle_fallback_base: '0',
+                        setting_cl_particle_fallback_multiplier: '0',
+                        
+                        // NVIDIA Reflex
+                        setting_mat_low_latency_mode: '1',
+                        setting_mat_low_latency_mode_enabled: '1'
+                    }
+                },
+                'sh1ro': {
+                    name: 'sh1ro',
+                    team: 'Cloud9',
+                    settings: {
+                        // Mouse Settings
+                        sensitivity: '1.3',
+                        zoom_sensitivity_ratio: '1.0',
+                        
+                        // Viewmodel Settings
+                        viewmodel_fov: '68',
+                        viewmodel_offset_x: '2.5',
+                        viewmodel_offset_y: '0',
+                        viewmodel_offset_z: '-1.5',
+                        viewmodel_presetpos: '1',
+                        
+                        // Crosshair Settings
+                        cl_crosshairsize: '2',
+                        cl_crosshairthickness: '0.5',
+                        cl_crosshairgap: '-1',
+                        cl_crosshairdot: '0',
+                        cl_crosshair_drawoutline: '1',
+                        cl_crosshaircolor: '4',
+                        
+                        // Competitive Settings
+                        cl_teamid_overhead_mode: '1',
+                        cl_interp_ratio: '1'
+                    },
+                    videoSettings: {
+                        // Resolution & Display
+                        setting_fullscreen: '1',
+                        setting_resolution: '1920x1080',
+                        setting_refreshrate: '240',
+                        setting_aspectratio: '0',
+                        
+                        // Graphics Quality
+                        setting_cpu_level: '0',
+                        setting_gpu_level: '0',
+                        setting_mat_queue_mode: '2',
+                        setting_mat_vsync: '0',
+                        
+                        // Advanced Video
+                        setting_mat_triplebuffered: '0',
+                        setting_mat_grain_scale_override: '1',
+                        setting_mat_monitorgamma: '2.2',
+                        setting_mat_monitorgamma_tv_enabled: '0',
+                        
+                        // Performance
+                        fps_max: '300',
+                        fps_max_menu: '120',
+                        cl_disable_ragdolls: '1',
+                        r_dynamic: '0',
+                        r_drawtracers_firstperson: '1',
+                        
+                        // Shader Quality
+                        setting_mat_software_aa_strength: '0',
+                        setting_mat_texture_limit: '0',
+                        setting_mat_antialias: '0',
+                        setting_mat_aaquality: '0',
+                        
+                        // Shadow Quality
+                        setting_csm_quality_level: '0',
+                        setting_csm_max_shadow_dist: '300',
+                        setting_mat_shadowmapping: '0',
+                        
+                        // Effect Detail
+                        setting_r_player_visibility_mode: '1',
+                        setting_cl_particle_fallback_base: '0',
+                        setting_cl_particle_fallback_multiplier: '0',
+                        
+                        // NVIDIA Reflex
+                        setting_mat_low_latency_mode: '1',
+                        setting_mat_low_latency_mode_enabled: '1'
+                    }
+                }
+            };
+
+            const profile = profiles[player];
+            if (!profile) {
+                alert('❌ Player profile not found!');
+                return;
+            }
+
+            // Generate config file content
+            let configContent = `// ${profile.name} (${profile.team}) CS2 Configuration\n\n`;
+            
+            // Mouse Settings
+            configContent += `// Mouse Settings\n`;
+            configContent += `sensitivity "${profile.settings.sensitivity}"\n`;
+            configContent += `zoom_sensitivity_ratio "${profile.settings.zoom_sensitivity_ratio}"\n\n`;
+            
+            // Viewmodel Settings
+            configContent += `// Viewmodel Settings\n`;
+            configContent += `viewmodel_fov "${profile.settings.viewmodel_fov}"\n`;
+            configContent += `viewmodel_offset_x "${profile.settings.viewmodel_offset_x}"\n`;
+            configContent += `viewmodel_offset_y "${profile.settings.viewmodel_offset_y}"\n`;
+            configContent += `viewmodel_offset_z "${profile.settings.viewmodel_offset_z}"\n`;
+            configContent += `viewmodel_presetpos "${profile.settings.viewmodel_presetpos}"\n\n`;
+            
+            // Crosshair Settings
+            configContent += `// Crosshair Settings\n`;
+            configContent += `cl_crosshairsize "${profile.settings.cl_crosshairsize}"\n`;
+            configContent += `cl_crosshairthickness "${profile.settings.cl_crosshairthickness}"\n`;
+            configContent += `cl_crosshairgap "${profile.settings.cl_crosshairgap}"\n`;
+            configContent += `cl_crosshairdot "${profile.settings.cl_crosshairdot}"\n`;
+            configContent += `cl_crosshair_drawoutline "${profile.settings.cl_crosshair_drawoutline}"\n`;
+            configContent += `cl_crosshaircolor "${profile.settings.cl_crosshaircolor}"\n\n`;
+            
+            // Competitive Settings
+            configContent += `// Competitive Settings\n`;
+            configContent += `cl_teamid_overhead_mode "${profile.settings.cl_teamid_overhead_mode}"\n`;
+            configContent += `cl_interp_ratio "${profile.settings.cl_interp_ratio}"\n\n`;
+            
+            configContent += `echo "${profile.name} config loaded successfully!"`;
+
+            // Generate video config content in the format expected by CS2
+            let videoConfig = `"VideoConfig"\n{\n`;
+            
+            // Add all video settings
+            Object.entries(profile.videoSettings).forEach(([key, value]) => {
+                videoConfig += `\t"${key}"\t\t"${value}"\n`;
+            });
+            
+            videoConfig += `}`;
+
+            // Create zip file using JSZip
+            const zip = new JSZip();
+            zip.file(`${profile.name.toLowerCase()}_config.cfg`, configContent);
+            zip.file('cs2_video.txt', videoConfig);
+
+            // Generate and download zip file
+            zip.generateAsync({type:"blob"}).then(function(content) {
+                const url = window.URL.createObjectURL(content);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `${profile.name.toLowerCase()}_cs2_config.zip`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                // Show success message
+                alert(`✅ ${profile.name} (${profile.team}) configuration package downloaded!\n\n📁 Files included:\n• ${profile.name.toLowerCase()}_config.cfg (Game settings)\n• cs2_video.txt (Video settings)\n\n🎯 Settings include:\n• Mouse sensitivity: ${profile.settings.sensitivity}\n• Viewmodel FOV: ${profile.settings.viewmodel_fov}\n• Crosshair size: ${profile.settings.cl_crosshairsize}\n• Max FPS: ${profile.videoSettings.fps_max}\n• Resolution: ${profile.videoSettings.setting_resolution}\n\n📂 Extract and place files in:\nC:\\Program Files (x86)\\Steam\\userdata\\[USERID]\\730\\local\\cfg\\\n\nRestart CS2 to apply all settings!`);
+            });
         }
 
         // Binds functionality
@@ -4095,6 +5530,21 @@
             }
         }
         
+        // Function to check music volume conflict
+        function checkMusicVolumeConflict() {
+            const musicVolume = parseFloat(document.getElementById('snd_musicvolume')?.value || 0);
+            const warningVolume = parseFloat(document.getElementById('snd_tensecondwarning_volume')?.value || 0);
+            const warningDiv = document.getElementById('warning-music-volume');
+            
+            if (warningDiv) {
+                if (musicVolume === 0 && warningVolume > 0) {
+                    warningDiv.style.display = 'block';
+                } else {
+                    warningDiv.style.display = 'none';
+                }
+            }
+        }
+
         // Initialize crosshair preview on page load
         document.addEventListener('DOMContentLoaded', function() {
             // Draw initial crosshair
@@ -4115,6 +5565,23 @@
                     element.addEventListener('change', drawCrosshair);
                 }
             });
+            
+            // Add event listeners for music volume conflict checking
+            const musicVolumeInput = document.getElementById('snd_musicvolume');
+            const warningVolumeInput = document.getElementById('snd_tensecondwarning_volume');
+            
+            if (musicVolumeInput) {
+                musicVolumeInput.addEventListener('input', checkMusicVolumeConflict);
+                musicVolumeInput.addEventListener('change', checkMusicVolumeConflict);
+            }
+            
+            if (warningVolumeInput) {
+                warningVolumeInput.addEventListener('input', checkMusicVolumeConflict);
+                warningVolumeInput.addEventListener('change', checkMusicVolumeConflict);
+            }
+            
+            // Check initial state
+            setTimeout(checkMusicVolumeConflict, 100);
         });
 
         // Authentication functions

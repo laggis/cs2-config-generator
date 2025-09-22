@@ -55,6 +55,7 @@
 - **💾 Multiple Export Options**: Download individual configs or complete packages
 - **🔄 Real-time Preview**: See changes instantly as you configure settings
 - **💾 Auto-Save**: Your settings are automatically saved locally as you work
+- **🏆 Pro Player Configs**: Pre-configured settings from top CS2 professionals (m0NESY, donk, s1mple, ZywOo, NiKo, sh1ro)
 
 ### Comprehensive Settings Coverage
 - **🎮 Game Settings**: Network rates, FPS limits, performance optimization, developer options
@@ -117,6 +118,34 @@ C:\Program Files (x86)\Steam\userdata\[USERID]\730\local\cfg\
 - **Aspect Ratio Linking**: Changing aspect ratio automatically filters resolutions
 - **Custom Binds**: Add your own commands and key combinations
 - **Export Options**: Generate individual sections or complete config packages
+- **Pro Player Configs**: One-click download of professional player configurations
+
+### 🏆 Pro Player Configurations
+
+The tool includes pre-configured settings from top CS2 professionals:
+
+#### Featured Players
+- **m0NESY** 🇷🇺 (Falcons Esports) - Sensitivity: 2.3, DPI: 400, Resolution: 1280x960
+- **donk** 🇷🇺 (Team Spirit) - Sensitivity: 1.25, DPI: 400, Resolution: 1280x960  
+- **s1mple** 🇺🇦 (B8.Game) - Sensitivity: 3.09, DPI: 400, Resolution: 1280x960
+- **ZywOo** 🇫🇷 (Team Vitality) - Sensitivity: 2.0, DPI: 400, Resolution: 1280x960
+- **NiKo** 🇧🇦 (Falcons Esports) - Sensitivity: 1.35, DPI: 400, Resolution: 1280x960
+- **sh1ro** 🇷🇺 (Cloud9) - Sensitivity: 1.3, DPI: 400, Resolution: 1280x960
+
+#### What's Included
+Each pro config contains:
+- **Mouse Settings**: Exact sensitivity, DPI, and zoom ratios
+- **Video Settings**: Resolution, aspect ratio, and graphics preferences
+- **Viewmodel Settings**: Weapon positioning and field of view
+- **Crosshair Settings**: Complete crosshair configuration
+- **Advanced Settings**: Network rates, FPS limits, and performance optimizations
+
+#### How to Use Pro Configs
+1. Browse the **Pro Players** section in the interface
+2. Click on any player card to view their detailed settings
+3. Click **"📥 Download Config"** to get their complete configuration
+4. The downloaded config includes all their optimized settings
+5. Copy the files to your CS2 cfg directory and restart the game
 
 ## ⚠️ Browser Security Notice
 
@@ -136,6 +165,8 @@ This security warning appears for ALL .cfg files, regardless of source. It's a b
 - **Pure Client-Side**: No server required, runs entirely in your browser
 - **Zero Dependencies**: No frameworks, libraries, or external resources needed
 - **Lightweight**: Fast loading and responsive performance
+- **Optimized Rendering**: Enhanced CSS specificity handling for consistent UI display
+- **Professional UI**: Modern glassmorphism design with gradient backgrounds and smooth animations
 
 ### File Structure
 - `index.html` - Complete application (HTML, CSS, JavaScript all-in-one)
@@ -206,6 +237,12 @@ This security warning appears for ALL .cfg files, regardless of source. It's a b
 - Check graphics quality options
 - Verify hardware compatibility
 - Test with minimal configs first
+
+**Pro player configs not displaying:**
+- Refresh the page and wait for full loading
+- Ensure JavaScript is enabled in your browser
+- Check browser console for any errors (F12)
+- Try clearing browser cache and reloading
 
 ## ⚠️ Safety Guidelines
 

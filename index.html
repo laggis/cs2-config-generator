@@ -622,16 +622,17 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('autoexec')">Autoexec.cfg</button>
-            <button class="tab-button" onclick="switchTab('binds')">Key Binds</button>
-            <button class="tab-button" onclick="switchTab('video')">Video Settings</button>
-            <button class="tab-button" onclick="switchTab('practice')">Practice & Training</button>
-                <button class="tab-button" onclick="switchTab('pro')">⚡ Pro Settings</button>
-                <button class="tab-button" onclick="switchTab('account')">Account</button>
+            <button class="tab-button active" onclick="switchTab('competitive', event)">🏆 Competitive Setup</button>
+            <button class="tab-button" onclick="switchTab('practice', event)">🎯 Practice Mode</button>
+            <button class="tab-button" onclick="switchTab('video', event)">📺 Video Settings</button>
+            <button class="tab-button" onclick="switchTab('binds', event)">⌨️ Binds</button>
+            <button class="tab-button" onclick="switchTab('pro', event)">🌟 Pro Settings</button>
+            <button class="tab-button" onclick="switchTab('account', event)">👤 Account</button>
         </div>
 
-        <!-- Autoexec Tab -->
-        <div id="autoexec" class="tab-content active">
+
+        <!-- Competitive Setup Tab -->
+        <div id="competitive" class="tab-content active">
             <div class="config-section">
                 <h3>🌐 Network Settings</h3>
                 <div class="setting-group">
@@ -701,15 +702,7 @@
                     </select>
                     <span class="help-text">🔄 Use interpolation for network buffer ticks</span>
                 </div>
-                <div class="setting-group">
-                    <label>Interpolation Ratio:</label>
-                    <select id="cl_interp_ratio">
-                        <option value="0" selected>0 (Recommended)</option>
-                        <option value="1">1 (Packet Loss)</option>
-                        <option value="2">2 (High Packet Loss)</option>
-                    </select>
-                    <span class="help-text">📡 Interpolation ratio for network smoothing (0 recommended, 1-2 for packet loss)</span>
-                </div>
+
                 <div class="setting-group">
                     <label>Tick Packet Queue Length:</label>
                     <input type="number" id="cl_tickpacket_desired_queuelength" value="0">
@@ -754,22 +747,8 @@
                     </select>
                     <span class="help-text">🎮 Only allow invites when in main menu</span>
                 </div>
-                <div class="setting-group">
-                    <label>Network Graph:</label>
-                    <select id="net_graph">
-                        <option value="0" selected>Disabled</option>
-                        <option value="1">Enabled</option>
-                    </select>
-                    <span class="help-text">📊 Show network performance graph (FPS, ping, loss)</span>
-                </div>
-                <div class="setting-group">
-                    <label>CS2 Network Graph:</label>
-                    <select id="cq_netgraph">
-                        <option value="0" selected>Disabled</option>
-                        <option value="1">Enabled</option>
-                    </select>
-                    <span class="help-text">📈 CS2's new network performance graph</span>
-                </div>
+
+
             </div>
 
             <div class="config-section">
@@ -839,23 +818,58 @@
                     </select>
                     <span class="help-text">📊 Disable visual profiling tool for better CPU performance</span>
                 </div>
-                <div class="setting-group">
-                    <label>First Person Tracers:</label>
-                    <select id="r_drawtracers_firstperson">
-                        <option value="0">Disabled</option>
-                        <option value="1" selected>Enabled</option>
-                    </select>
-                    <span class="help-text">💥 Toggle bullet tracers visibility in first person view</span>
-                </div>
+
                 <div class="setting-group">
                     <label>Particle Fallback Base:</label>
-                    <input type="number" id="cl_particle_fallback_base" value="0">
+                    <input type="number" id="c" value="0">
                     <span class="help-text">✨ Particle system fallback base value (0 for best performance)</span>
                 </div>
                 <div class="setting-group">
                     <label>Particle Fallback Multiplier:</label>
                     <input type="number" step="0.1" id="cl_particle_fallback_multiplier" value="1">
                     <span class="help-text">🎆 Particle multiplier for performance tuning (1.0 = default)</span>
+                </div>
+                
+                <!-- CS2 Network & Interpolation Settings -->
+                <h4>⚡ Network & Interpolation</h4>
+
+                <div class="setting-group">
+                    <label>Interpolation Ratio:</label>
+                    <select id="cl_interp_ratio">
+                        <option value="1" selected>1 (Recommended)</option>
+                        <option value="2">2 (Higher Latency)</option>
+                        <option value="3">3 (Highest Latency)</option>
+                    </select>
+                    <span class="help-text">🔄 Interpolation ratio for network smoothing (1 = best performance)</span>
+                </div>
+
+
+                
+                <!-- Advanced Performance Settings -->
+                <h4>🚀 Advanced Performance</h4>
+                <div class="setting-group">
+                    <label>Low Latency Sleep:</label>
+                    <select id="engine_low_latency_sleep_after_client_tick">
+                        <option value="0">Disabled</option>
+                        <option value="1" selected>Enabled</option>
+                    </select>
+                    <span class="help-text">📊 Reduce input latency by optimizing sleep timing</span>
+                </div>
+                <div class="setting-group">
+                    <label>Fullscreen Gamma:</label>
+                    <input type="number" step="0.1" min="1.0" max="3.0" id="r_fullscreen_gamma" value="2.2">
+                    <span class="help-text">🎮 Gamma correction for fullscreen mode (2.2 = standard)</span>
+                </div>
+
+                <div class="setting-group">
+                    <label>Render Thread Count:</label>
+                    <select id="r_render_thread_count">
+                        <option value="0" selected>Auto</option>
+                        <option value="1">Single Thread</option>
+                        <option value="2">Dual Thread</option>
+                        <option value="4">Quad Thread</option>
+                    </select>
+                    <span class="help-text">🧵 Number of render threads (Auto recommended for most systems)</span>
                 </div>
             </div>
 
@@ -1051,27 +1065,9 @@
                     </select>
                     <span class="help-text">🎤 Hear your own voice through speakers</span>
                 </div>
-                <div class="setting-group">
-                    <label>Voice Enable:</label>
-                    <select id="voice_enable">
-                        <option value="0">Disabled</option>
-                        <option value="1" selected>Enabled</option>
-                    </select>
-                    <span class="help-text">🎤 Enable/disable voice chat entirely</span>
-                </div>
-                <div class="setting-group">
-                    <label>Voice Scale:</label>
-                    <input type="number" step="0.1" min="0" max="1" id="voice_scale" value="0.4">
-                    <span class="help-text">📢 Voice chat volume scale (0.4 recommended)</span>
-                </div>
-                <div class="setting-group">
-                    <label>Legacy Surround:</label>
-                    <select id="snd_legacy_surround">
-                        <option value="0" selected>Disabled</option>
-                        <option value="1">Enabled</option>
-                    </select>
-                    <span class="help-text">🔊 Legacy surround sound mode for older audio systems</span>
-                </div>
+
+
+
                 <div class="setting-group">
                     <label>Voice Threshold:</label>
                     <input type="number" step="1" min="-120" max="0" id="voice_threshold" value="-110">
@@ -1251,6 +1247,7 @@
                     </select>
                     <span class="help-text">👁️ Information shown above teammates</span>
                 </div>
+
                 <div class="setting-group">
                     <label>Show Loadout:</label>
                     <select id="cl_showloadout">
@@ -1267,14 +1264,7 @@
                     </select>
                     <span class="help-text">👈 Use left hand to hold weapons</span>
                 </div>
-                <div class="setting-group">
-                    <label>First-Person Tracers:</label>
-                    <select id="r_drawtracers_firstperson">
-                        <option value="0" selected>Disabled</option>
-                        <option value="1">Enabled</option>
-                    </select>
-                    <span class="help-text">💫 Show bullet tracers from your weapon</span>
-                </div>
+
                 <div class="setting-group">
                     <label>HUD Telemetry Frametime:</label>
                     <select id="cl_hud_telemetry_frametime_show">
@@ -1436,7 +1426,7 @@
                     <select id="cl_show_team_equipment">
                         <option value="0">Hidden</option>
                         <option value="1" selected>Visible</option>
-                        <option value="+cl_show_team_equipment">Show All</option>
+                        <option value="2">Show All</option>
                     </select>
                     <span class="help-text">🎒 Display teammate equipment and utility in HUD for better team coordination</span>
                 </div>
@@ -2456,6 +2446,14 @@
                     <span class="help-text">🚫 Completely disable smoke and explosion particle effects for maximum visibility (may affect gameplay)</span>
                 </div>
                 <div class="setting-group">
+                    <label>Bullet Tracers (First Person):</label>
+                    <select id="r_drawtracers_firstperson">
+                        <option value="0">Disabled (Cleaner View)</option>
+                        <option value="1" selected>Enabled (Show Tracers)</option>
+                    </select>
+                    <span class="help-text">🎯 Show bullet tracers in first person view for better shot tracking</span>
+                </div>
+                <div class="setting-group">
                     <label>Ambient Occlusion:</label>
                     <select id="setting_videocfg_ao_detail">
                         <option value="0" selected>Disabled (Best FPS)</option>
@@ -2614,13 +2612,20 @@
                 </div>
                 <div class="help-text" style="margin-top: 15px;">
                     <p><strong>Installation:</strong> Place this file in your CS2 config folder:</p>
-                    <p><code>Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg\</code></p>
+                    <p><code>C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg\</code></p>
                 </div>
             </div>
         </div>
 
         <!-- Practice & Training Tab -->
         <div id="practice" class="tab-content">
+            <div class="info-banner" style="background: #3498db; color: white; padding: 15px; border-radius: 10px; margin-bottom: 25px; border-left: 5px solid #2980b9;">
+                <h4 style="margin: 0 0 8px 0;">ℹ️ How Practice Mode Works</h4>
+                <p style="margin: 0; font-size: 0.95em; line-height: 1.4;">
+                    Configure your practice settings below, then click <strong>"Generate Practice Config"</strong> to create a .cfg file. 
+                    Load the config in CS2 console with <code style="background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 3px;">exec cs2_practice</code> to apply all settings at once.
+                </p>
+            </div>
             <div class="config-section">
                 <h3>🎯 Bot Management</h3>
                 <div class="setting-group">
@@ -2756,60 +2761,25 @@
                 </div>
             </div>
 
+
+            
+            <!-- Generate Config Section for Practice Mode -->
             <div class="config-section">
-                <h3>🎬 Demo Recording</h3>
-                <div class="setting-group">
-                    <label>Demo Name:</label>
-                    <input type="text" id="demo_name" value="practice_demo" placeholder="Enter demo name">
-                    <span class="help-text">📹 Name for recorded demo file</span>
-                </div>
-                <div class="setting-group">
-                    <label>Record Demo:</label>
-                    <select id="record_demo">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                    <span class="help-text">🔴 Start recording demo with specified name</span>
-                </div>
-                <div class="setting-group">
-                    <label>Stop Recording:</label>
-                    <select id="stop_demo">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                    <span class="help-text">⏹️ Stop current demo recording</span>
-                </div>
-                <div class="setting-group">
-                    <label>Demo Pause:</label>
-                    <select id="demo_pause">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                    <span class="help-text">⏸️ Pause demo playback</span>
-                </div>
-                <div class="setting-group">
-                    <label>Demo Resume:</label>
-                    <select id="demo_resume">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                    <span class="help-text">▶️ Resume demo playback</span>
-                </div>
-                <div class="setting-group">
-                    <label>Demo Toggle Pause:</label>
-                    <select id="demo_togglepause">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                    <span class="help-text">⏯️ Toggle demo pause/play</span>
-                </div>
-                <div class="setting-group">
-                    <label>Demo Timescale:</label>
-                    <input type="number" id="demo_timescale" value="1.0" min="0.1" max="5.0" step="0.1">
-                    <span class="help-text">⏱️ Demo playback speed (1.0 = normal, 0.5 = half speed, 2.0 = double speed)</span>
+                <h3>📥 Generate Practice Config</h3>
+                <div class="generate-section">
+                    <button onclick="generateConfig('practice')" class="generate-btn">
+                        🎯 Generate Practice Config
+                    </button>
+                    <p class="generate-description">
+                        Generate a complete practice configuration with bot management and cheat commands.
+                    </p>
                 </div>
             </div>
         </div>
+
+
+
+
 
         <!-- Pro Settings Tab -->
         <div id="pro" class="tab-content">
@@ -3127,7 +3097,7 @@
 
     <script>
         // Tab switching functionality
-        function switchTab(tabName) {
+        function switchTab(tabName, event) {
             // Hide all tab contents
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => content.classList.remove('active'));
@@ -3140,7 +3110,107 @@
             document.getElementById(tabName).classList.add('active');
             
             // Add active class to clicked tab button
-            event.target.classList.add('active');
+            if (event) {
+                event.target.classList.add('active');
+            }
+        }
+        
+        // Generate all configs function
+        function generateAllConfigs() {
+            // Generate autoexec config
+            generateAutoexec();
+            
+            // Generate binds config
+            generateBinds();
+            
+            // Generate video config
+            generateVideo();
+            
+            alert("All configurations have been generated successfully!");
+        }
+
+        // Generate specific config types (practice, streaming, lowend)
+        function generateConfig(configType) {
+            let configLines = [];
+            let configName = '';
+            let configDescription = '';
+            
+            if (configType === 'practice') {
+                configName = 'Practice Mode Configuration';
+                configDescription = 'Optimized for practice sessions with bot management and training commands';
+                
+                configLines = [
+                    '// ========================================',
+                    '// CS2 PRACTICE MODE CONFIGURATION',
+                    '// ========================================',
+                    '// Generated by CS2 Config Generator',
+                    '// Optimized for practice sessions and training',
+                    '',
+                    '// Bot Management',
+                    `bot_difficulty "${document.getElementById('bot_difficulty')?.value || 1}"  // Bot difficulty level`,
+                    `bot_kick "${document.getElementById('bot_kick')?.value || 0}"  // Kick all bots`,
+                    `bot_stop "${document.getElementById('bot_stop')?.value || 0}"  // Stop all bots`,
+                    `bot_place "${document.getElementById('bot_place')?.value || 0}"  // Place bot at crosshair`,
+                    `bot_mimic "${document.getElementById('bot_mimic')?.value || 0}"  // Bot mimic mode`,
+                    '',
+                    '// Practice Commands (Requires sv_cheats 1)',
+                    `sv_cheats "${document.getElementById('sv_cheats')?.value || 0}"  // Enable cheat commands`,
+                    `sv_infinite_ammo "${document.getElementById('sv_infinite_ammo')?.value || 0}"  // Infinite ammo`,
+                    `sv_grenade_trajectory "${document.getElementById('sv_grenade_trajectory')?.value || 0}"  // Show grenade trajectory`,
+                    `mp_respawn_on_death_ct "${document.getElementById('mp_respawn_on_death_ct')?.value || 0}"  // CT instant respawn`,
+                    `mp_respawn_on_death_t "${document.getElementById('mp_respawn_on_death_t')?.value || 0}"  // T instant respawn`,
+                    `mp_buy_anywhere "${document.getElementById('mp_buy_anywhere')?.value || 0}"  // Buy anywhere`,
+                    `mp_buytime "${document.getElementById('mp_buytime')?.value || 15}"  // Buy time in seconds`,
+                    `mp_roundtime "${document.getElementById('mp_roundtime')?.value || 2}"  // Round time in minutes`,
+                    `mp_maxmoney "${document.getElementById('mp_maxmoney')?.value || 16000}"  // Maximum money`,
+                    `mp_startmoney "${document.getElementById('mp_startmoney')?.value || 800}"  // Starting money`,
+                    '',
+                    '// Bot Team Commands',
+                    document.getElementById('bot_add')?.value === 'ct' ? 'bot_add_ct  // Add CT bot' : '',
+                    document.getElementById('bot_add')?.value === 't' ? 'bot_add_t  // Add T bot' : '',
+                    '',
+                    'echo "Practice Mode Configuration loaded successfully!"'
+                ].filter(line => line !== ''); // Remove empty lines from conditionals
+                
+            }
+            
+            const configContent = configLines.join('\n');
+            
+            // Create output section
+            const outputId = configType + '-output';
+            const textareaId = configType + '-textarea';
+            
+            // Remove existing output section if it exists
+            const existingOutput = document.getElementById(outputId);
+            if (existingOutput) {
+                existingOutput.remove();
+            }
+            
+            // Create new output section
+            const outputSection = document.createElement('div');
+            outputSection.id = outputId;
+            outputSection.className = 'output-section';
+            outputSection.innerHTML = `
+                <h3>Generated ${configName}</h3>
+                <p class="help-text">${configDescription}</p>
+                <textarea id="${textareaId}" class="output-textarea" readonly>${configContent}</textarea>
+                <div class="download-buttons">
+                    <button class="download-btn" onclick="downloadFile('${configType}', 'cs2_${configType}.cfg')">Download cs2_${configType}.cfg</button>
+                    <button class="copy-btn" onclick="copyToClipboard('${configType}')">Copy to Clipboard</button>
+                </div>
+                <div class="help-text" style="margin-top: 15px;">
+                    <p><strong>Installation:</strong> Place this file in your CS2 config folder:</p>
+                    <p><code>C:\\Program Files (x86)\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\game\\csgo\\cfg\\</code></p>
+                    <p><strong>Usage:</strong> Type <code>exec cs2_${configType}</code> in console to load these settings</p>
+                </div>
+            `;
+            
+            // Add the output section after the current tab
+            const currentTab = document.getElementById(configType);
+            currentTab.appendChild(outputSection);
+            
+            // Scroll to the output section
+            outputSection.scrollIntoView({ behavior: 'smooth' });
         }
 
         // Autoexec generation
@@ -3170,29 +3240,80 @@
                     }
                 }
                 
-                // Check for common conflicts
-                if (parseInt(config.fps_max) > 0 && parseInt(config.fps_max) < 60) {
-                    warnings.push('FPS Max below 60 may cause gameplay issues');
+                // Enhanced conflict detection and validation
+                const fpsMax = parseInt(config.fps_max);
+                const fpsMaxUI = parseInt(config.fps_max_ui);
+                const fpsMaxTools = parseInt(config.fps_max_tools);
+                
+                // FPS validation and conflicts
+                if (fpsMax > 0 && fpsMax < 60) {
+                    warnings.push('⚠️ FPS Max below 60 may cause gameplay issues');
                 }
                 
+                if (fpsMax > 0 && fpsMaxUI > fpsMax) {
+                    warnings.push('⚠️ FPS Max UI is higher than main FPS Max - this may cause inconsistent performance');
+                }
+                
+                if (fpsMax > 0 && fpsMaxTools > fpsMax) {
+                    warnings.push('⚠️ FPS Max Tools is higher than main FPS Max - this may cause inconsistent performance');
+                }
+                
+                // Performance vs Graphics conflicts
+                const vsync = parseInt(config.setting_mat_vsync || 0);
+                const lowLatency = parseInt(config.setting_r_low_latency || 0);
+                
+                if (vsync === 1 && lowLatency > 0) {
+                    warnings.push('⚠️ V-Sync enabled with NVIDIA Reflex may cause input lag conflicts');
+                }
+                
+                if (fpsMax > 240 && vsync === 1) {
+                    warnings.push('⚠️ High FPS limit with V-Sync may not provide expected performance');
+                }
+                
+                // Network validation
+                const lagComp = parseInt(config.cl_lagcompensation || 1);
+                
+                if (lagComp === 0) {
+                    warnings.push('⚠️ Disabling lag compensation may negatively impact hit registration');
+                }
+                
+                // Audio validation
                 if (parseFloat(config.sensitivity) > 10) {
-                    warnings.push('Very high sensitivity detected - this may affect aim precision');
+                    warnings.push('⚠️ Very high sensitivity detected - this may affect aim precision');
                 }
                 
                 // Check for music volume vs 10-second warning conflict
                 const musicVolume = parseFloat(config.snd_musicvolume || 0);
                 const warningVolume = parseFloat(config.snd_tensecondwarning_volume || 0);
                 if (musicVolume === 0 && warningVolume > 0) {
-                    warnings.push('10-second warning won\'t be audible because Music Volume is set to 0! The bomb timer warning is part of the music system.');
+                    warnings.push('⚠️ 10-second warning won\'t be audible because Music Volume is set to 0! The bomb timer warning is part of the music system.');
                 }
                 
                 if (parseFloat(config.volume) < 0.1) {
-                    warnings.push('Very low volume may make it hard to hear important game sounds');
+                    warnings.push('⚠️ Very low volume may make it hard to hear important game sounds');
                 }
                 
+                // Network validation
                 if (parseInt(config.mm_dedicated_search_maxping) < 50) {
-                     warnings.push('Very low max ping may limit available servers');
-                 }
+                     warnings.push('⚠️ Very low max ping may limit available servers');
+                }
+                
+                const rate = parseInt(config.rate);
+                if (rate < 196608 && fpsMax > 144) {
+                    warnings.push('⚠️ Low network rate may bottleneck high FPS gaming');
+                }
+                
+                // Performance optimization validation
+                const lowLatencySleep = parseInt(config.engine_low_latency_sleep_after_client_tick || 1);
+                const gamma = parseFloat(config.r_fullscreen_gamma || 2.2);
+                
+                if (lowLatencySleep === 0) {
+                    warnings.push('💡 Low latency sleep is disabled - enable for better input responsiveness');
+                }
+                
+                if (gamma < 1.8 || gamma > 2.6) {
+                    warnings.push('⚠️ Gamma value outside recommended range (1.8-2.6) may affect visibility');
+                }
              } else if (configType === 'binds') {
                  // Validate binds for duplicates and conflicts
                  const usedKeys = new Map();
@@ -3429,282 +3550,296 @@
             return message;
         }
 
+        // Helper function to safely get element value
+        function getElementValue(id, defaultValue = '') {
+            const element = document.getElementById(id);
+            if (element === null) {
+                console.warn(`Element with ID '${id}' not found, using default value: '${defaultValue}'`);
+                return defaultValue;
+            }
+            return element.value || defaultValue;
+        }
+
         function generateAutoexec() {
-            const config = {
+            console.log('generateAutoexec() function called');
+            
+            try {
+                const config = {
                 // Network Settings
-                rate: document.getElementById('rate').value,
-                mm_dedicated_search_maxping: document.getElementById('mm_dedicated_search_maxping').value,
+                rate: getElementValue('rate', '786432'),
+                mm_dedicated_search_maxping: getElementValue('mm_dedicated_search_maxping', '50'),
                 // cl_lagcompensation and cl_predictweapons removed - deprecated in CS2
-                cl_resend: document.getElementById('cl_resend').value,
-                cl_timeout: document.getElementById('cl_timeout').value,
-                cq_buffer_bloat_msecs_max: document.getElementById('cq_buffer_bloat_msecs_max').value,
-                net_client_steamdatagram_enable_override: document.getElementById('net_client_steamdatagram_enable_override').value,
-                cl_predict_body_shot_fx: document.getElementById('cl_predict_body_shot_fx').value,
-                cl_predict_head_shot_fx: document.getElementById('cl_predict_head_shot_fx').value,
-                cl_predict_kill_ragdolls: document.getElementById('cl_predict_kill_ragdolls').value,
-                cl_net_buffer_ticks_use_interp: document.getElementById('cl_net_buffer_ticks_use_interp').value,
-                cl_interp_ratio: document.getElementById('cl_interp_ratio').value,
-                cl_tickpacket_desired_queuelength: document.getElementById('cl_tickpacket_desired_queuelength').value,
-                mm_session_search_qos_timeout: document.getElementById('mm_session_search_qos_timeout').value,
-                mm_csgo_community_search_players_min: document.getElementById('mm_csgo_community_search_players_min').value,
-                lobby_default_privacy_bits2: document.getElementById('lobby_default_privacy_bits2').value,
-                ui_setting_advertiseforhire_auto: document.getElementById('ui_setting_advertiseforhire_auto').value,
-                cl_invites_only_friends: document.getElementById('cl_invites_only_friends').value,
-                cl_invites_only_mainmenu: document.getElementById('cl_invites_only_mainmenu').value,
-                net_graph: document.getElementById('net_graph').value,
-                cq_netgraph: document.getElementById('cq_netgraph').value,
+                cl_resend: getElementValue('cl_resend', '2'),
+                cl_timeout: getElementValue('cl_timeout', '30'),
+                cq_buffer_bloat_msecs_max: getElementValue('cq_buffer_bloat_msecs_max', '100'),
+                net_client_steamdatagram_enable_override: getElementValue('net_client_steamdatagram_enable_override', '1'),
+                cl_predict_body_shot_fx: getElementValue('cl_predict_body_shot_fx', '1'),
+                cl_predict_head_shot_fx: getElementValue('cl_predict_head_shot_fx', '1'),
+                cl_predict_kill_ragdolls: getElementValue('cl_predict_kill_ragdolls', '1'),
+                cl_net_buffer_ticks_use_interp: getElementValue('cl_net_buffer_ticks_use_interp', '1'),
+                cl_tickpacket_desired_queuelength: getElementValue('cl_tickpacket_desired_queuelength', '1'),
+                mm_session_search_qos_timeout: getElementValue('mm_session_search_qos_timeout', '20000'),
+                mm_csgo_community_search_players_min: getElementValue('mm_csgo_community_search_players_min', '3'),
+                lobby_default_privacy_bits2: getElementValue('lobby_default_privacy_bits2', '0'),
+                ui_setting_advertiseforhire_auto: getElementValue('ui_setting_advertiseforhire_auto', '0'),
+                cl_invites_only_friends: getElementValue('cl_invites_only_friends', '0'),
+                cl_invites_only_mainmenu: getElementValue('cl_invites_only_mainmenu', '0'),
                 
                 // Performance Settings
-                fps_max: document.getElementById('fps_max').value,
-                cl_disable_ragdolls: document.getElementById('cl_disable_ragdolls').value,
-                cl_forcepreload: document.getElementById('cl_forcepreload').value,
-                mat_queue_mode: document.getElementById('mat_queue_mode').value,
+                fps_max: getElementValue('fps_max', '0'),
+                cl_disable_ragdolls: getElementValue('cl_disable_ragdolls', '0'),
                 
                 // Pro Settings - Mouse
-                pro_sensitivity: document.getElementById('pro_sensitivity').value,
-                pro_zoom_sensitivity_ratio: document.getElementById('pro_zoom_sensitivity_ratio').value,
+                pro_sensitivity: getElementValue('pro_sensitivity', '2.0'),
+                pro_zoom_sensitivity_ratio: getElementValue('pro_zoom_sensitivity_ratio', '1.0'),
                 
                 // Pro Settings - Viewmodel
-                pro_viewmodel_fov: document.getElementById('pro_viewmodel_fov').value,
-                pro_viewmodel_offset_x: document.getElementById('pro_viewmodel_offset_x').value,
-                pro_viewmodel_offset_y: document.getElementById('pro_viewmodel_offset_y').value,
-                pro_viewmodel_offset_z: document.getElementById('pro_viewmodel_offset_z').value,
-                pro_viewmodel_presetpos: document.getElementById('pro_viewmodel_presetpos').value,
+                pro_viewmodel_fov: getElementValue('pro_viewmodel_fov', '68'),
+                pro_viewmodel_offset_x: getElementValue('pro_viewmodel_offset_x', '2.5'),
+                pro_viewmodel_offset_y: getElementValue('pro_viewmodel_offset_y', '0'),
+                pro_viewmodel_offset_z: getElementValue('pro_viewmodel_offset_z', '-1.5'),
+                pro_viewmodel_presetpos: getElementValue('pro_viewmodel_presetpos', '3'),
                 
                 // Pro Settings - Competitive
-                cl_autowepswitch: document.getElementById('cl_autowepswitch').value,
-                cl_teamid_overhead: document.getElementById('cl_teamid_overhead').value,
-                cl_teamid_overhead_always: document.getElementById('cl_teamid_overhead_always').value,
-                cl_interp: document.getElementById('cl_interp').value,
                 
                 // Pro Settings - Advanced Optimization
-                mat_disable_fancy_blending: document.getElementById('mat_disable_fancy_blending').value,
-                r_texturestreaming: document.getElementById('r_texturestreaming').value,
-                cl_predictweapons: document.getElementById('cl_predictweapons').value,
-                cl_disablehtmlmotd: document.getElementById('cl_disablehtmlmotd').value,
-                vprof_off: document.getElementById('vprof_off').value,
+                vprof_off: getElementValue('vprof_off', '1'),
                 // r_dynamic and muzzleflash_light removed - deprecated in CS2
                 // cl_forcepreload removed - deprecated in CS2
-                fps_max_ui: document.getElementById('fps_max_ui').value,
-                fps_max_tools: document.getElementById('fps_max_tools').value,
-                thread_pool_option: document.getElementById('thread_pool_option').value,
-                engine_low_latency_sleep_after_client_tick: document.getElementById('engine_low_latency_sleep_after_client_tick').value,
-                engine_no_focus_sleep: document.getElementById('engine_no_focus_sleep').value,
-                r_fullscreen_gamma: document.getElementById('r_fullscreen_gamma').value,
-                r_drawtracers_firstperson: document.getElementById('r_drawtracers_firstperson').value,
-                cl_particle_fallback_base: document.getElementById('cl_particle_fallback_base').value,
-                cl_particle_fallback_multiplier: document.getElementById('cl_particle_fallback_multiplier').value,
+                fps_max_ui: getElementValue('fps_max_ui', '0'),
+                fps_max_tools: getElementValue('fps_max_tools', '0'),
+                thread_pool_option: getElementValue('thread_pool_option', '0'),
+                engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '1'),
+                engine_no_focus_sleep: getElementValue('engine_no_focus_sleep', '50'),
+                r_fullscreen_gamma: getElementValue('r_fullscreen_gamma', '2.2'),
+                cl_particle_fallback_base: getElementValue('cl_particle_fallback_base', '1'),
+                cl_particle_fallback_multiplier: getElementValue('cl_particle_fallback_multiplier', '1'),
+                
+                // CS2 Subtick System Settings
+                cl_interp_ratio: getElementValue('cl_interp_ratio', '1'),
+                
+                // Advanced Performance Settings
+                engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '1'),
+                r_fullscreen_gamma: getElementValue('r_fullscreen_gamma', '2.2'),
                 
                 // Mouse Settings
-                sensitivity: document.getElementById('sensitivity').value,
-                zoom_sensitivity_ratio: document.getElementById('zoom_sensitivity_ratio').value,
+                sensitivity: getElementValue('sensitivity', '2.0'),
+                zoom_sensitivity_ratio: getElementValue('zoom_sensitivity_ratio', '1.0'),
                 // m_rawinput removed - CS2 uses raw input by default
-                m_pitch: document.getElementById('m_pitch').value,
-                m_yaw: document.getElementById('m_yaw').value,
+                m_pitch: getElementValue('m_pitch', '0.022'),
+                m_yaw: getElementValue('m_yaw', '0.022'),
                 
                 // Audio Settings
-                volume: document.getElementById('volume').value,
-                snd_musicvolume: document.getElementById('snd_musicvolume').value,
-                snd_voipvolume: document.getElementById('snd_voipvolume').value,
-                snd_headphone_eq: document.getElementById('snd_headphone_eq').value,
-                snd_roundend_volume: document.getElementById('snd_roundend_volume').value,
-                snd_mvp_volume: document.getElementById('snd_mvp_volume').value,
-                snd_spatialize_lerp: document.getElementById('snd_spatialize_lerp').value,
-                snd_steamaudio_enable_perspective_correction: document.getElementById('snd_steamaudio_enable_perspective_correction').value,
-                snd_steamaudio_reverb_level_db: document.getElementById('snd_steamaudio_reverb_level_db').value,
-                snd_autodetect_latency: document.getElementById('snd_autodetect_latency').value,
-                snd_mixahead: document.getElementById('snd_mixahead').value,
-                snd_menumusic_volume: document.getElementById('snd_menumusic_volume').value,
-                snd_menumap_volume: document.getElementById('snd_menumap_volume').value,
-                snd_roundstart_volume: document.getElementById('snd_roundstart_volume').value,
-                snd_mapobjective_volume: document.getElementById('snd_mapobjective_volume').value,
-                snd_deathcamera_volume: document.getElementById('snd_deathcamera_volume').value,
-                snd_tensecondwarning_volume: document.getElementById('snd_tensecondwarning_volume').value,
-                snd_mute_mvp_music_live_players: document.getElementById('snd_mute_mvp_music_live_players').value,
-                snd_mute_losefocus: document.getElementById('snd_mute_losefocus').value,
-                snd_toolvolume: document.getElementById('snd_toolvolume').value,
-                cl_embedded_stream_audio_volume: document.getElementById('cl_embedded_stream_audio_volume').value,
-                cl_embedded_stream_audio_volume_xmaster: document.getElementById('cl_embedded_stream_audio_volume_xmaster').value,
-                cl_mute_enemy_team: document.getElementById('cl_mute_enemy_team').value,
-                cl_mute_all_but_friends_and_party: document.getElementById('cl_mute_all_but_friends_and_party').value,
-                cl_clutch_mode: document.getElementById('cl_clutch_mode').value,
-                voice_loopback: document.getElementById('voice_loopback').value,
-                voice_enable: document.getElementById('voice_enable').value,
-                voice_scale: document.getElementById('voice_scale').value,
-                snd_legacy_surround: document.getElementById('snd_legacy_surround').value,
-                voice_threshold: document.getElementById('voice_threshold').value,
-                voice_modenable: document.getElementById('voice_modenable').value,
-                voice_always_sample_mic: document.getElementById('voice_always_sample_mic').value,
-                voice_device_override: document.getElementById('voice_device_override').value,
+                volume: getElementValue('volume', '0.5'),
+                snd_musicvolume: getElementValue('snd_musicvolume', '0.1'),
+                snd_voipvolume: getElementValue('snd_voipvolume', '1.0'),
+                snd_headphone_eq: getElementValue('snd_headphone_eq', '1'),
+                snd_roundend_volume: getElementValue('snd_roundend_volume', '0.1'),
+                snd_mvp_volume: getElementValue('snd_mvp_volume', '0.1'),
+                snd_spatialize_lerp: getElementValue('snd_spatialize_lerp', '0.0'),
+                snd_steamaudio_enable_perspective_correction: getElementValue('snd_steamaudio_enable_perspective_correction', '1'),
+                snd_steamaudio_reverb_level_db: getElementValue('snd_steamaudio_reverb_level_db', '-6'),
+                snd_autodetect_latency: getElementValue('snd_autodetect_latency', '1'),
+                snd_mixahead: getElementValue('snd_mixahead', '0.1'),
+                snd_menumusic_volume: getElementValue('snd_menumusic_volume', '0.5'),
+                snd_menumap_volume: getElementValue('snd_menumap_volume', '0.5'),
+                snd_roundstart_volume: getElementValue('snd_roundstart_volume', '0.5'),
+                snd_mapobjective_volume: getElementValue('snd_mapobjective_volume', '0.5'),
+                snd_deathcamera_volume: getElementValue('snd_deathcamera_volume', '0.5'),
+                snd_tensecondwarning_volume: getElementValue('snd_tensecondwarning_volume', '0.5'),
+                snd_mute_mvp_music_live_players: getElementValue('snd_mute_mvp_music_live_players', '0'),
+                snd_mute_losefocus: getElementValue('snd_mute_losefocus', '0'),
+                snd_toolvolume: getElementValue('snd_toolvolume', '1'),
+                cl_embedded_stream_audio_volume: getElementValue('cl_embedded_stream_audio_volume', '60'),
+                cl_embedded_stream_audio_volume_xmaster: getElementValue('cl_embedded_stream_audio_volume_xmaster', '1'),
+                cl_mute_enemy_team: getElementValue('cl_mute_enemy_team', '0'),
+                cl_mute_all_but_friends_and_party: getElementValue('cl_mute_all_but_friends_and_party', '0'),
+                cl_clutch_mode: getElementValue('cl_clutch_mode', '0'),
+                voice_loopback: getElementValue('voice_loopback', '0'),
+                voice_threshold: getElementValue('voice_threshold', '2000'),
+                voice_modenable: getElementValue('voice_modenable', '1'),
+                voice_always_sample_mic: getElementValue('voice_always_sample_mic', '0'),
+                voice_device_override: getElementValue('voice_device_override', ''),
                 
                 // HUD & Interface Settings
-                hud_scaling: document.getElementById('hud_scaling').value,
-                cl_hud_color: document.getElementById('cl_hud_color').value,
-                cl_hud_radar_scale: document.getElementById('cl_hud_radar_scale').value,
-                cl_radar_scale: document.getElementById('cl_radar_scale').value,
-                cl_radar_always_centered: document.getElementById('cl_radar_always_centered').value,
-                cl_radar_rotate: document.getElementById('cl_radar_rotate').value,
-                cl_showfps: document.getElementById('cl_showfps').value,
-                r_player_visibility_mode: document.getElementById('r_player_visibility_mode').value,
-                cl_autohelp: document.getElementById('cl_autohelp').value,
-                cl_color: document.getElementById('cl_color').value,
-                cl_weapon_selection_rarity_color: document.getElementById('cl_weapon_selection_rarity_color').value,
-                cl_sanitize_player_names: document.getElementById('cl_sanitize_player_names').value,
-                cl_hide_avatar_images: document.getElementById('cl_hide_avatar_images').value,
-                cl_allow_animated_avatars: document.getElementById('cl_allow_animated_avatars').value,
-                cl_teamcounter_playercount_instead_of_avatars: document.getElementById('cl_teamcounter_playercount_instead_of_avatars').value,
-                cl_hud_radar_background_alpha: document.getElementById('cl_hud_radar_background_alpha').value,
-                cl_teammate_colors_show: document.getElementById('cl_teammate_colors_show').value,
-                cl_teamid_overhead_mode: document.getElementById('cl_teamid_overhead_mode').value,
-                cl_showloadout: document.getElementById('cl_showloadout').value,
-                cl_prefer_lefthanded: document.getElementById('cl_prefer_lefthanded').value,
-                r_drawtracers_firstperson: document.getElementById('r_drawtracers_firstperson').value,
-                cl_hud_telemetry_frametime_show: document.getElementById('cl_hud_telemetry_frametime_show').value,
-                cl_hud_telemetry_net_misdelivery_show: document.getElementById('cl_hud_telemetry_net_misdelivery_show').value,
-                cl_hud_telemetry_ping_show: document.getElementById('cl_hud_telemetry_ping_show').value,
-                ui_steam_overlay_notification_position: document.getElementById('ui_steam_overlay_notification_position').value,
-                cl_show_observer_crosshair: document.getElementById('cl_show_observer_crosshair').value,
-                spec_show_xray: document.getElementById('spec_show_xray').value,
-                player_nevershow_communityservermessage: document.getElementById('player_nevershow_communityservermessage').value,
-                cl_sanitize_muted_players: document.getElementById('cl_sanitize_muted_players').value,
-                cl_hud_radar_map_additive: document.getElementById('cl_hud_radar_map_additive').value,
-                cl_radar_scale_alternate: document.getElementById('cl_radar_scale_alternate').value,
-                cl_radar_icon_scale_min: document.getElementById('cl_radar_icon_scale_min').value,
-                cl_player_ping_mute: document.getElementById('cl_player_ping_mute').value,
-                cl_radar_square_with_scoreboard: document.getElementById('cl_radar_square_with_scoreboard').value,
+                hud_scaling: getElementValue('hud_scaling', '1'),
+                cl_hud_color: getElementValue('cl_hud_color', '0'),
+                cl_hud_radar_scale: getElementValue('cl_hud_radar_scale', '1'),
+                cl_radar_scale: getElementValue('cl_radar_scale', '0.7'),
+                cl_radar_always_centered: getElementValue('cl_radar_always_centered', '1'),
+                cl_radar_rotate: getElementValue('cl_radar_rotate', '1'),
+                cl_showfps: getElementValue('cl_showfps', '0'),
+                r_player_visibility_mode: getElementValue('r_player_visibility_mode', '1'),
+                cl_autohelp: getElementValue('cl_autohelp', '1'),
+                cl_color: getElementValue('cl_color', '0'),
+                cl_weapon_selection_rarity_color: getElementValue('cl_weapon_selection_rarity_color', '1'),
+                cl_sanitize_player_names: getElementValue('cl_sanitize_player_names', '0'),
+                cl_hide_avatar_images: getElementValue('cl_hide_avatar_images', '0'),
+                cl_allow_animated_avatars: getElementValue('cl_allow_animated_avatars', '1'),
+                cl_teamcounter_playercount_instead_of_avatars: getElementValue('cl_teamcounter_playercount_instead_of_avatars', '0'),
+                cl_hud_radar_background_alpha: getElementValue('cl_hud_radar_background_alpha', '0.4'),
+                cl_teammate_colors_show: getElementValue('cl_teammate_colors_show', '1'),
+                cl_teamid_overhead_mode: getElementValue('cl_teamid_overhead_mode', '1'),
+                cl_showloadout: getElementValue('cl_showloadout', '1'),
+                cl_prefer_lefthanded: getElementValue('cl_prefer_lefthanded', '0'),
+                cl_hud_telemetry_frametime_show: getElementValue('cl_hud_telemetry_frametime_show', '0'),
+                cl_hud_telemetry_net_misdelivery_show: getElementValue('cl_hud_telemetry_net_misdelivery_show', '0'),
+                cl_hud_telemetry_ping_show: getElementValue('cl_hud_telemetry_ping_show', '0'),
+                ui_steam_overlay_notification_position: getElementValue('ui_steam_overlay_notification_position', 'topright'),
+                cl_show_observer_crosshair: getElementValue('cl_show_observer_crosshair', '2'),
+                spec_show_xray: getElementValue('spec_show_xray', '1'),
+                player_nevershow_communityservermessage: getElementValue('player_nevershow_communityservermessage', '0'),
+                cl_sanitize_muted_players: getElementValue('cl_sanitize_muted_players', '0'),
+                cl_hud_radar_map_additive: getElementValue('cl_hud_radar_map_additive', '1'),
+                cl_radar_scale_alternate: getElementValue('cl_radar_scale_alternate', '1'),
+                cl_radar_icon_scale_min: getElementValue('cl_radar_icon_scale_min', '0.6'),
+                cl_player_ping_mute: getElementValue('cl_player_ping_mute', '0'),
+                cl_radar_square_with_scoreboard: getElementValue('cl_radar_square_with_scoreboard', '1'),
 
-                cl_drawhud_force_deathnotices: document.getElementById('cl_drawhud_force_deathnotices').value,
-                cl_drawhud_force_radar: document.getElementById('cl_drawhud_force_radar').value,
-                cl_drawhud_force_teamid_overhead: document.getElementById('cl_drawhud_force_teamid_overhead').value,
-                cl_teamid_overhead_colors_show: document.getElementById('cl_teamid_overhead_colors_show').value,
-                cl_show_team_equipment: document.getElementById('cl_show_team_equipment').value,
-                cl_draw_only_deathnotices: document.getElementById('cl_draw_only_deathnotices').value,
-                cl_show_clan_in_death_notice: document.getElementById('cl_show_clan_in_death_notice').value,
-                cl_drawhud_specvote: document.getElementById('cl_drawhud_specvote').value,
-                cl_observed_bot_crosshair: document.getElementById('cl_observed_bot_crosshair').value,
-                cl_teamid_overhead_fade_near_crosshair: document.getElementById('cl_teamid_overhead_fade_near_crosshair').value,
-                cl_deathnotices_show_numbers: document.getElementById('cl_deathnotices_show_numbers').value,
-                cl_scoreboard_survivors_always_on: document.getElementById('cl_scoreboard_survivors_always_on').value,
+                cl_drawhud_force_deathnotices: getElementValue('cl_drawhud_force_deathnotices', '-1'),
+                cl_drawhud_force_radar: getElementValue('cl_drawhud_force_radar', '-1'),
+                cl_drawhud_force_teamid_overhead: getElementValue('cl_drawhud_force_teamid_overhead', '-1'),
+                cl_teamid_overhead_colors_show: getElementValue('cl_teamid_overhead_colors_show', '1'),
+                cl_show_team_equipment: getElementValue('cl_show_team_equipment', '1'),
+                cl_draw_only_deathnotices: getElementValue('cl_draw_only_deathnotices', '0'),
+                cl_show_clan_in_death_notice: getElementValue('cl_show_clan_in_death_notice', '1'),
+                cl_drawhud_specvote: getElementValue('cl_drawhud_specvote', '1'),
+                cl_observed_bot_crosshair: getElementValue('cl_observed_bot_crosshair', '1'),
+                cl_teamid_overhead_fade_near_crosshair: getElementValue('cl_teamid_overhead_fade_near_crosshair', '1'),
+                cl_deathnotices_show_numbers: getElementValue('cl_deathnotices_show_numbers', '0'),
+                cl_scoreboard_survivors_always_on: getElementValue('cl_scoreboard_survivors_always_on', '0'),
 
-                cl_spec_stats: document.getElementById('cl_spec_stats').value,
-                cl_spec_show_bindings: document.getElementById('cl_spec_show_bindings').value,
-                spec_usenumberkeys_nobinds: document.getElementById('spec_usenumberkeys_nobinds').value,
-                cl_obs_interp_enable: document.getElementById('cl_obs_interp_enable').value,
-                tv_nochat: document.getElementById('tv_nochat').value,
-                tv_secure_bypass: document.getElementById('tv_secure_bypass').value,
-                spec_replay_autostart: document.getElementById('spec_replay_autostart').value,
-                spec_replay_bot: document.getElementById('spec_replay_bot').value,
-                spec_replay_winddown_time: document.getElementById('spec_replay_winddown_time').value,
-                spec_glow_silent_factor: document.getElementById('spec_glow_silent_factor').value,
-                spec_glow_spike_time: document.getElementById('spec_glow_spike_time').value,
-                spec_glow_full_time: document.getElementById('spec_glow_full_time').value,
-                spec_glow_decay_time: document.getElementById('spec_glow_decay_time').value,
-                demo_ui_mode: document.getElementById('demo_ui_mode').value,
-                ui_steam_overlay_notification_position_horz: document.getElementById('ui_steam_overlay_notification_position_horz').value,
-                ui_steam_overlay_notification_position_vert: document.getElementById('ui_steam_overlay_notification_position_vert').value,
-                cl_hud_telemetry_frametime_poor: document.getElementById('cl_hud_telemetry_frametime_poor').value,
-                cl_hud_telemetry_net_misdelivery_poor: document.getElementById('cl_hud_telemetry_net_misdelivery_poor').value,
-                cl_hud_telemetry_ping_poor: document.getElementById('cl_hud_telemetry_ping_poor').value,
-                cl_hud_telemetry_serverrecvmargin_graph_show: document.getElementById('cl_hud_telemetry_serverrecvmargin_graph_show').value,
-                cl_hud_telemetry_net_quality_graph_show: document.getElementById('cl_hud_telemetry_net_quality_graph_show').value,
-                cl_hud_telemetry_net_detailed: document.getElementById('cl_hud_telemetry_net_detailed').value,
-                cl_ticks_net_print_threshold: document.getElementById('cl_ticks_net_print_threshold').value,
-                cl_frametime_summary_report_detailed: document.getElementById('cl_frametime_summary_report_detailed').value,
-                safezoney: document.getElementById('safezoney').value,
-                safezonex: document.getElementById('safezonex').value,
-                eom_local_player_defeat_anim_enabled: document.getElementById('eom_local_player_defeat_anim_enabled').value,
+                cl_spec_stats: getElementValue('cl_spec_stats', '1'),
+                cl_spec_show_bindings: getElementValue('cl_spec_show_bindings', '1'),
+                spec_usenumberkeys_nobinds: getElementValue('spec_usenumberkeys_nobinds', '1'),
+                cl_obs_interp_enable: getElementValue('cl_obs_interp_enable', '1'),
+                tv_nochat: getElementValue('tv_nochat', '0'),
+                tv_secure_bypass: getElementValue('tv_secure_bypass', '0'),
+                spec_replay_autostart: getElementValue('spec_replay_autostart', '0'),
+                spec_replay_bot: getElementValue('spec_replay_bot', '1'),
+                spec_replay_winddown_time: getElementValue('spec_replay_winddown_time', '2'),
+                spec_glow_silent_factor: getElementValue('spec_glow_silent_factor', '0.3'),
+                spec_glow_spike_time: getElementValue('spec_glow_spike_time', '0.12'),
+                spec_glow_full_time: getElementValue('spec_glow_full_time', '0.25'),
+                spec_glow_decay_time: getElementValue('spec_glow_decay_time', '0.75'),
+                demo_ui_mode: getElementValue('demo_ui_mode', '1'),
+                ui_steam_overlay_notification_position_horz: getElementValue('ui_steam_overlay_notification_position_horz', 'right'),
+                ui_steam_overlay_notification_position_vert: getElementValue('ui_steam_overlay_notification_position_vert', 'top'),
+                cl_hud_telemetry_frametime_poor: getElementValue('cl_hud_telemetry_frametime_poor', '20'),
+                cl_hud_telemetry_net_misdelivery_poor: getElementValue('cl_hud_telemetry_net_misdelivery_poor', '0.05'),
+                cl_hud_telemetry_ping_poor: getElementValue('cl_hud_telemetry_ping_poor', '100'),
+                cl_hud_telemetry_serverrecvmargin_graph_show: getElementValue('cl_hud_telemetry_serverrecvmargin_graph_show', '0'),
+                cl_hud_telemetry_net_quality_graph_show: getElementValue('cl_hud_telemetry_net_quality_graph_show', '0'),
+                cl_hud_telemetry_net_detailed: getElementValue('cl_hud_telemetry_net_detailed', '0'),
+                cl_ticks_net_print_threshold: getElementValue('cl_ticks_net_print_threshold', '0'),
+                cl_frametime_summary_report_detailed: getElementValue('cl_frametime_summary_report_detailed', '0'),
+                safezoney: getElementValue('safezoney', '1'),
+                safezonex: getElementValue('safezonex', '1'),
+                eom_local_player_defeat_anim_enabled: getElementValue('eom_local_player_defeat_anim_enabled', '1'),
                 
                 // Viewmodel Settings
-                viewmodel_presetpos: document.getElementById('viewmodel_presetpos').value,
-                viewmodel_fov: document.getElementById('viewmodel_fov').value,
-                viewmodel_offset_x: document.getElementById('viewmodel_offset_x').value,
-                viewmodel_offset_y: document.getElementById('viewmodel_offset_y').value,
-                viewmodel_offset_z: document.getElementById('viewmodel_offset_z').value,
+                viewmodel_presetpos: getElementValue('viewmodel_presetpos', '1'),
+                viewmodel_fov: getElementValue('viewmodel_fov', '60'),
+                viewmodel_offset_x: getElementValue('viewmodel_offset_x', '2.5'),
+                viewmodel_offset_y: getElementValue('viewmodel_offset_y', '0'),
+                viewmodel_offset_z: getElementValue('viewmodel_offset_z', '-1.5'),
                 
                 // Crosshair Settings
-                cl_crosshairsize: document.getElementById('cl_crosshairsize').value,
-                cl_crosshairthickness: document.getElementById('cl_crosshairthickness').value,
-                cl_crosshairgap: document.getElementById('cl_crosshairgap').value,
-                cl_crosshaircolor: document.getElementById('cl_crosshaircolor').value,
-                cl_crosshair_drawoutline: document.getElementById('cl_crosshair_drawoutline').value,
-                cl_crosshairstyle: document.getElementById('cl_crosshairstyle').value,
-                cl_crosshair_recoil: document.getElementById('cl_crosshair_recoil').value,
-                cl_crosshairgap_useweaponvalue: document.getElementById('cl_crosshairgap_useweaponvalue').value,
-                cl_fixedcrosshairgap: document.getElementById('cl_fixedcrosshairgap').value,
-                cl_crosshairdot: document.getElementById('cl_crosshairdot').value,
-                cl_crosshair_t: document.getElementById('cl_crosshair_t').value,
-                cl_crosshaircolor_R: document.getElementById('cl_crosshaircolor_R').value,
-                cl_crosshaircolor_G: document.getElementById('cl_crosshaircolor_G').value,
-                cl_crosshaircolor_B: document.getElementById('cl_crosshaircolor_B').value,
-                hud_showtargetid: document.getElementById('hud_showtargetid').value,
-                cl_crosshair_friendly_warning: document.getElementById('cl_crosshair_friendly_warning').value,
-                cl_ironsight_usecrosshaircolor: document.getElementById('cl_ironsight_usecrosshaircolor').value,
-                cl_crosshair_sniper_width: document.getElementById('cl_crosshair_sniper_width').value,
-                cl_crosshair_dynamic_maxdist_splitratio: document.getElementById('cl_crosshair_dynamic_maxdist_splitratio').value,
-                cl_crosshair_dynamic_splitalpha_innermod: document.getElementById('cl_crosshair_dynamic_splitalpha_innermod').value,
-                cl_crosshair_dynamic_splitalpha_outermod: document.getElementById('cl_crosshair_dynamic_splitalpha_outermod').value,
-                cl_crosshair_dynamic_splitdist: document.getElementById('cl_crosshair_dynamic_splitdist').value,
-                cl_grenadecrosshair_decoy: document.getElementById('cl_grenadecrosshair_decoy').value,
-                cl_grenadecrosshair_explosive: document.getElementById('cl_grenadecrosshair_explosive').value,
-                cl_grenadecrosshair_fire: document.getElementById('cl_grenadecrosshair_fire').value,
-                cl_grenadecrosshair_flash: document.getElementById('cl_grenadecrosshair_flash').value,
-                cl_grenadecrosshair_smoke: document.getElementById('cl_grenadecrosshair_smoke').value,
-                cl_grenadecrosshair_keepusercrosshair: document.getElementById('cl_grenadecrosshair_keepusercrosshair').value,
-                cl_grenadecrosshairdelay_decoy: document.getElementById('cl_grenadecrosshairdelay_decoy').value,
-                cl_grenadecrosshairdelay_explosive: document.getElementById('cl_grenadecrosshairdelay_explosive').value,
-                cl_grenadecrosshairdelay_fire: document.getElementById('cl_grenadecrosshairdelay_fire').value,
-                cl_grenadecrosshairdelay_flash: document.getElementById('cl_grenadecrosshairdelay_flash').value,
-                cl_grenadecrosshairdelay_smoke: document.getElementById('cl_grenadecrosshairdelay_smoke').value,
+                cl_crosshairsize: getElementValue('cl_crosshairsize', '5'),
+                cl_crosshairthickness: getElementValue('cl_crosshairthickness', '1'),
+                cl_crosshairgap: getElementValue('cl_crosshairgap', '-1'),
+                cl_crosshaircolor: getElementValue('cl_crosshaircolor', '1'),
+                cl_crosshair_drawoutline: getElementValue('cl_crosshair_drawoutline', '0'),
+                cl_crosshairstyle: getElementValue('cl_crosshairstyle', '4'),
+                cl_crosshair_recoil: getElementValue('cl_crosshair_recoil', '1'),
+                cl_crosshairgap_useweaponvalue: getElementValue('cl_crosshairgap_useweaponvalue', '0'),
+                cl_fixedcrosshairgap: getElementValue('cl_fixedcrosshairgap', '3'),
+                cl_crosshairdot: getElementValue('cl_crosshairdot', '0'),
+                cl_crosshair_t: getElementValue('cl_crosshair_t', '0'),
+                cl_crosshaircolor_R: getElementValue('cl_crosshaircolor_R', '50'),
+                cl_crosshaircolor_G: getElementValue('cl_crosshaircolor_G', '250'),
+                cl_crosshaircolor_B: getElementValue('cl_crosshaircolor_B', '50'),
+                hud_showtargetid: getElementValue('hud_showtargetid', '1'),
+                cl_crosshair_friendly_warning: getElementValue('cl_crosshair_friendly_warning', '1'),
+                cl_ironsight_usecrosshaircolor: getElementValue('cl_ironsight_usecrosshaircolor', '1'),
+                cl_crosshair_sniper_width: getElementValue('cl_crosshair_sniper_width', '1'),
+                cl_crosshair_dynamic_maxdist_splitratio: getElementValue('cl_crosshair_dynamic_maxdist_splitratio', '0.35'),
+                cl_crosshair_dynamic_splitalpha_innermod: getElementValue('cl_crosshair_dynamic_splitalpha_innermod', '1'),
+                cl_crosshair_dynamic_splitalpha_outermod: getElementValue('cl_crosshair_dynamic_splitalpha_outermod', '0.5'),
+                cl_crosshair_dynamic_splitdist: getElementValue('cl_crosshair_dynamic_splitdist', '7'),
+                cl_grenadecrosshair_decoy: getElementValue('cl_grenadecrosshair_decoy', '1'),
+                cl_grenadecrosshair_explosive: getElementValue('cl_grenadecrosshair_explosive', '1'),
+                cl_grenadecrosshair_fire: getElementValue('cl_grenadecrosshair_fire', '1'),
+                cl_grenadecrosshair_flash: getElementValue('cl_grenadecrosshair_flash', '1'),
+                cl_grenadecrosshair_smoke: getElementValue('cl_grenadecrosshair_smoke', '1'),
+                cl_grenadecrosshair_keepusercrosshair: getElementValue('cl_grenadecrosshair_keepusercrosshair', '0'),
+                cl_grenadecrosshairdelay_decoy: getElementValue('cl_grenadecrosshairdelay_decoy', '0.3'),
+                cl_grenadecrosshairdelay_explosive: getElementValue('cl_grenadecrosshairdelay_explosive', '0.3'),
+                cl_grenadecrosshairdelay_fire: getElementValue('cl_grenadecrosshairdelay_fire', '0.3'),
+                cl_grenadecrosshairdelay_flash: getElementValue('cl_grenadecrosshairdelay_flash', '0.3'),
+                cl_grenadecrosshairdelay_smoke: getElementValue('cl_grenadecrosshairdelay_smoke', '0.3'),
                 // cl_crosshairdynamic removed - deprecated in CS2
                 
                 // Advanced Settings
-                violence_hblood: document.getElementById('violence_hblood').value,
-                cl_join_advertise: document.getElementById('cl_join_advertise').value,
-                con_enable: document.getElementById('con_enable').value,
-                cl_showerror: document.getElementById('cl_showerror').value,
-                player_debug_print_damage: document.getElementById('player_debug_print_damage').value,
-                cl_graphics_driver_warning_dont_show_again: document.getElementById('cl_graphics_driver_warning_dont_show_again').value,
-                cl_vrr_recommendation_dont_show_again: document.getElementById('cl_vrr_recommendation_dont_show_again').value,
-                cl_refresh_rate_recommendation_dont_show_again: document.getElementById('cl_refresh_rate_recommendation_dont_show_again').value,
-                cl_low_latency_vsync_recommendation_dont_show_again: document.getElementById('cl_low_latency_vsync_recommendation_dont_show_again').value,
+                violence_hblood: getElementValue('violence_hblood', '1'),
+                cl_join_advertise: getElementValue('cl_join_advertise', '2'),
+                con_enable: getElementValue('con_enable', '0'),
+                cl_showerror: getElementValue('cl_showerror', '0'),
+                player_debug_print_damage: getElementValue('player_debug_print_damage', '0'),
+                cl_graphics_driver_warning_dont_show_again: getElementValue('cl_graphics_driver_warning_dont_show_again', '0'),
+                cl_vrr_recommendation_dont_show_again: getElementValue('cl_vrr_recommendation_dont_show_again', '0'),
+                cl_refresh_rate_recommendation_dont_show_again: getElementValue('cl_refresh_rate_recommendation_dont_show_again', '0'),
+                cl_low_latency_vsync_recommendation_dont_show_again: getElementValue('cl_low_latency_vsync_recommendation_dont_show_again', '0'),
                 
                 
                 // Visual Effects Settings
-                r_drawparticles: document.getElementById('r_drawparticles').value,
-                fog_override: document.getElementById('fog_override').value,
-                animated_material_attributes: document.getElementById('animated_material_attributes').value,
+                r_drawparticles: getElementValue('r_drawparticles', '1'),
+                r_drawtracers_firstperson: getElementValue('r_drawtracers_firstperson', '1'),
+                fog_override: getElementValue('fog_override', '0'),
+                animated_material_attributes: getElementValue('animated_material_attributes', '1'),
                 
                 // Input & Control Settings
-                cl_input_enable_raw_keyboard: document.getElementById('cl_input_enable_raw_keyboard').value,
-                cl_debounce_zoom: document.getElementById('cl_debounce_zoom').value,
-                cl_use_opens_buy_menu: document.getElementById('cl_use_opens_buy_menu').value,
-                cl_scoreboard_mouse_enable_binding: document.getElementById('cl_scoreboard_mouse_enable_binding').value,
-                cl_buywheel_donate_key: document.getElementById('cl_buywheel_donate_key').value,
+                cl_input_enable_raw_keyboard: getElementValue('cl_input_enable_raw_keyboard', '1'),
+                cl_debounce_zoom: getElementValue('cl_debounce_zoom', '0'),
+                cl_use_opens_buy_menu: getElementValue('cl_use_opens_buy_menu', '1'),
+                cl_scoreboard_mouse_enable_binding: getElementValue('cl_scoreboard_mouse_enable_binding', '1'),
+                cl_buywheel_donate_key: getElementValue('cl_buywheel_donate_key', '0'),
                 
                 // Practice & Training Settings
-                bot_add: document.getElementById('bot_add').value,
-                bot_difficulty: document.getElementById('bot_difficulty').value,
-                bot_kick: document.getElementById('bot_kick').value,
-                bot_stop: document.getElementById('bot_stop').value,
-                bot_place: document.getElementById('bot_place').value,
-                bot_mimic: document.getElementById('bot_mimic').value,
-                sv_cheats: document.getElementById('sv_cheats').value,
-                sv_infinite_ammo: document.getElementById('sv_infinite_ammo').value,
-                sv_grenade_trajectory: document.getElementById('sv_grenade_trajectory').value,
-                mp_respawn_on_death_ct: document.getElementById('mp_respawn_on_death_ct').value,
-                mp_respawn_on_death_t: document.getElementById('mp_respawn_on_death_t').value,
-                mp_buy_anywhere: document.getElementById('mp_buy_anywhere').value,
-                mp_buytime: document.getElementById('mp_buytime').value,
-                mp_roundtime: document.getElementById('mp_roundtime').value,
-                mp_maxmoney: document.getElementById('mp_maxmoney').value,
-                mp_startmoney: document.getElementById('mp_startmoney').value,
-                demo_name: document.getElementById('demo_name').value,
-                record_demo: document.getElementById('record_demo').value,
-                stop_demo: document.getElementById('stop_demo').value,
-                demo_pause: document.getElementById('demo_pause').value,
-                demo_resume: document.getElementById('demo_resume').value,
-                demo_togglepause: document.getElementById('demo_togglepause').value,
-                demo_timescale: document.getElementById('demo_timescale').value
+                bot_add: getElementValue('bot_add', ''),
+                bot_difficulty: getElementValue('bot_difficulty', '1'),
+                bot_kick: getElementValue('bot_kick', ''),
+                bot_stop: getElementValue('bot_stop', ''),
+                bot_place: getElementValue('bot_place', ''),
+                bot_mimic: getElementValue('bot_mimic', '0'),
+                sv_cheats: getElementValue('sv_cheats', '0'),
+                sv_infinite_ammo: getElementValue('sv_infinite_ammo', '0'),
+                sv_grenade_trajectory: getElementValue('sv_grenade_trajectory', '0'),
+                mp_respawn_on_death_ct: getElementValue('mp_respawn_on_death_ct', '0'),
+                mp_respawn_on_death_t: getElementValue('mp_respawn_on_death_t', '0'),
+                mp_buy_anywhere: getElementValue('mp_buy_anywhere', '0'),
+                mp_buytime: getElementValue('mp_buytime', '90'),
+                mp_roundtime: getElementValue('mp_roundtime', '1.92'),
+                mp_maxmoney: getElementValue('mp_maxmoney', '16000'),
+                mp_startmoney: getElementValue('mp_startmoney', '800'),
+                
+                // Streaming & Content Creation Settings
+                streaming_fps_max: getElementValue('streaming_fps_max', '240'),
+                streaming_quality: getElementValue('streaming_quality', 'balanced'),
+                spec_replay_autostart: getElementValue('spec_replay_autostart', '0'),
+                cl_draw_only_deathnotices: getElementValue('cl_draw_only_deathnotices', '0'),
+                voice_mixer_volume: getElementValue('voice_mixer_volume', '0.7'),
+                streaming_rate: getElementValue('streaming_rate', '786432'),
+                
+                // Low-End PC Optimization Settings
+                lowend_fps_max: getElementValue('lowend_fps_max', '144'),
+                lowend_ragdolls: getElementValue('lowend_ragdolls', '0'),
+                lowend_particles: getElementValue('lowend_particles', '1'),
+                lowend_texture_quality: getElementValue('lowend_texture_quality', '0'),
+                lowend_shadows: getElementValue('lowend_shadows', '0'),
+                lowend_thread_priority: getElementValue('lowend_thread_priority', '1'),
+                lowend_memory_opt: getElementValue('lowend_memory_opt', '1'),
+                lowend_background: getElementValue('lowend_background', '0')
             };
 
             const configLines = [
@@ -3730,7 +3865,7 @@
                 `cl_predict_head_shot_fx "${config.cl_predict_head_shot_fx}"  // Predict headshot effects`,
                 `cl_predict_kill_ragdolls "${config.cl_predict_kill_ragdolls}"  // Predict kill ragdolls`,
                 `cl_net_buffer_ticks_use_interp "${config.cl_net_buffer_ticks_use_interp}"  // Use interpolation for network buffer ticks`,
-                `cl_interp_ratio "${config.cl_interp_ratio}"  // Interpolation ratio (0 recommended, 1-2 for packet loss)`,
+
                 `cl_tickpacket_desired_queuelength "${config.cl_tickpacket_desired_queuelength}"  // Desired queue length for tick packets`,
                 `mm_session_search_qos_timeout "${config.mm_session_search_qos_timeout}"  // QoS timeout for session search`,
                 `mm_csgo_community_search_players_min "${config.mm_csgo_community_search_players_min}"  // Minimum players for community search`,
@@ -3738,8 +3873,7 @@
                 `ui_setting_advertiseforhire_auto "${config.ui_setting_advertiseforhire_auto}"  // Auto advertise for hire`,
                 `cl_invites_only_friends "${config.cl_invites_only_friends}"  // Restrict invites to friends only`,
                 `cl_invites_only_mainmenu "${config.cl_invites_only_mainmenu}"  // Only allow invites in main menu`,
-                `net_graph "${config.net_graph}"  // Show network performance graph`,
-                `cq_netgraph "${config.cq_netgraph}"  // CS2's new network graph`,
+
                 '',
                 '// ========================================',
                 '// PERFORMANCE & FPS OPTIMIZATION',
@@ -3747,8 +3881,6 @@
                 '',
                 `fps_max "${config.fps_max}"  // Maximum FPS (0 = unlimited)`,
                 `cl_disable_ragdolls "${config.cl_disable_ragdolls}"  // Disable ragdoll physics`,
-                ...(config.cl_forcepreload ? [`cl_forcepreload "${config.cl_forcepreload}"  // Preload all assets for smoother gameplay`] : []),
-                ...(config.mat_queue_mode ? [`mat_queue_mode "${config.mat_queue_mode}"  // Multi-core rendering (-1=disabled, 2=enabled)`] : []),
                 `vprof_off "${config.vprof_off}"  // Disable visual profiling tool`,
                 // r_dynamic and muzzleflash_light removed - deprecated in CS2
                 // cl_forcepreload removed - deprecated in CS2
@@ -3758,28 +3890,23 @@
                 `engine_low_latency_sleep_after_client_tick "${config.engine_low_latency_sleep_after_client_tick}"  // Low latency sleep`,
                 `engine_no_focus_sleep "${config.engine_no_focus_sleep}"  // Sleep when game loses focus`,
                 `r_fullscreen_gamma "${config.r_fullscreen_gamma}"  // Gamma correction for fullscreen mode`,
-                `r_drawtracers_firstperson "${config.r_drawtracers_firstperson}"  // Toggle bullet tracers in first person`,
                 `cl_particle_fallback_base "${config.cl_particle_fallback_base}"  // Particle system fallback base`,
                 `cl_particle_fallback_multiplier "${config.cl_particle_fallback_multiplier}"  // Particle fallback multiplier`,
                 `r_player_visibility_mode "${config.r_player_visibility_mode}"  // Enhanced player visibility`,
                 '',
                 '// ========================================',
-                '// PRO SETTINGS - COMPETITIVE',
+                '// NETWORK & INTERPOLATION SETTINGS',
                 '// ========================================',
                 '',
-                ...(config.cl_autowepswitch ? [`cl_autowepswitch "${config.cl_autowepswitch}"  // Auto weapon switch on pickup`] : []),
-                ...(config.cl_teamid_overhead ? [`cl_teamid_overhead "${config.cl_teamid_overhead}"  // Show teammate names above heads`] : []),
-                ...(config.cl_teamid_overhead_always ? [`cl_teamid_overhead_always "${config.cl_teamid_overhead_always}"  // Show teammate equipment`] : []),
-                ...(config.cl_interp ? [`cl_interp "${config.cl_interp}"  // Network interpolation for hit registration`] : []),
+                `cl_interp_ratio "${config.cl_interp_ratio}"  // Interpolation ratio for network smoothing`,
                 '',
                 '// ========================================',
-                '// PRO SETTINGS - ADVANCED OPTIMIZATION',
+                '// ADVANCED PERFORMANCE SETTINGS',
                 '// ========================================',
                 '',
-                ...(config.mat_disable_fancy_blending ? [`mat_disable_fancy_blending "${config.mat_disable_fancy_blending}"  // Disable fancy blending for performance`] : []),
-                ...(config.r_texturestreaming ? [`r_texturestreaming "${config.r_texturestreaming}"  // Texture streaming for lower VRAM usage`] : []),
-                ...(config.cl_predictweapons ? [`cl_predictweapons "${config.cl_predictweapons}"  // Predict weapon animations`] : []),
-                ...(config.cl_disablehtmlmotd ? [`cl_disablehtmlmotd "${config.cl_disablehtmlmotd}"  // Disable HTML MOTD for faster loading`] : []),
+                `engine_low_latency_sleep_after_client_tick "${config.engine_low_latency_sleep_after_client_tick}"  // Reduce input latency`,
+                `r_fullscreen_gamma "${config.r_fullscreen_gamma}"  // Gamma correction for fullscreen`,
+                '',
                 '',
                 '// ========================================',
                 '// PRO SETTINGS - MOUSE & VIEWMODEL',
@@ -3833,9 +3960,6 @@
                 `cl_mute_all_but_friends_and_party "${config.cl_mute_all_but_friends_and_party}"  // Mute all but friends`,
                 `cl_clutch_mode "${config.cl_clutch_mode}"  // Clutch mode`,
                 `voice_loopback "${config.voice_loopback}"  // Voice loopback`,
-                `voice_enable "${config.voice_enable}"  // Enable voice communication`,
-                `voice_scale "${config.voice_scale}"  // Voice volume scale`,
-                `snd_legacy_surround "${config.snd_legacy_surround}"  // Legacy surround sound`,
                 `voice_threshold "${config.voice_threshold}"  // Voice threshold`,
                 `voice_modenable "${config.voice_modenable}"  // Voice mode enable`,
                 `voice_always_sample_mic "${config.voice_always_sample_mic}"  // Always sample mic`,
@@ -3865,7 +3989,6 @@
                 `cl_teamid_overhead_mode "${config.cl_teamid_overhead_mode}"  // Team ID overhead mode`,
                 `cl_showloadout "${config.cl_showloadout}"  // Show loadout`,
                 `cl_prefer_lefthanded "${config.cl_prefer_lefthanded}"  // Left-handed viewmodel`,
-                `r_drawtracers_firstperson "${config.r_drawtracers_firstperson}"  // First-person tracers`,
                 `cl_hud_telemetry_frametime_show "${config.cl_hud_telemetry_frametime_show}"  // HUD telemetry frametime`,
                 `cl_hud_telemetry_net_misdelivery_show "${config.cl_hud_telemetry_net_misdelivery_show}"  // HUD telemetry network`,
                 `cl_hud_telemetry_ping_show "${config.cl_hud_telemetry_ping_show}"  // HUD telemetry ping`,
@@ -3888,7 +4011,7 @@
                 `cl_drawhud_specvote "${config.cl_drawhud_specvote}"  // Draw HUD spec vote`,
                 `cl_observed_bot_crosshair "${config.cl_observed_bot_crosshair}"  // Observed bot crosshair`,
                 `cl_teamid_overhead_colors_show "${config.cl_teamid_overhead_colors_show}"  // Team ID overhead colors`,
-                `cl_show_team_equipment "${config.cl_show_team_equipment}"  // Show teammate equipment`,
+                ...(config.cl_show_team_equipment === '2' ? ['+cl_show_team_equipment  // Show all teammate equipment'] : config.cl_show_team_equipment === '1' ? ['+cl_show_team_equipment "1"  // Show teammate equipment'] : []),
                 `cl_teamid_overhead_fade_near_crosshair "${config.cl_teamid_overhead_fade_near_crosshair}"  // Team ID overhead fade near crosshair`,
                 `cl_deathnotices_show_numbers "${config.cl_deathnotices_show_numbers}"  // Death notices show numbers`,
                 `cl_scoreboard_survivors_always_on "${config.cl_scoreboard_survivors_always_on}"  // Scoreboard survivors always on`,
@@ -3978,6 +4101,7 @@
                 '// ========================================',
                 '',
                 `r_drawparticles "${config.r_drawparticles}"  // Draw particle effects`,
+                `r_drawtracers_firstperson "${config.r_drawtracers_firstperson}"  // Show bullet tracers in first person view`,
                 `fog_override "${config.fog_override}"  // Override automatic fog settings`,
                 `animated_material_attributes "${config.animated_material_attributes}"  // Animated material effects`,
                 '',
@@ -3993,8 +4117,6 @@
                 `cl_refresh_rate_recommendation_dont_show_again "${config.cl_refresh_rate_recommendation_dont_show_again}"  // Refresh rate recommendation`,
                 `cl_low_latency_vsync_recommendation_dont_show_again "${config.cl_low_latency_vsync_recommendation_dont_show_again}"  // Low latency VSync recommendation`,
                 'cl_dm_buyrandomweapons "0"  // Disable random weapon buying in DM',
-                'cl_autowepswitch "0"  // Disable auto weapon switch',
-                'cl_spec_follow_grenade_key "1"  // Follow grenades with key',
                 'gameinstructor_enable "0"  // Disable game instructor',
                 'cl_autohelp "0"  // Disable automatic help messages',
                 '',
@@ -4028,14 +4150,8 @@
                 `mp_roundtime "${config.mp_roundtime}"  // Round time in minutes`,
                 `mp_maxmoney "${config.mp_maxmoney}"  // Maximum money`,
                 `mp_startmoney "${config.mp_startmoney}"  // Starting money`,
-                '',
-                '// Demo Recording Commands',
-                ...(config.record_demo === '1' ? [`record "${config.demo_name}"  // Start recording demo`] : []),
-                ...(config.stop_demo === '1' ? ['stop  // Stop demo recording'] : []),
-                ...(config.demo_pause === '1' ? ['demo_pause  // Pause demo playback'] : []),
-                ...(config.demo_resume === '1' ? ['demo_resume  // Resume demo playback'] : []),
-                ...(config.demo_togglepause === '1' ? ['demo_togglepause  // Toggle demo pause/play'] : []),
-                `demo_timescale "${config.demo_timescale}"  // Demo playback speed`,
+
+
                 '',
                 '// ========================================',
                 '// SAVE CONFIG & CONFIRMATION',
@@ -4046,26 +4162,41 @@
             ];
 
             const configContent = configLines.join('\n');
+            console.log('Config content generated, length:', configContent.length);
             
             // Validate configuration before displaying
-            const validation = validateConfigValues(config, 'autoexec');
-            const validationMessage = showValidationResults(validation);
-            
-            // Show validation results
-            if (validation.errors.length > 0) {
-                alert(validationMessage);
-                return; // Don't generate config if there are errors
-            } else if (validation.warnings.length > 0) {
-                if (!confirm(validationMessage + '\nDo you want to continue anyway?')) {
-                    return; // User chose not to continue
+            try {
+                console.log('Starting validation...');
+                const validation = validateConfigValues(config, 'autoexec');
+                const validationMessage = showValidationResults(validation);
+                console.log('Validation completed:', validation);
+                
+                // Show validation results
+                if (validation.errors.length > 0) {
+                    alert(validationMessage);
+                    return; // Don't generate config if there are errors
+                } else if (validation.warnings.length > 0) {
+                    if (!confirm(validationMessage + '\nDo you want to continue anyway?')) {
+                        return; // User chose not to continue
+                    }
+                } else {
+                    // Show success message for clean configs
+                    alert(validationMessage);
                 }
-            } else {
-                // Show success message for clean configs
-                alert(validationMessage);
+            } catch (validationError) {
+                console.error('Validation error:', validationError);
+                alert('Validation failed, but continuing with config generation...');
             }
             
+            console.log('Setting textarea content...');
             document.getElementById('autoexec-textarea').value = configContent;
             document.getElementById('autoexec-output').style.display = 'block';
+            console.log('generateAutoexec() completed successfully');
+            
+            } catch (error) {
+                console.error('Error in generateAutoexec():', error);
+                alert('An error occurred while generating the config: ' + error.message);
+            }
         }
 
         // Pro Settings Presets
@@ -4089,8 +4220,6 @@
                         // Video Settings
                         fps_max: '999',
                         cl_disable_ragdolls: '1',
-                        cl_forcepreload: '1',
-                        mat_queue_mode: '2',
                         
                         // Crosshair Settings
                         cl_crosshair_size: '2',
@@ -4102,9 +4231,9 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_autowepswitch: '0',
                         cl_teamid_overhead: '1',
-                        cl_interp: '0'
+                        cl_interp_ratio: '1',
+                        r_drawtracers_firstperson: '1'
                     }
                 },
                 'donk': {
@@ -4125,8 +4254,6 @@
                         // Video Settings
                         fps_max: '500',
                         cl_disable_ragdolls: '1',
-                        cl_forcepreload: '1',
-                        mat_queue_mode: '2',
                         
                         // Crosshair Settings
                         cl_crosshair_size: '1.5',
@@ -4138,9 +4265,9 @@
                         cl_crosshaircolor: '4',
                         
                         // Competitive Settings
-                        cl_autowepswitch: '0',
                         cl_teamid_overhead: '1',
-                        cl_interp: '0'
+                        cl_interp_ratio: '1',
+                        r_drawtracers_firstperson: '1'
                     }
                 },
                 's1mple': {
@@ -4161,8 +4288,6 @@
                         // Video Settings
                         fps_max: '400',
                         cl_disable_ragdolls: '1',
-                        cl_forcepreload: '0',
-                        mat_queue_mode: '2',
                         
                         // Crosshair Settings
                         cl_crosshair_size: '3',
@@ -4174,9 +4299,9 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_autowepswitch: '0',
                         cl_teamid_overhead: '2',
-                        cl_interp: '0.007813'
+                        cl_interp_ratio: '1',
+                        r_drawtracers_firstperson: '1'
                     }
                 },
                 'zywoo': {
@@ -4197,8 +4322,6 @@
                         // Video Settings
                         fps_max: '400',
                         cl_disable_ragdolls: '1',
-                        cl_forcepreload: '1',
-                        mat_queue_mode: '2',
                         
                         // Crosshair Settings
                         cl_crosshair_size: '2',
@@ -4210,9 +4333,9 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_autowepswitch: '0',
                         cl_teamid_overhead: '1',
-                        cl_interp: '0'
+                        cl_interp_ratio: '1',
+                        r_drawtracers_firstperson: '1'
                     }
                 },
                 'niko': {
@@ -4233,8 +4356,6 @@
                         // Video Settings
                         fps_max: '400',
                         cl_disable_ragdolls: '1',
-                        cl_forcepreload: '1',
-                        mat_queue_mode: '2',
                         
                         // Crosshair Settings
                         cl_crosshair_size: '1',
@@ -4246,9 +4367,9 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_autowepswitch: '0',
                         cl_teamid_overhead: '1',
-                        cl_interp: '0'
+                        cl_interp_ratio: '1',
+                        r_drawtracers_firstperson: '1'
                     }
                 },
                 'sh1ro': {
@@ -4269,8 +4390,6 @@
                         // Video Settings
                         fps_max: '300',
                         cl_disable_ragdolls: '1',
-                        cl_forcepreload: '1',
-                        mat_queue_mode: '2',
                         
                         // Crosshair Settings
                         cl_crosshair_size: '2',
@@ -4282,9 +4401,9 @@
                         cl_crosshaircolor: '4',
                         
                         // Competitive Settings
-                        cl_autowepswitch: '0',
                         cl_teamid_overhead: '1',
-                        cl_interp: '0'
+                        cl_interp_ratio: '1',
+                        r_drawtracers_firstperson: '1'
                     }
                 }
             };
@@ -4311,7 +4430,6 @@
                  // Video Settings
                  'fps_max': 'fps_max',
                  'cl_disable_ragdolls': 'cl_disable_ragdolls',
-                 'mat_queue_mode': 'thread_pool_option',
                  
                  // Crosshair Settings
                  'cl_crosshair_size': 'cl_crosshairsize',
@@ -4323,7 +4441,8 @@
                  
                  // Competitive Settings
                  'cl_teamid_overhead': 'cl_teamid_overhead_mode',
-                 'cl_interp': 'cl_interp_ratio'
+                 'cl_interp_ratio': 'cl_interp_ratio',
+                 'r_drawtracers_firstperson': 'r_drawtracers_firstperson'
              };
 
              Object.keys(profile.settings).forEach(setting => {
@@ -4369,8 +4488,7 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_teamid_overhead_mode: '1',
-                        cl_interp_ratio: '1'
+                        cl_teamid_overhead_mode: '1'
                     },
                     videoSettings: {
                         // Resolution & Display
@@ -4382,13 +4500,11 @@
                         // Graphics Quality
                         setting_cpu_level: '1',
                         setting_gpu_level: '1',
-                        setting_mat_queue_mode: '2',
                         setting_mat_vsync: '0',
                         
                         // Advanced Video
                         setting_mat_triplebuffered: '0',
                         setting_mat_grain_scale_override: '1',
-                        setting_mat_monitorgamma: '2.2',
                         setting_mat_monitorgamma_tv_enabled: '0',
                         
                         // Performance
@@ -4396,7 +4512,6 @@
                         fps_max_menu: '120',
                         cl_disable_ragdolls: '1',
                         r_dynamic: '0',
-                        r_drawtracers_firstperson: '1',
                         
                         // Shader Quality
                         setting_mat_software_aa_strength: '0',
@@ -4411,8 +4526,6 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        setting_cl_particle_fallback_base: '0',
-                        setting_cl_particle_fallback_multiplier: '0',
                         
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
@@ -4443,8 +4556,7 @@
                         cl_crosshaircolor: '4',
                         
                         // Competitive Settings
-                        cl_teamid_overhead_mode: '1',
-                        cl_interp_ratio: '1'
+                        cl_teamid_overhead_mode: '1'
                     },
                     videoSettings: {
                         // Resolution & Display
@@ -4456,13 +4568,11 @@
                         // Graphics Quality
                         setting_cpu_level: '0',
                         setting_gpu_level: '0',
-                        setting_mat_queue_mode: '2',
                         setting_mat_vsync: '0',
                         
                         // Advanced Video
                         setting_mat_triplebuffered: '0',
                         setting_mat_grain_scale_override: '1',
-                        setting_mat_monitorgamma: '2.2',
                         setting_mat_monitorgamma_tv_enabled: '0',
                         
                         // Performance
@@ -4470,7 +4580,6 @@
                         fps_max_menu: '120',
                         cl_disable_ragdolls: '1',
                         r_dynamic: '0',
-                        r_drawtracers_firstperson: '1',
                         
                         // Shader Quality
                         setting_mat_software_aa_strength: '0',
@@ -4485,8 +4594,6 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        setting_cl_particle_fallback_base: '0',
-                        setting_cl_particle_fallback_multiplier: '0',
                         
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
@@ -4517,8 +4624,7 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_teamid_overhead_mode: '2',
-                        cl_interp_ratio: '2'
+                        cl_teamid_overhead_mode: '2'
                     },
                     videoSettings: {
                         // Resolution & Display
@@ -4530,13 +4636,12 @@
                         // Graphics Quality
                         setting_cpu_level: '0',
                         setting_gpu_level: '0',
-                        setting_mat_queue_mode: '2',
+
                         setting_mat_vsync: '0',
                         
                         // Advanced Video
                         setting_mat_triplebuffered: '0',
                         setting_mat_grain_scale_override: '1',
-                        setting_mat_monitorgamma: '2.2',
                         setting_mat_monitorgamma_tv_enabled: '0',
                         
                         // Performance
@@ -4544,7 +4649,6 @@
                         fps_max_menu: '120',
                         cl_disable_ragdolls: '1',
                         r_dynamic: '0',
-                        r_drawtracers_firstperson: '1',
                         
                         // Shader Quality
                         setting_mat_software_aa_strength: '0',
@@ -4559,8 +4663,6 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        setting_cl_particle_fallback_base: '0',
-                        setting_cl_particle_fallback_multiplier: '0',
                         
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
@@ -4591,8 +4693,7 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_teamid_overhead_mode: '1',
-                        cl_interp_ratio: '1'
+                        cl_teamid_overhead_mode: '1'
                     },
                     videoSettings: {
                         // Resolution & Display
@@ -4604,13 +4705,11 @@
                         // Graphics Quality
                         setting_cpu_level: '1',
                         setting_gpu_level: '1',
-                        setting_mat_queue_mode: '2',
                         setting_mat_vsync: '0',
                         
                         // Advanced Video
                         setting_mat_triplebuffered: '0',
                         setting_mat_grain_scale_override: '1',
-                        setting_mat_monitorgamma: '2.2',
                         setting_mat_monitorgamma_tv_enabled: '0',
                         
                         // Performance
@@ -4618,7 +4717,6 @@
                         fps_max_menu: '120',
                         cl_disable_ragdolls: '1',
                         r_dynamic: '0',
-                        r_drawtracers_firstperson: '1',
                         
                         // Shader Quality
                         setting_mat_software_aa_strength: '0',
@@ -4633,8 +4731,6 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        setting_cl_particle_fallback_base: '0',
-                        setting_cl_particle_fallback_multiplier: '0',
                         
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
@@ -4665,8 +4761,7 @@
                         cl_crosshaircolor: '1',
                         
                         // Competitive Settings
-                        cl_teamid_overhead_mode: '1',
-                        cl_interp_ratio: '1'
+                        cl_teamid_overhead_mode: '1'
                     },
                     videoSettings: {
                         // Resolution & Display
@@ -4678,13 +4773,11 @@
                         // Graphics Quality
                         setting_cpu_level: '1',
                         setting_gpu_level: '1',
-                        setting_mat_queue_mode: '2',
                         setting_mat_vsync: '0',
                         
                         // Advanced Video
                         setting_mat_triplebuffered: '0',
                         setting_mat_grain_scale_override: '1',
-                        setting_mat_monitorgamma: '2.2',
                         setting_mat_monitorgamma_tv_enabled: '0',
                         
                         // Performance
@@ -4692,7 +4785,6 @@
                         fps_max_menu: '120',
                         cl_disable_ragdolls: '1',
                         r_dynamic: '0',
-                        r_drawtracers_firstperson: '1',
                         
                         // Shader Quality
                         setting_mat_software_aa_strength: '0',
@@ -4707,8 +4799,6 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        setting_cl_particle_fallback_base: '0',
-                        setting_cl_particle_fallback_multiplier: '0',
                         
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
@@ -4739,8 +4829,7 @@
                         cl_crosshaircolor: '4',
                         
                         // Competitive Settings
-                        cl_teamid_overhead_mode: '1',
-                        cl_interp_ratio: '1'
+                        cl_teamid_overhead_mode: '1'
                     },
                     videoSettings: {
                         // Resolution & Display
@@ -4752,13 +4841,11 @@
                         // Graphics Quality
                         setting_cpu_level: '0',
                         setting_gpu_level: '0',
-                        setting_mat_queue_mode: '2',
                         setting_mat_vsync: '0',
                         
                         // Advanced Video
                         setting_mat_triplebuffered: '0',
                         setting_mat_grain_scale_override: '1',
-                        setting_mat_monitorgamma: '2.2',
                         setting_mat_monitorgamma_tv_enabled: '0',
                         
                         // Performance
@@ -4766,7 +4853,6 @@
                         fps_max_menu: '120',
                         cl_disable_ragdolls: '1',
                         r_dynamic: '0',
-                        r_drawtracers_firstperson: '1',
                         
                         // Shader Quality
                         setting_mat_software_aa_strength: '0',
@@ -4781,8 +4867,6 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        setting_cl_particle_fallback_base: '0',
-                        setting_cl_particle_fallback_multiplier: '0',
                         
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
@@ -4824,8 +4908,7 @@
             
             // Competitive Settings
             configContent += `// Competitive Settings\n`;
-            configContent += `cl_teamid_overhead_mode "${profile.settings.cl_teamid_overhead_mode}"\n`;
-            configContent += `cl_interp_ratio "${profile.settings.cl_interp_ratio}"\n\n`;
+            configContent += `cl_teamid_overhead_mode "${profile.settings.cl_teamid_overhead_mode}"\n\n`;
             
             configContent += `echo "${profile.name} config loaded successfully!"`;
 
@@ -5361,6 +5444,8 @@
                 content = document.getElementById('binds-textarea').value;
             } else if (type === 'video') {
                 content = document.getElementById('video-textarea').value;
+            } else if (type === 'practice') {
+                content = document.getElementById('practice-textarea').value;
             }
 
             if (content) {
@@ -5385,6 +5470,8 @@
                 content = document.getElementById('binds-textarea').value;
             } else if (type === 'video') {
                 content = document.getElementById('video-textarea').value;
+            } else if (type === 'practice') {
+                content = document.getElementById('practice-textarea').value;
             }
 
             if (content) {
@@ -5767,11 +5854,11 @@
             if (config.type === 'autoexec') {
                 document.getElementById('autoexec-textarea').value = config.data;
                 document.getElementById('autoexec-output').style.display = 'block';
-                switchTab('autoexec');
+                switchTab('autoexec', null);
             } else if (config.type === 'binds') {
                 document.getElementById('binds-textarea').value = config.data;
                 document.getElementById('binds-output').style.display = 'block';
-                switchTab('binds');
+                switchTab('binds', null);
             }
             
             alert(`Configuration "${config.name}" loaded successfully!`);
@@ -6380,6 +6467,279 @@
             } else if (e.key === 'Escape' && document.getElementById('input-modal').style.display === 'block') {
                 closeInputModal(false);
             }
+        });
+
+        // Real-time validation system
+        function createValidationAlert() {
+            let alertDiv = document.getElementById('validation-alerts');
+            if (!alertDiv) {
+                alertDiv = document.createElement('div');
+                alertDiv.id = 'validation-alerts';
+                alertDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    max-width: 400px;
+                    z-index: 9999;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(alertDiv);
+            }
+            return alertDiv;
+        }
+
+        function showValidationMessage(message, type = 'warning') {
+            const alertDiv = createValidationAlert();
+            const messageDiv = document.createElement('div');
+            
+            const bgColor = type === 'error' ? '#ff4757' : type === 'warning' ? '#ffa502' : '#2ed573';
+            const icon = type === 'error' ? '❌' : type === 'warning' ? '⚠️' : '✅';
+            
+            messageDiv.style.cssText = `
+                background: ${bgColor};
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                font-size: 14px;
+                font-weight: 500;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+                pointer-events: auto;
+                cursor: pointer;
+            `;
+            
+            messageDiv.innerHTML = `${icon} ${message}`;
+            alertDiv.appendChild(messageDiv);
+            
+            // Animate in
+            setTimeout(() => {
+                messageDiv.style.opacity = '1';
+                messageDiv.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Auto remove after 4 seconds
+            setTimeout(() => {
+                messageDiv.style.opacity = '0';
+                messageDiv.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 300);
+            }, 4000);
+            
+            // Click to dismiss
+            messageDiv.addEventListener('click', () => {
+                messageDiv.style.opacity = '0';
+                messageDiv.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 300);
+            });
+        }
+
+        function validateInput(element) {
+            const value = element.value;
+            const id = element.id;
+            
+            // Clear any existing validation styling
+            element.style.borderColor = '';
+            
+            // FPS validation with detailed ranges
+            if (id === 'fps_max' || id === 'streaming_fps_max' || id === 'lowend_fps_max') {
+                const fps = parseInt(value);
+                const settingType = id === 'streaming_fps_max' ? 'Streaming' : id === 'lowend_fps_max' ? 'Low-End PC' : 'Main';
+                
+                if (isNaN(fps) || fps <= 0) {
+                    showValidationMessage(`❌ ${settingType} FPS must be a positive number`, 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (fps < 30) {
+                    showValidationMessage(`⚠️ ${settingType} FPS below 30 will cause severe stuttering (Recommended: 60-300)`, 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (fps < 60) {
+                    showValidationMessage(`⚠️ ${settingType} FPS below 60 may cause gameplay issues (Recommended: 60-300)`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (fps > 1000) {
+                    showValidationMessage(`⚠️ ${settingType} FPS above 1000 may waste resources (Recommended: 60-300)`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (fps >= 60 && fps <= 300) {
+                    showValidationMessage(`✅ ${settingType} FPS is in optimal range (60-300)`, 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+            
+            // FPS UI/Tools validation
+            if (id === 'fps_max_ui' || id === 'fps_max_tools') {
+                const fpsMain = parseInt(document.getElementById('fps_max').value);
+                const fpsValue = parseInt(value);
+                const settingName = id === 'fps_max_ui' ? 'UI FPS' : 'Tools FPS';
+                
+                if (isNaN(fpsValue) || fpsValue <= 0) {
+                    showValidationMessage(`❌ ${settingName} must be a positive number`, 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (fpsMain > 0 && fpsValue > fpsMain) {
+                    showValidationMessage(`⚠️ ${settingName} (${fpsValue}) higher than main FPS (${fpsMain}) may cause issues`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else {
+                    showValidationMessage(`✅ ${settingName} is properly configured`, 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+            
+            // Sensitivity validation with detailed ranges
+            if (id === 'sensitivity') {
+                const sens = parseFloat(value);
+                if (isNaN(sens) || sens <= 0) {
+                    showValidationMessage('❌ Sensitivity must be a positive number', 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (sens < 0.1) {
+                    showValidationMessage('⚠️ Very low sensitivity may make aiming difficult (Recommended: 0.5-3.0)', 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (sens > 10) {
+                    showValidationMessage('⚠️ Very high sensitivity may affect aim precision (Recommended: 0.5-3.0)', 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (sens >= 0.5 && sens <= 3.0) {
+                    showValidationMessage('✅ Sensitivity is in optimal range (0.5-3.0)', 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+            
+            // Volume validation with ranges
+            if (id === 'volume' || id === 'voice_mixer_volume') {
+                const vol = parseFloat(value);
+                const settingName = id === 'voice_mixer_volume' ? 'Voice mixer volume' : 'Master volume';
+                
+                if (isNaN(vol) || vol < 0) {
+                    showValidationMessage(`❌ ${settingName} must be 0 or higher`, 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (vol > 1.0) {
+                    showValidationMessage(`⚠️ ${settingName} above 1.0 may cause audio distortion (Recommended: 0.3-1.0)`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (vol < 0.1) {
+                    showValidationMessage(`⚠️ ${settingName} below 0.1 may make important sounds inaudible (Recommended: 0.3-1.0)`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else {
+                    showValidationMessage(`✅ ${settingName} is properly configured`, 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+            
+            // Network rate validation with detailed ranges
+            if (id === 'rate' || id === 'streaming_rate') {
+                const rate = parseInt(value);
+                const fps = parseInt(document.getElementById('fps_max').value);
+                const settingName = id === 'streaming_rate' ? 'Streaming network rate' : 'Network rate';
+                
+                if (isNaN(rate) || rate <= 0) {
+                    showValidationMessage(`❌ ${settingName} must be a positive number`, 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (rate < 196608) {
+                    showValidationMessage(`⚠️ ${settingName} below 196608 may cause packet loss (Recommended: 786432)`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (rate < 196608 && fps > 144) {
+                    showValidationMessage(`⚠️ Low ${settingName.toLowerCase()} may bottleneck high FPS gaming`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (rate >= 786432) {
+                    showValidationMessage(`✅ ${settingName} is optimal for competitive play`, 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+            
+            // Ping validation
+            if (id === 'mm_dedicated_search_maxping') {
+                const ping = parseInt(value);
+                if (isNaN(ping) || ping <= 0) {
+                    showValidationMessage('❌ Max ping must be a positive number', 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (ping < 50) {
+                    showValidationMessage('⚠️ Very low max ping may limit available servers (Recommended: 50-150)', 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else if (ping > 300) {
+                    showValidationMessage('⚠️ Very high max ping may cause lag (Recommended: 50-150)', 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else {
+                    showValidationMessage('✅ Max ping is properly configured', 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+            
+            // Viewmodel validation
+            if (id.startsWith('viewmodel_offset_')) {
+                const offset = parseFloat(value);
+                const axis = id.split('_')[2]; // x, y, or z
+                
+                if (isNaN(offset)) {
+                    showValidationMessage(`❌ Viewmodel ${axis.toUpperCase()} offset must be a number`, 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else if (Math.abs(offset) > 10) {
+                    showValidationMessage(`⚠️ Extreme viewmodel ${axis.toUpperCase()} offset may obstruct view`, 'warning');
+                    element.style.borderColor = '#f39c12';
+                } else {
+                    showValidationMessage(`✅ Viewmodel ${axis.toUpperCase()} offset is configured`, 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+            
+            // FOV validation
+            if (id === 'viewmodel_fov') {
+                const fov = parseInt(value);
+                if (isNaN(fov) || fov < 54 || fov > 68) {
+                    showValidationMessage('❌ Viewmodel FOV must be between 54-68', 'error');
+                    element.style.borderColor = '#e74c3c';
+                } else {
+                    showValidationMessage('✅ Viewmodel FOV is within valid range', 'success');
+                    element.style.borderColor = '#27ae60';
+                }
+            }
+        }
+
+        // Add real-time validation to key inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputsToValidate = [
+                'fps_max', 'fps_max_ui', 'fps_max_tools', 'sensitivity', 
+                'volume', 'rate', 'mm_dedicated_search_maxping',
+                'streaming_fps_max', 'streaming_rate', 'voice_mixer_volume',
+                'lowend_fps_max', 'viewmodel_fov', 'viewmodel_offset_x', 
+                'viewmodel_offset_y', 'viewmodel_offset_z'
+            ];
+            
+            inputsToValidate.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', function() {
+                        // Debounce validation
+                        clearTimeout(this.validationTimeout);
+                        this.validationTimeout = setTimeout(() => {
+                            validateInput(this);
+                        }, 500);
+                    });
+                    
+                    element.addEventListener('blur', function() {
+                        validateInput(this);
+                    });
+                }
+            });
+            
+            // Cross-validation when FPS settings change
+            ['fps_max', 'fps_max_ui', 'fps_max_tools', 'streaming_fps_max', 'lowend_fps_max'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', function() {
+                        // Validate all FPS settings when any changes
+                        ['fps_max', 'fps_max_ui', 'fps_max_tools', 'streaming_fps_max', 'lowend_fps_max'].forEach(otherId => {
+                            const otherElement = document.getElementById(otherId);
+                            if (otherElement && otherId !== id) {
+                                validateInput(otherElement);
+                            }
+                        });
+                    });
+                }
+            });
         });
     </script>
 

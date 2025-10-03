@@ -3762,6 +3762,7 @@
                 hud_showtargetid: getElementValue('hud_showtargetid', '1'),
                 cl_crosshair_friendly_warning: getElementValue('cl_crosshair_friendly_warning', '1'),
                 cl_ironsight_usecrosshaircolor: getElementValue('cl_ironsight_usecrosshaircolor', '1'),
+                cl_ironsight_dot_scale: getElementValue('cl_ironsight_dot_scale', '1.0'),
                 cl_crosshair_sniper_width: getElementValue('cl_crosshair_sniper_width', '1'),
                 cl_crosshair_dynamic_maxdist_splitratio: getElementValue('cl_crosshair_dynamic_maxdist_splitratio', '0.35'),
                 cl_crosshair_dynamic_splitalpha_innermod: getElementValue('cl_crosshair_dynamic_splitalpha_innermod', '1'),
@@ -4075,6 +4076,7 @@
                 `hud_showtargetid "${config.hud_showtargetid}"  // Show target ID`,
                 `cl_crosshair_friendly_warning "${config.cl_crosshair_friendly_warning}"  // Friendly warning`,
                 `cl_ironsight_usecrosshaircolor "${config.cl_ironsight_usecrosshaircolor}"  // Iron sight crosshair color`,
+                `cl_ironsight_dot_scale "${config.cl_ironsight_dot_scale}"  // Iron sight dot scale`,
                 `cl_crosshair_sniper_width "${config.cl_crosshair_sniper_width}"  // Sniper crosshair width`,
                 `cl_crosshair_dynamic_maxdist_splitratio "${config.cl_crosshair_dynamic_maxdist_splitratio}"  // Dynamic max distance split ratio`,
                 `cl_crosshair_dynamic_splitalpha_innermod "${config.cl_crosshair_dynamic_splitalpha_innermod}"  // Dynamic split alpha inner mod`,
@@ -4904,7 +4906,9 @@
             configContent += `cl_crosshairgap "${profile.settings.cl_crosshairgap}"\n`;
             configContent += `cl_crosshairdot "${profile.settings.cl_crosshairdot}"\n`;
             configContent += `cl_crosshair_drawoutline "${profile.settings.cl_crosshair_drawoutline}"\n`;
-            configContent += `cl_crosshaircolor "${profile.settings.cl_crosshaircolor}"\n\n`;
+            configContent += `cl_crosshaircolor "${profile.settings.cl_crosshaircolor}"\n`;
+            configContent += `cl_ironsight_usecrosshaircolor "${profile.settings.cl_ironsight_usecrosshaircolor ?? '1'}"\n`;
+            configContent += `cl_ironsight_dot_scale "${profile.settings.cl_ironsight_dot_scale ?? '1.0'}"\n\n`;
             
             // Competitive Settings
             configContent += `// Competitive Settings\n`;

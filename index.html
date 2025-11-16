@@ -770,6 +770,17 @@
                 <!-- r_dynamic removed - lighting system changed in CS2 -->
                 <!-- muzzleflash_light removed - no longer available in CS2 -->
                 <!-- cl_forcepreload removed - deprecated in CS2 -->
+
+                <h4>🎨 Visual Effects</h4>
+                <div class="setting-group">
+                    <label>Render Decals (Blood & Impacts):</label>
+                    <select id="r_csgo_render_decals">
+                        <option value="0">Disabled (No blood/impact marks)</option>
+                        <option value="1" selected>Enabled (Recommended)</option>
+                    </select>
+                    <span class="help-text">🩸 Recommended: Enabled. Clearer hit feedback and impact visibility with minimal FPS impact on most systems (low-end GPUs may see a small drop).</span>
+                </div>
+
                 <div class="setting-group">
                     <label>FPS Max UI:</label>
                     <input type="number" id="fps_max_ui" value="400">
@@ -792,8 +803,8 @@
                 <div class="setting-group">
                     <label>Low Latency Sleep:</label>
                     <select id="engine_low_latency_sleep_after_client_tick">
-                        <option value="0">Disabled</option>
-                        <option value="1" selected>Enabled</option>
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
                     </select>
                     <span class="help-text">⚡ Reduce input latency (recommended for competitive)</span>
                 </div>
@@ -850,8 +861,8 @@
                 <div class="setting-group">
                     <label>Low Latency Sleep:</label>
                     <select id="engine_low_latency_sleep_after_client_tick">
-                        <option value="0">Disabled</option>
-                        <option value="1" selected>Enabled</option>
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
                     </select>
                     <span class="help-text">📊 Reduce input latency by optimizing sleep timing</span>
                 </div>
@@ -1564,6 +1575,14 @@
                         <option value="3" selected>Full</option>
                     </select>
                     <span class="help-text">🎬 Demo playback UI complexity level</span>
+                </div>
+                <div class="setting-group">
+                    <label>Demo Prediction:</label>
+                    <select id="cl_demo_predict">
+                        <option value="0">Disabled</option>
+                        <option value="1" selected>Enabled</option>
+                    </select>
+                    <span class="help-text">🎬 Client-side prediction during demo playback</span>
                 </div>
                 <div class="setting-group">
                     <label>Steam Overlay Horizontal Position:</label>
@@ -2426,6 +2445,7 @@
                     </select>
                     <span class="help-text">🎨 Texture quality. Low for FPS, High for skin details</span>
                 </div>
+                
                 <div class="setting-group">
                     <label>Particle Detail:</label>
                     <select id="setting_videocfg_particle_detail">
@@ -3302,7 +3322,7 @@
                 }
                 
                 // Performance optimization validation
-                const lowLatencySleep = parseInt(config.engine_low_latency_sleep_after_client_tick || 1);
+                const lowLatencySleep = parseInt(config.engine_low_latency_sleep_after_client_tick || 0);
                 const gamma = parseFloat(config.r_fullscreen_gamma || 2.2);
                 
                 if (lowLatencySleep === 0) {
@@ -3607,7 +3627,7 @@
                 fps_max_ui: getElementValue('fps_max_ui', '0'),
                 fps_max_tools: getElementValue('fps_max_tools', '0'),
                 thread_pool_option: getElementValue('thread_pool_option', '0'),
-                engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '1'),
+                engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '0'),
                 engine_no_focus_sleep: getElementValue('engine_no_focus_sleep', '50'),
                 r_fullscreen_gamma: getElementValue('r_fullscreen_gamma', '2.2'),
                 cl_particle_fallback_base: getElementValue('cl_particle_fallback_base', '1'),
@@ -3617,7 +3637,7 @@
                 cl_interp_ratio: getElementValue('cl_interp_ratio', '1'),
                 
                 // Advanced Performance Settings
-                engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '1'),
+                engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '0'),
                 r_fullscreen_gamma: getElementValue('r_fullscreen_gamma', '2.2'),
                 
                 // Mouse Settings
@@ -3721,6 +3741,7 @@
                 spec_glow_full_time: getElementValue('spec_glow_full_time', '0.25'),
                 spec_glow_decay_time: getElementValue('spec_glow_decay_time', '0.75'),
                 demo_ui_mode: getElementValue('demo_ui_mode', '1'),
+                cl_demo_predict: getElementValue('cl_demo_predict', '1'),
                 ui_steam_overlay_notification_position_horz: getElementValue('ui_steam_overlay_notification_position_horz', 'right'),
                 ui_steam_overlay_notification_position_vert: getElementValue('ui_steam_overlay_notification_position_vert', 'top'),
                 cl_hud_telemetry_frametime_poor: getElementValue('cl_hud_telemetry_frametime_poor', '20'),
@@ -3794,6 +3815,7 @@
                 // Visual Effects Settings
                 r_drawparticles: getElementValue('r_drawparticles', '1'),
                 r_drawtracers_firstperson: getElementValue('r_drawtracers_firstperson', '1'),
+                r_csgo_render_decals: getElementValue('r_csgo_render_decals', '1'),
                 fog_override: getElementValue('fog_override', '0'),
                 animated_material_attributes: getElementValue('animated_material_attributes', '1'),
                 
@@ -4018,6 +4040,7 @@
                 `spec_glow_full_time "${config.spec_glow_full_time}"  // Spectator glow full time`,
                 `spec_glow_decay_time "${config.spec_glow_decay_time}"  // Spectator glow decay time`,
                 `demo_ui_mode "${config.demo_ui_mode}"  // Demo UI mode`,
+                `cl_demo_predict "${config.cl_demo_predict}"  // Demo client-side prediction`,
                 `ui_steam_overlay_notification_position_horz "${config.ui_steam_overlay_notification_position_horz}"  // Steam overlay notification position horizontal`,
                 `ui_steam_overlay_notification_position_vert "${config.ui_steam_overlay_notification_position_vert}"  // Steam overlay notification position vertical`,
                 `cl_hud_telemetry_net_misdelivery_poor "${config.cl_hud_telemetry_net_misdelivery_poor}"  // HUD telemetry network misdelivery poor threshold`,
@@ -4091,6 +4114,7 @@
                 '',
                 `r_drawparticles "${config.r_drawparticles}"  // Draw particle effects`,
                 `r_drawtracers_firstperson "${config.r_drawtracers_firstperson}"  // Show bullet tracers in first person view`,
+                `r_csgo_render_decals "${config.r_csgo_render_decals}"  // Render decals (blood, bullet holes, scorch marks)`,
                 `fog_override "${config.fog_override}"  // Override automatic fog settings`,
                 `animated_material_attributes "${config.animated_material_attributes}"  // Animated material effects`,
                 '',
@@ -4515,7 +4539,8 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        
+                        // Decals
+
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
                         setting_mat_low_latency_mode_enabled: '1'
@@ -4583,7 +4608,8 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        
+                        // Decals
+
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
                         setting_mat_low_latency_mode_enabled: '1'
@@ -4652,7 +4678,8 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        
+                        // Decals
+
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
                         setting_mat_low_latency_mode_enabled: '1'
@@ -4720,7 +4747,8 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        
+                        // Decals
+
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
                         setting_mat_low_latency_mode_enabled: '1'
@@ -4788,7 +4816,8 @@
                         
                         // Effect Detail
                         setting_r_player_visibility_mode: '1',
-                        
+                        // Decals
+
                         // NVIDIA Reflex
                         setting_mat_low_latency_mode: '1',
                         setting_mat_low_latency_mode_enabled: '1'
@@ -5397,6 +5426,7 @@
                 '\t"setting.videocfg_dynamic_shadows"\t\t"' + dynamicShadows + '"',
                 '\t"setting.videocfg_texture_detail"\t\t"' + textureDetail + '"',
                 '\t"setting.videocfg_particle_detail"\t\t"' + particleDetail + '"',
+                
                 '\t"setting.videocfg_ao_detail"\t\t"' + aoDetail + '"',
                 '\t"setting.videocfg_hdr_detail"\t\t"' + hdrDetail + '"',
                 '\t"setting.videocfg_fsr_detail"\t\t"' + fsrDetail + '"',

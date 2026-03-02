@@ -56,16 +56,20 @@
 - **🔄 Real-time Preview**: See changes instantly as you configure settings
 - **💾 Auto-Save**: Your settings are automatically saved locally as you work
 - **🏆 Pro Player Configs**: Pre-configured settings from top CS2 professionals (m0NESY, donk, s1mple, ZywOo, NiKo, sh1ro)
+- **🚀 Launch Options Tab**: Valid CS2 flags with clear explanations and helpers
+- **⚙️ Apply Defaults Buttons**: One-click “Apply Recommended Defaults” (Launch) and “Apply Competitive Defaults” (Competitive)
+- **🧪 Built-in Validation**: Inline warnings for suspicious values and conflicting options
+- **⚠️ Advanced Low-Latency Controls**: Optional r_low_latency and engine low-latency switches with stability warnings
 
 ### Comprehensive Settings Coverage
-- **🎮 Game Settings**: Network rates, FPS limits, performance optimization, developer options
+- **🏆 Competitive Setup**: Network rates, FPS limits, performance tuning, recommended defaults
 - **🖱️ Mouse Settings**: Sensitivity, acceleration, zoom ratios, raw input
 - **📺 Video Settings**: Resolution, aspect ratio, graphics quality, display modes
 - **🔊 Audio Settings**: Master/game/voice volumes, Steam Audio, voice chat settings
 - **🎯 Crosshair Settings**: Complete customization with all CS2 crosshair options and real-time preview
 - **🖥️ HUD Settings**: Radar configuration, UI elements, spectator options, scaling
 - **⌨️ Advanced Binds**: Movement, weapons, utilities, grenades, custom commands
-- **⚙️ Autoexec Settings**: Launch options, console commands, advanced configurations
+- **🚀 Launch Options**: Main thread priority, display mode, optional flags (+exec)
 
 ## 🖥️ System Requirements
 
@@ -79,12 +83,50 @@
 1. **Open the Tool**: Navigate to `index.html` in your browser or visit the hosted version
 2. **Login (Optional)**: Create a username/password to save your configurations locally
 3. **Configure Settings**: 
-   - Navigate through tabs (Game, Mouse, Video, Audio, Crosshair, HUD, Binds, Autoexec)
+   - Navigate through tabs (Competitive Setup, Practice Mode, Video Settings, Binds, Pro Settings, Launch Options, Account)
    - Adjust values - they auto-save as you work
    - Use "Capture" buttons for instant key detection
-4. **Generate Configs**: Click "Generate" buttons for each section you want to export
-5. **Download Files**: Save the .cfg files (browser may warn - click "Keep" to proceed)
-6. **Install Configs**: Copy files to your CS2 cfg directory (see paths below)
+4. **Apply Defaults (Optional)**:
+   - Launch Options → “Apply Recommended Defaults” for safe, high-performance startup flags
+   - Competitive Setup → “Apply Competitive Defaults” for conservative, competitive-ready config
+5. **Generate Configs**: Click "Generate" buttons for each section you want to export
+6. **Download Files**: Save the .cfg files (browser may warn - click "Keep" to proceed)
+7. **Install Configs**: Copy files to your CS2 cfg directory (see paths below)
+
+## 🚀 Launch Options Overview
+
+The Launch Options tab exposes valid, CS2-safe switches with guidance. Highlights:
+
+- `-mainthreadpriority <0|1|2|3>`: Sets CPU main thread priority (2 = High recommended). Replaces deprecated `-high`.
+- Display Mode:
+  - Exclusive Fullscreen: `-fullscreen`
+  - Borderless: `-windowed -noborder` (default)
+- Optional flags:
+  - `-freq <hz>`: Request refresh rate (Windows display settings usually win)
+  - `-nojoy`: Legacy; minimal/no effect in CS2
+  - `-vulkan`: Use Vulkan (Linux/AMD users may benefit)
+  - `-noreflex`: Disable Reflex if troubleshooting latency issues
+  - `-allow_third_party_software`: Permit overlays/OBS and similar tools
+  - `+engine_low_latency_sleep_after_client_tick true`: Low‑latency sleep for uncapped FPS setups
+- Deprecated/Removed examples:
+  - `-novid` (no longer works)
+  - `-high` (use `-mainthreadpriority 2` instead)
+
+Use the “Apply Recommended Defaults” button for a safe baseline that works for most systems.
+
+## 🏆 Competitive Defaults
+
+The Competitive Setup tab includes an “Apply Competitive Defaults” button that configures a conservative, performance‑oriented baseline:
+
+- FPS: `fps_max 0`, `fps_max_ui 400`, `fps_max_tools 300`
+- Threads: `thread_pool_option 2`, `r_render_thread_count 0`
+- Latency: `engine_no_focus_sleep 0`; optional low‑latency toggles available
+- Network: `rate 1000000`, `mm_dedicated_search_maxping 50`, `cl_tickpacket_desired_queuelength 0`, `cl_net_buffer_ticks_use_interp 1`
+- Particles/FX: `cl_particle_fallback_base 0`, `cl_particle_fallback_multiplier 1`, `cl_disable_ragdolls 1`
+- Visual: `r_csgo_render_decals 1`, `r_fullscreen_gamma 2.2`
+- Audio: `snd_surround_speakers 0` (Stereo), `snd_musicvolume 0`, `snd_mvp_volume 0`, `snd_roundend_volume 0`
+
+⚠️ Advanced low‑latency controls (e.g., `r_low_latency`, `r_low_latency_wait`) are opt‑in and may cause instability on some PCs. If you experience stutter or crashes, revert to defaults and disable advanced switches.
 
 ## 📁 Installation Paths
 

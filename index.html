@@ -520,12 +520,12 @@
                 padding: 20px;
                 border-radius: 15px;
             }
+            .label-spacer { display: none; }
             
             .header {
                 padding: 20px;
                 margin: -20px -20px 30px -20px;
             }
-            
             .header h1 {
                 font-size: 2rem;
             }
@@ -574,6 +574,14 @@
                 margin: 30px 0 20px 0;
                 padding: 20px;
             }
+        }
+
+        .setting-group .generate-btn {
+            margin: 0;
+        }
+
+        .label-spacer {
+            min-width: 180px;
         }
 
         /* Crosshair Preview Styles */
@@ -627,12 +635,127 @@
             <button class="tab-button" onclick="switchTab('video', event)">📺 Video Settings</button>
             <button class="tab-button" onclick="switchTab('binds', event)">⌨️ Binds</button>
             <button class="tab-button" onclick="switchTab('pro', event)">🌟 Pro Settings</button>
+            <button class="tab-button" onclick="switchTab('launch', event)">🚀 Launch Options</button>
             <button class="tab-button" onclick="switchTab('account', event)">👤 Account</button>
         </div>
 
 
+        <div id="launch" class="tab-content">
+            <div class="config-section">
+                <h3>🚀 Launch Options</h3>
+                <div class="setting-group">
+                    <div class="label-spacer"></div>
+                    <button class="generate-btn" onclick="applyLaunchRecommendedDefaults()">Apply Recommended Defaults</button>
+                    <span class="help-text">Sets high-performance defaults for most systems</span>
+                </div>
+                <div class="setting-group">
+                    <label>Main Thread Priority:</label>
+                    <select id="launch_mainthreadpriority">
+                        <option value="0">0 — Normal</option>
+                        <option value="1">1 — Above Normal</option>
+                        <option value="2" selected>2 — High (Recommended)</option>
+                        <option value="3">3 — Realtime (Not recommended)</option>
+                    </select>
+                    <span class="help-text">Sets -mainthreadpriority. 0=Normal, 1=Above Normal, 2=High, 3=Realtime (can cause instability)</span>
+                </div>
+                <div class="setting-group">
+                    <label>Display Mode:</label>
+                    <select id="launch_display">
+                        <option value="fullscreen">Fullscreen (Exclusive)</option>
+                        <option value="borderless" selected>Fullscreen Windowed (Borderless)</option>
+                    </select>
+                    <span class="help-text">Fullscreen Windowed is often best in CS2; Exclusive can reduce latency on some PCs</span>
+                </div>
+                <div class="setting-group">
+                    <label>Resolution:</label>
+                    <input type="number" id="launch_width" placeholder="Width" value="1920">
+                    <input type="number" id="launch_height" placeholder="Height" value="1080">
+                    <span class="help-text">Leave empty to use in-game settings</span>
+                </div>
+                <div class="setting-group">
+                    <label>FPS Limit:</label>
+                    <input type="number" id="launch_fps" value="0">
+                    <span class="help-text">0 = unlimited, sets +fps_max at launch</span>
+                </div>
+                <div class="setting-group">
+                    <label>Refresh Rate (Hz):</label>
+                    <input type="number" id="launch_freq" placeholder="e.g. 240">
+                    <span class="help-text">Optional -freq value. Often ignored by CS2; Windows display settings usually win.</span>
+                </div>
+                <div class="setting-group">
+                    <label>Disable Gamepad Input:</label>
+                    <select id="launch_nojoy">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enable -nojoy</option>
+                    </select>
+                    <span class="help-text">Legacy toggle. Likely no effect in CS2; safe to leave off.</span>
+                </div>
+                <div class="setting-group">
+                    <label>Vulkan Renderer:</label>
+                    <select id="launch_vulkan">
+                        <option value="0" selected>Auto</option>
+                        <option value="1">Force -vulkan</option>
+                    </select>
+                    <span class="help-text">Linux/AMD users may prefer forcing Vulkan. Often default on Linux.</span>
+                </div>
+                <div class="setting-group">
+                    <label>Disable NVIDIA Reflex:</label>
+                    <select id="launch_noreflex">
+                        <option value="0" selected>Keep Reflex</option>
+                        <option value="1">Enable -noreflex</option>
+                    </select>
+                    <span class="help-text">Only disable if Reflex causes micro-stutter; many keep it enabled.</span>
+                </div>
+                <div class="setting-group">
+                    <label>Allow 3rd-Party Software:</label>
+                    <select id="launch_allow_third_party">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enable -allow_third_party_software</option>
+                    </select>
+                    <span class="help-text">Needed for OBS/overlays to avoid kicks; widely used by streamers.</span>
+                </div>
+                <div class="setting-group">
+                    <label>Low-Latency Sleep:</label>
+                    <select id="launch_ll_sleep">
+                        <option value="0">Disabled</option>
+                        <option value="1" selected>+engine_low_latency_sleep_after_client_tick true</option>
+                    </select>
+                    <span class="help-text">Helps uncapped FPS setups with smoother tick timing and lower latency.</span>
+                </div>
+                <div class="setting-group">
+                    <label>Exec Config:</label>
+                    <input type="text" id="launch_exec" placeholder="autoexec.cfg">
+                    <span class="help-text">Adds +exec file at launch</span>
+                </div>
+            </div>
+            <div class="output-section">
+                <h3>Steam Launch Options</h3>
+                <textarea id="launch-textarea" class="output-textarea" readonly></textarea>
+                <div class="download-buttons">
+                    <button class="copy-btn" onclick="copyToClipboard('launch')">Copy</button>
+                </div>
+                <div class="help-text" style="margin-top: 12px;">
+                    Paste into Steam → CS2 → Properties → Launch Options
+                </div>
+            </div>
+        </div>
+
         <!-- Competitive Setup Tab -->
         <div id="competitive" class="tab-content active">
+            <div class="config-section">
+                <h3>⚙️ Quick Start</h3>
+                <div class="setting-group">
+                    <div class="label-spacer"></div>
+                    <button class="generate-btn" onclick="applyCompetitiveDefaults()">Apply Competitive Defaults</button>
+                    <span class="help-text">Sets conservative, high-performance values for most systems</span>
+                </div>
+                <div class="setting-group">
+                    <div class="label-spacer"></div>
+                    <div style="flex:1; background:#b91c1c; color:#fff; border-radius:8px; padding:12px; font-weight:700; letter-spacing:0.3px;">
+                        Warning: Advanced tweaks may cause instability on some PCs. If you experience stutter or crashes, revert to defaults.
+                    </div>
+                </div>
+            </div>
             <div class="config-section">
                 <h3>🌐 Network Settings</h3>
                 <div class="setting-group">
@@ -832,7 +955,7 @@
 
                 <div class="setting-group">
                     <label>Particle Fallback Base:</label>
-                    <input type="number" id="c" value="0">
+                    <input type="number" id="cl_particle_fallback_base" value="0">
                     <span class="help-text">✨ Particle system fallback base value (0 for best performance)</span>
                 </div>
                 <div class="setting-group">
@@ -864,10 +987,23 @@
                         <option value="0" selected>Disabled</option>
                         <option value="1">Enabled</option>
                     </select>
-                    <span class="help-text">📊 Reduce input latency by optimizing sleep timing</span>
+                    <span class="help-text">📊 Reduce input latency by optimizing sleep timing. Prefer enabling via Launch Options to avoid duplicates.</span>
                 </div>
                 <div class="setting-group">
-                    
+                    <label>Renderer Low Latency:</label>
+                    <select id="r_low_latency">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <span class="help-text">⚠️ Advanced. May interact with Reflex/driver settings. Leave off unless testing.</span>
+                </div>
+                <div class="setting-group">
+                    <label>Renderer Low Latency Wait:</label>
+                    <select id="r_low_latency_wait">
+                        <option value="0" selected>Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <span class="help-text">⚠️ Advanced. Works with r_low_latency; can affect frame pacing.</span>
                 </div>
 
                 <div class="setting-group">
@@ -968,6 +1104,14 @@
                         <option value="1" selected>Enabled</option>
                     </select>
                     <span class="help-text">⚡ Automatically detect audio latency</span>
+                </div>
+                <div class="setting-group">
+                    <label>Output Mode:</label>
+                    <select id="snd_surround_speakers">
+                        <option value="0" selected>Stereo (Recommended)</option>
+                        <option value="1">Surround (5.1/7.1)</option>
+                    </select>
+                    <span class="help-text">For competitive clarity, Stereo is recommended. Virtual 7.1 can blur positional cues.</span>
                 </div>
                 <div class="setting-group">
                     <label>Mix Ahead (seconds):</label>
@@ -3131,6 +3275,144 @@
             if (event) {
                 event.target.classList.add('active');
             }
+            
+            if (tabName === 'launch') {
+                initLaunchOptions();
+            }
+        }
+        
+        let launchInitialized = false;
+        function initLaunchOptions() {
+            const ids = ['launch_mainthreadpriority','launch_display','launch_width','launch_height','launch_fps','launch_freq','launch_nojoy','launch_vulkan','launch_noreflex','launch_allow_third_party','launch_ll_sleep','launch_exec'];
+            if (!launchInitialized) {
+                applyLaunchRecommendedDefaults();
+                ids.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    const evt = el.tagName === 'SELECT' ? 'change' : 'input';
+                    el.addEventListener(evt, buildLaunchOptions);
+                });
+                if (window.currentResolution) {
+                    const w = document.getElementById('launch_width');
+                    const h = document.getElementById('launch_height');
+                    if (w && h && (!w.value || !h.value)) {
+                        w.value = window.currentResolution.width;
+                        h.value = window.currentResolution.height;
+                    }
+                }
+                launchInitialized = true;
+            }
+            buildLaunchOptions();
+        }
+        
+        function applyLaunchRecommendedDefaults() {
+            const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = String(val); };
+            setVal('launch_mainthreadpriority', 2);
+            setVal('launch_display', 'borderless');
+            if (window.currentResolution) {
+                const w = document.getElementById('launch_width');
+                const h = document.getElementById('launch_height');
+                if (w && h) {
+                    w.value = String(window.currentResolution.width || 1920);
+                    h.value = String(window.currentResolution.height || 1080);
+                }
+            }
+            setVal('launch_fps', 0);
+            setVal('launch_freq', '');
+            setVal('launch_nojoy', 0);
+            setVal('launch_vulkan', 0);
+            setVal('launch_noreflex', 0);
+            setVal('launch_allow_third_party', 0);
+            setVal('launch_ll_sleep', 1);
+            setVal('launch_exec', '');
+            buildLaunchOptions();
+        }
+        
+        function buildLaunchOptions() {
+            const parts = [];
+            const mtp = document.getElementById('launch_mainthreadpriority')?.value;
+            if (mtp && mtp !== '0') parts.push(`-mainthreadpriority ${mtp}`);
+            const mode = document.getElementById('launch_display')?.value;
+            if (mode === 'fullscreen') {
+                parts.push('-fullscreen');
+            } else if (mode === 'borderless') {
+                parts.push('-windowed');
+                parts.push('-noborder');
+            }
+            const w = parseInt(document.getElementById('launch_width')?.value);
+            const h = parseInt(document.getElementById('launch_height')?.value);
+            if (!isNaN(w) && w > 0) parts.push(`-w ${w}`);
+            if (!isNaN(h) && h > 0) parts.push(`-h ${h}`);
+            const fps = parseInt(document.getElementById('launch_fps')?.value);
+            if (!isNaN(fps) && fps >= 0) parts.push(`+fps_max ${fps}`);
+            const freq = parseInt(document.getElementById('launch_freq')?.value);
+            if (!isNaN(freq) && freq > 0) parts.push(`-freq ${freq}`);
+            const nojoy = document.getElementById('launch_nojoy')?.value === '1';
+            if (nojoy) parts.push('-nojoy');
+            const vk = document.getElementById('launch_vulkan')?.value === '1';
+            if (vk) parts.push('-vulkan');
+            const noreflex = document.getElementById('launch_noreflex')?.value === '1';
+            if (noreflex) parts.push('-noreflex');
+            const allow3p = document.getElementById('launch_allow_third_party')?.value === '1';
+            if (allow3p) parts.push('-allow_third_party_software');
+            const llSleep = document.getElementById('launch_ll_sleep')?.value === '1';
+            if (llSleep) parts.push('+engine_low_latency_sleep_after_client_tick true');
+            const execFile = (document.getElementById('launch_exec')?.value || '').trim();
+            if (execFile) parts.push(`+exec ${execFile}`);
+            const ta = document.getElementById('launch-textarea');
+            if (ta) ta.value = parts.join(' ');
+        }
+        
+        function applyCompetitiveDefaults() {
+            const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = String(val); };
+            setVal('rate', 1000000);
+            setVal('mm_dedicated_search_maxping', 50);
+            setVal('cl_resend', 6);
+            setVal('cl_timeout', 30);
+            setVal('cq_buffer_bloat_msecs_max', 64);
+            setVal('net_client_steamdatagram_enable_override', -1);
+            setVal('cl_predict_body_shot_fx', 'false');
+            setVal('cl_predict_head_shot_fx', 'false');
+            setVal('cl_predict_kill_ragdolls', 'true');
+            setVal('cl_net_buffer_ticks_use_interp', 1);
+            setVal('cl_tickpacket_desired_queuelength', 0);
+            setVal('mm_session_search_qos_timeout', 20);
+            setVal('mm_csgo_community_search_players_min', 3);
+            setVal('lobby_default_privacy_bits2', 0);
+            setVal('ui_setting_advertiseforhire_auto', 1);
+            setVal('cl_invites_only_friends', 0);
+            setVal('cl_invites_only_mainmenu', 0);
+            
+            setVal('fps_max', 0);
+            setVal('fps_max_ui', 400);
+            setVal('fps_max_tools', 300);
+            setVal('thread_pool_option', 2);
+            setVal('engine_low_latency_sleep_after_client_tick', 1);
+            setVal('engine_no_focus_sleep', 0);
+            setVal('r_fullscreen_gamma', 2.2);
+            setVal('vprof_off', 1);
+            setVal('cl_disable_ragdolls', 1);
+            setVal('r_csgo_render_decals', 1);
+            setVal('cl_particle_fallback_base', 0);
+            setVal('cl_particle_fallback_multiplier', 1);
+            setVal('r_render_thread_count', 0);
+            setVal('cl_interp_ratio', 1);
+            
+            setVal('sensitivity', 2.5);
+            setVal('zoom_sensitivity_ratio', 1.0);
+            
+            setVal('volume', 0.5);
+            setVal('snd_musicvolume', 0.0);
+            setVal('snd_voipvolume', 0.4);
+            setVal('snd_headphone_eq', 0);
+            setVal('snd_roundend_volume', 0.0);
+            setVal('snd_mvp_volume', 0.0);
+            setVal('snd_spatialize_lerp', 0.5);
+            setVal('snd_steamaudio_enable_perspective_correction', 1);
+            setVal('snd_steamaudio_reverb_level_db', -3);
+            setVal('snd_autodetect_latency', 1);
+            setVal('snd_surround_speakers', 0);
+            setVal('snd_mixahead', 0.05);
         }
         
         // Generate all configs function
@@ -3628,10 +3910,12 @@
                 fps_max_tools: getElementValue('fps_max_tools', '0'),
                 thread_pool_option: getElementValue('thread_pool_option', '0'),
                 engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '0'),
-                engine_no_focus_sleep: getElementValue('engine_no_focus_sleep', '50'),
+                engine_no_focus_sleep: getElementValue('engine_no_focus_sleep', '0'),
                 r_fullscreen_gamma: getElementValue('r_fullscreen_gamma', '2.2'),
                 cl_particle_fallback_base: getElementValue('cl_particle_fallback_base', '1'),
                 cl_particle_fallback_multiplier: getElementValue('cl_particle_fallback_multiplier', '1'),
+                r_low_latency: getElementValue('r_low_latency', '0'),
+                r_low_latency_wait: getElementValue('r_low_latency_wait', '0'),
                 
                 // CS2 Subtick System Settings
                 cl_interp_ratio: getElementValue('cl_interp_ratio', '1'),
@@ -3658,6 +3942,7 @@
                 snd_steamaudio_enable_perspective_correction: getElementValue('snd_steamaudio_enable_perspective_correction', '1'),
                 snd_steamaudio_reverb_level_db: getElementValue('snd_steamaudio_reverb_level_db', '-6'),
                 snd_autodetect_latency: getElementValue('snd_autodetect_latency', '1'),
+                snd_surround_speakers: getElementValue('snd_surround_speakers', '0'),
                 snd_mixahead: getElementValue('snd_mixahead', '0.1'),
                 snd_menumusic_volume: getElementValue('snd_menumusic_volume', '0.5'),
                 snd_menumap_volume: getElementValue('snd_menumap_volume', '0.5'),
@@ -3914,6 +4199,8 @@
                 `r_fullscreen_gamma "${config.r_fullscreen_gamma}"  // Gamma correction for fullscreen mode`,
                 `cl_particle_fallback_base "${config.cl_particle_fallback_base}"  // Particle system fallback base`,
                 `cl_particle_fallback_multiplier "${config.cl_particle_fallback_multiplier}"  // Particle fallback multiplier`,
+                `r_low_latency "${config.r_low_latency}"  // Renderer low latency`,
+                `r_low_latency_wait "${config.r_low_latency_wait}"  // Renderer low latency wait`,
                 `r_player_visibility_mode "${config.r_player_visibility_mode}"  // Enhanced player visibility`,
                 '',
                 
@@ -3954,6 +4241,7 @@
                 `snd_steamaudio_enable_perspective_correction "${config.snd_steamaudio_enable_perspective_correction}"  // Steam Audio perspective`,
                 `snd_steamaudio_reverb_level_db "${config.snd_steamaudio_reverb_level_db}"  // Steam Audio reverb`,
                 `snd_autodetect_latency "${config.snd_autodetect_latency}"  // Auto-detect latency`,
+                `snd_surround_speakers "${config.snd_surround_speakers}"  // Force Stereo (0) recommended for clarity`,
                 `snd_mixahead "${config.snd_mixahead}"  // Audio buffer mix ahead`,
                 `snd_menumusic_volume "${config.snd_menumusic_volume}"  // Menu music volume`,
                 `snd_menumap_volume "${config.snd_menumap_volume}"  // Menu map volume`,
@@ -5493,6 +5781,8 @@
                 content = document.getElementById('video-textarea').value;
             } else if (type === 'practice') {
                 content = document.getElementById('practice-textarea').value;
+            } else if (type === 'launch') {
+                content = document.getElementById('launch-textarea').value;
             }
 
             if (content) {

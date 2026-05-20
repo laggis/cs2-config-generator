@@ -26,6 +26,170 @@
       --transition-med: 220ms ease;
     }
 
+    /* ── Light theme overrides ───────────────────────────────────────────── */
+    [data-theme="light"] {
+      --bg-main: #f0f2f5;
+      --bg-elevated: #ffffff;
+      --bg-elevated-soft: #f7f8fa;
+      --accent: #d4860a;
+      --accent-soft: rgba(212, 134, 10, 0.14);
+      --accent-strong: #b86e00;
+      --text-main: #1a1d24;
+      --text-muted: #5a6070;
+      --border-subtle: rgba(0, 0, 0, 0.09);
+      --danger: #c0392b;
+      --success: #27ae60;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    [data-theme="light"] body {
+      background: radial-gradient(circle at top, rgba(255,180,60,0.10), transparent 48%),
+                  radial-gradient(circle at bottom, rgba(220,220,230,0.6), #e8eaf0);
+    }
+
+    [data-theme="light"] body::before {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23000000" stroke-width="0.5" opacity="0.04"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+    }
+
+    [data-theme="light"] .container {
+      background: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(245,246,250,0.99));
+      border-color: rgba(0,0,0,0.06);
+    }
+
+    [data-theme="light"] .header {
+      background: linear-gradient(145deg, rgba(255,248,235,0.98), rgba(255,255,255,0.99));
+      border-bottom-color: rgba(212,134,10,0.25);
+    }
+
+    [data-theme="light"] .tabs {
+      background: rgba(245,246,250,0.95);
+      border-color: rgba(0,0,0,0.07);
+    }
+
+    [data-theme="light"] .tab-button {
+      color: var(--text-muted);
+      border-right-color: rgba(0,0,0,0.07);
+    }
+
+    [data-theme="light"] .tab-button:hover {
+      background: rgba(212,134,10,0.07);
+      color: var(--text-main);
+    }
+
+    [data-theme="light"] .tab-button.active {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    [data-theme="light"] .config-section {
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.9), transparent 65%),
+                  linear-gradient(145deg, rgba(255,255,255,0.97), rgba(248,249,252,0.99));
+      border-color: rgba(0,0,0,0.07);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07), 0 0 0 1px rgba(212,134,10,0.06);
+    }
+
+    [data-theme="light"] .setting-group {
+      border-bottom-color: rgba(212,134,10,0.10);
+      border-left-color: transparent;
+    }
+
+    [data-theme="light"] .setting-group:hover {
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    [data-theme="light"] .setting-group input,
+    [data-theme="light"] .setting-group select {
+      background: #ffffff;
+      border-color: rgba(0,0,0,0.15);
+      color: var(--text-main);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+
+    [data-theme="light"] .setting-group input:focus,
+    [data-theme="light"] .setting-group select:focus {
+      background: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft), 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    [data-theme="light"] .output-section {
+      background: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(248,249,252,0.99));
+      border-color: rgba(0,0,0,0.07);
+    }
+
+    [data-theme="light"] .output-textarea {
+      background: #f7f8fa;
+      border-color: rgba(0,0,0,0.10);
+      color: #1a1d24;
+    }
+
+    [data-theme="light"] .site-footer {
+      background: linear-gradient(145deg, rgba(240,242,245,0.98), rgba(232,234,240,0.99));
+      border-top-color: rgba(212,134,10,0.2);
+    }
+
+    [data-theme="light"] .crosshair-preview-container {
+      background: rgba(240,242,245,0.95);
+      border-color: rgba(212,134,10,0.2);
+    }
+
+    [data-theme="light"] #crosshairPreview {
+      background: #c8d0dc;
+    }
+
+    [data-theme="light"] .bind-row {
+      background: rgba(240,242,245,0.8);
+      border-color: rgba(212,134,10,0.12);
+    }
+
+    [data-theme="light"] .import-cfg-bar {
+      background: rgba(245,246,250,0.9);
+      border-color: rgba(212,134,10,0.3);
+    }
+
+    /* ── Theme toggle button ────────────────────────────────────────────── */
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(244,160,25,0.35);
+      background: rgba(17,20,27,0.85);
+      color: #e5e9f0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.4px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+      transition: background 0.25s, color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.15s;
+      text-transform: uppercase;
+    }
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .theme-toggle__icon {
+      font-size: 1rem;
+      line-height: 1;
+      transition: transform 0.4s ease;
+    }
+    [data-theme="light"] .theme-toggle {
+      background: rgba(255,255,255,0.92);
+      color: #1a1d24;
+      border-color: rgba(212,134,10,0.4);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+    }
+    [data-theme="light"] .theme-toggle__icon {
+      transform: rotate(180deg);
+    }
+
     * {
             margin: 0;
             padding: 0;
@@ -601,6 +765,63 @@
             min-width: 180px;
         }
 
+        /* ── Footer ── */
+        .site-footer {
+            background: linear-gradient(145deg, rgba(10,13,18,0.98), rgba(5,6,8,0.99));
+            color: var(--text-main);
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(244,160,25,0.2);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+        }
+        .site-footer__inner { max-width: 800px; margin: 0 auto; }
+        .site-footer__title { margin: 0 0 10px 0; font-size: 16px; color: #ecf0f1; }
+        .site-footer__subtitle { margin: 0 0 15px 0; font-size: 14px; opacity: 0.8; color: #bdc3c7; }
+        .site-footer__links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center; }
+        .site-footer__github {
+            color: var(--accent-strong);
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: var(--accent-soft);
+            border: 1px solid rgba(244,160,25,0.3);
+        }
+        .site-footer__github:hover { background: rgba(244,160,25,0.28); transform: translateY(-2px); }
+        .site-footer__badge--green { color: #4CAF50; font-weight: bold; padding: 4px 8px; background: rgba(76,175,80,0.1); border-radius: 6px; border: 1px solid rgba(76,175,80,0.3); }
+        .site-footer__badge--blue  { color: #2196F3; font-weight: bold; padding: 4px 8px; background: rgba(33,150,243,0.1); border-radius: 6px; border: 1px solid rgba(33,150,243,0.3); }
+        .site-footer__note { margin: 15px 0 0 0; font-size: 12px; opacity: 0.6; color: #95a5a6; }
+        .delete-config-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white; border: 1px solid rgba(239,68,68,0.3); border-radius: 8px;
+            padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(239,68,68,0.3);
+            min-width: 100px; margin: 0 4px;
+        }
+        .delete-config-btn:hover { background: linear-gradient(135deg, #dc2626, #b91c1c); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239,68,68,0.4); }
+        .restore-backup-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white; border: none; border-radius: 8px; padding: 14px 24px;
+            font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(76,175,80,0.3); min-width: 110px;
+        }
+        .restore-backup-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(76,175,80,0.4); background: linear-gradient(135deg, #5CBF60, #4CAF50); }
+        .import-cfg-bar {
+            background: rgba(17,20,27,0.8);
+            border: 1px dashed rgba(244,160,25,0.35);
+            border-radius: var(--radius-md);
+            padding: 16px 20px; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+        }
+        .import-cfg-bar label { color: var(--text-main); font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+        .import-cfg-bar input[type="file"] { color: var(--text-muted); font-size: 0.85rem; }
+
         /* Crosshair Preview Styles */
         .crosshair-preview-container {
             background: rgba(5,6,8,0.95);
@@ -640,20 +861,25 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Switch colour theme">
+        <span class="theme-toggle__icon">🌙</span>
+        <span class="theme-toggle__label">Light mode</span>
+    </button>
+
     <div class="container">
         <div class="header">
             <h1>CS2 Configuration Generator</h1>
             <p>Generate professional CS2 configuration files with ease</p>
         </div>
 
-        <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('competitive', event)">🏆 Competitive Setup</button>
-            <button class="tab-button" onclick="switchTab('practice', event)">🎯 Practice Mode</button>
-            <button class="tab-button" onclick="switchTab('video', event)">📺 Video Settings</button>
-            <button class="tab-button" onclick="switchTab('binds', event)">⌨️ Binds</button>
-            <button class="tab-button" onclick="switchTab('pro', event)">🌟 Pro Settings</button>
-            <button class="tab-button" onclick="switchTab('launch', event)">🚀 Launch Options</button>
-            <button class="tab-button" onclick="switchTab('account', event)">👤 Account</button>
+        <div class="tabs" role="tablist">
+            <button class="tab-button active" role="tab" aria-selected="true" aria-controls="competitive" onclick="switchTab('competitive', event)">🏆 Competitive Setup</button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="practice" onclick="switchTab('practice', event)">🎯 Practice Mode</button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="video" onclick="switchTab('video', event)">📺 Video Settings</button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="binds" onclick="switchTab('binds', event)">⌨️ Binds</button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="pro" onclick="switchTab('pro', event)">🌟 Pro Settings</button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="launch" onclick="switchTab('launch', event)">🚀 Launch Options</button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="account" onclick="switchTab('account', event)">👤 Account</button>
         </div>
 
 
@@ -2180,6 +2406,12 @@
 
             </div>
 
+            <div class="import-cfg-bar">
+                <label for="import-autoexec-file">📂 Import existing autoexec.cfg:</label>
+                <input type="file" id="import-autoexec-file" accept=".cfg,.txt" onchange="importAutoexecCfg(event)">
+                <span class="help-text">Paste your current config to pre-fill all fields automatically</span>
+            </div>
+
             <button class="generate-btn" onclick="generateAutoexec()">Generate Autoexec.cfg</button>
 
             <div id="autoexec-output" class="output-section" style="display: none;">
@@ -3281,16 +3513,27 @@
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => content.classList.remove('active'));
             
-            // Remove active class from all tab buttons
+            // Remove active class from all tab buttons and reset aria-selected
             const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => button.classList.remove('active'));
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
             
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
             
-            // Add active class to clicked tab button
+            // Add active class to clicked tab button (or find it by aria-controls)
             if (event) {
                 event.target.classList.add('active');
+                event.target.setAttribute('aria-selected', 'true');
+            } else {
+                // Called programmatically — find the matching button by aria-controls
+                const btn = document.querySelector(`.tab-button[aria-controls="${tabName}"]`);
+                if (btn) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-selected', 'true');
+                }
             }
             
             if (tabName === 'launch') {
@@ -6156,10 +6399,7 @@
                     <span class="help-text">Saved: ${new Date(config.saved).toLocaleDateString()}</span>
                     <button class="copy-btn" onclick="loadConfiguration('${config.type}_${config.name}')">Load</button>
                     <button class="download-btn" onclick="downloadSavedConfig('${config.type}_${config.name}')">Download</button>
-                    <button onclick="deleteSavedConfig('${config.type}_${config.name}')" 
-                            style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); min-width: 100px; margin: 0 4px;"
-                            onmouseover="this.style.background='linear-gradient(135deg, #dc2626, #b91c1c)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(239, 68, 68, 0.4)'"
-                            onmouseout="this.style.background='linear-gradient(135deg, #ef4444, #dc2626)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(239, 68, 68, 0.3)'">
+                    <button class="delete-config-btn" onclick="deleteSavedConfig('${config.type}_${config.name}')">
                         🗑️ Delete
                     </button>
                 `;
@@ -6440,16 +6680,10 @@
                         </div>
                     </div>
                     <div style="display: flex; gap: 12px; align-items: center;">
-                        <button onclick="restoreBackup('${backup.id}')" 
-                                style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white; border: none; border-radius: 8px; padding: 14px 24px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3); min-width: 110px;"
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(76, 175, 80, 0.4)'; this.style.background='linear-gradient(135deg, #5CBF60, #4CAF50)'"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(76, 175, 80, 0.3)'; this.style.background='linear-gradient(135deg, #4CAF50, #45a049)'">
+                        <button onclick="restoreBackup('${backup.id}')" class="restore-backup-btn">
                             🔄 Load
                         </button>
-                        <button onclick="deleteBackup('${backup.id}')" 
-                                style="background: linear-gradient(135deg, #f44336, #d32f2f); color: white; border: none; border-radius: 8px; padding: 14px 24px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3); min-width: 110px;"
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(244, 67, 54, 0.4)'; this.style.background='linear-gradient(135deg, #EF5350, #f44336)'"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(244, 67, 54, 0.3)'; this.style.background='linear-gradient(135deg, #f44336, #d32f2f)'">
+                        <button onclick="deleteBackup('${backup.id}')" class="delete-config-btn">
                             🗑️ Delete
                         </button>
                     </div>
@@ -6797,7 +7031,137 @@
             }
         });
 
-        // Real-time validation system
+        // ── Theme toggle ──────────────────────────────────────────────────────
+        (function initTheme() {
+            const saved = localStorage.getItem('cs2gen_theme') || 'dark';
+            applyTheme(saved, false);
+        })();
+
+        function applyTheme(theme, save) {
+            const html = document.documentElement;
+            const btn  = document.getElementById('themeToggle');
+            if (theme === 'light') {
+                html.setAttribute('data-theme', 'light');
+                if (btn) {
+                    btn.querySelector('.theme-toggle__icon').textContent  = '☀️';
+                    btn.querySelector('.theme-toggle__label').textContent = 'Dark mode';
+                    btn.setAttribute('aria-label', 'Switch to dark mode');
+                }
+            } else {
+                html.removeAttribute('data-theme');
+                if (btn) {
+                    btn.querySelector('.theme-toggle__icon').textContent  = '🌙';
+                    btn.querySelector('.theme-toggle__label').textContent = 'Light mode';
+                    btn.setAttribute('aria-label', 'Switch to light mode');
+                }
+            }
+            if (save) localStorage.setItem('cs2gen_theme', theme);
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+            applyTheme(current === 'light' ? 'dark' : 'light', true);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.setting-group').forEach(group => {
+                const label = group.querySelector('label:not([for])');
+                const control = group.querySelector('input[id], select[id]');
+                if (label && control) {
+                    label.setAttribute('for', control.id);
+                }
+            });
+        });
+
+        // ── 2. localStorage persistence ──────────────────────────────────────────
+        const PERSIST_KEY = 'cs2gen_field_state';
+
+        function saveFieldState() {
+            const state = {};
+            document.querySelectorAll('input[id]:not([type="file"]), select[id]').forEach(el => {
+                state[el.id] = el.value;
+            });
+            try { localStorage.setItem(PERSIST_KEY, JSON.stringify(state)); } catch(e) {}
+        }
+
+        function loadFieldState() {
+            let state;
+            try { state = JSON.parse(localStorage.getItem(PERSIST_KEY) || 'null'); } catch(e) {}
+            if (!state) return;
+            Object.entries(state).forEach(([id, val]) => {
+                const el = document.getElementById(id);
+                if (el && el.tagName !== 'TEXTAREA') el.value = val;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadFieldState();
+            // Debounced auto-save on any field change
+            let _persistTimer;
+            document.addEventListener('input',  () => { clearTimeout(_persistTimer); _persistTimer = setTimeout(saveFieldState, 800); });
+            document.addEventListener('change', () => { clearTimeout(_persistTimer); _persistTimer = setTimeout(saveFieldState, 800); });
+        });
+
+        // ── 3. Live preview – re-run generate functions on field change ───────────
+        function _livePreviewTick() {
+            // Autoexec tab
+            const autoexecOut = document.getElementById('autoexec-output');
+            if (autoexecOut && autoexecOut.style.display !== 'none') {
+                try { generateAutoexec(); } catch(e) {}
+            }
+            // Video tab
+            const videoOut = document.getElementById('video-output');
+            if (videoOut && videoOut.style.display !== 'none') {
+                try { generateVideo(); } catch(e) {}
+            }
+            // Binds tab
+            const bindsOut = document.getElementById('binds-output');
+            if (bindsOut && bindsOut.style.display !== 'none') {
+                try { generateBinds(); } catch(e) {}
+            }
+            // Practice tab
+            const practiceOut = document.getElementById('practice-output');
+            if (practiceOut && practiceOut.style.display !== 'none') {
+                try { generatePractice(); } catch(e) {}
+            }
+            // Launch tab (already live via buildLaunchOptions)
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let _liveTimer;
+            document.addEventListener('input',  () => { clearTimeout(_liveTimer); _liveTimer = setTimeout(_livePreviewTick, 600); });
+            document.addEventListener('change', () => { clearTimeout(_liveTimer); _liveTimer = setTimeout(_livePreviewTick, 600); });
+        });
+
+        // ── 4. Import existing autoexec.cfg ───────────────────────────────────────
+        function importAutoexecCfg(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const lines = e.target.result.split(/\r?\n/);
+                let applied = 0;
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed.startsWith('//') || trimmed.startsWith(';')) return;
+                    // Match:  key "value"   or   key value
+                    const m = trimmed.match(/^(\S+)\s+"?([^"]*)"?/);
+                    if (!m) return;
+                    const [, key, val] = m;
+                    const el = document.getElementById(key);
+                    if (el && el.tagName !== 'TEXTAREA') {
+                        el.value = val;
+                        applied++;
+                    }
+                });
+                event.target.value = '';
+                saveFieldState();
+                alert(`✅ Imported ${applied} setting${applied !== 1 ? 's' : ''} from "${file.name}".\nFields were updated — click Generate to refresh the output.`);
+            };
+            reader.readAsText(file);
+        }
+
+        // Programmatically check the network rate validation bug fix
+        // (rate < 196608 && fps > 144 was unreachable — corrected below in validateInput)
         function createValidationAlert() {
             let alertDiv = document.getElementById('validation-alerts');
             if (!alertDiv) {
@@ -6966,11 +7330,11 @@
                 if (isNaN(rate) || rate <= 0) {
                     showValidationMessage(`❌ ${settingName} must be a positive number`, 'error');
                     element.style.borderColor = 'var(--danger)';
+                } else if (rate < 196608 && fps > 144) {
+                    showValidationMessage(`⚠️ Low ${settingName.toLowerCase()} may bottleneck high FPS gaming (Recommended: 786432)`, 'warning');
+                    element.style.borderColor = 'var(--accent)';
                 } else if (rate < 196608) {
                     showValidationMessage(`⚠️ ${settingName} below 196608 may cause packet loss (Recommended: 786432)`, 'warning');
-                    element.style.borderColor = 'var(--accent)';
-                } else if (rate < 196608 && fps > 144) {
-                    showValidationMessage(`⚠️ Low ${settingName.toLowerCase()} may bottleneck high FPS gaming`, 'warning');
                     element.style.borderColor = 'var(--accent)';
                 } else if (rate >= 786432) {
                     showValidationMessage(`✅ ${settingName} is optimal for competitive play`, 'success');
@@ -7027,6 +7391,7 @@
         }
 
         // Add real-time validation to key inputs
+        const _validationTimers = new Map();
         document.addEventListener('DOMContentLoaded', function() {
             const inputsToValidate = [
                 'fps_max', 'fps_max_ui', 'fps_max_tools', 'sensitivity', 
@@ -7040,11 +7405,10 @@
                 const element = document.getElementById(id);
                 if (element) {
                     element.addEventListener('input', function() {
-                        // Debounce validation
-                        clearTimeout(this.validationTimeout);
-                        this.validationTimeout = setTimeout(() => {
+                        clearTimeout(_validationTimers.get(id));
+                        _validationTimers.set(id, setTimeout(() => {
                             validateInput(this);
-                        }, 500);
+                        }, 500));
                     });
                     
                     element.addEventListener('blur', function() {
@@ -7072,37 +7436,34 @@
     </script>
 
     <!-- Footer -->
-    <footer style="background: linear-gradient(145deg, rgba(10,13,18,0.98), rgba(5,6,8,0.99)); color: var(--text-main); text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid rgba(244,160,25,0.2); border-radius: 0 0 20px 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.3);">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <p style="margin: 0 0 10px 0; font-size: 16px; color: #ecf0f1;">
-                🎮 <strong>CS2 Configuration Generator</strong> - Open Source & Privacy-First
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <p class="site-footer__title">
+                🎮 <strong>CS2 Configuration Generator</strong> - Open Source &amp; Privacy-First
             </p>
-            <p style="margin: 0 0 15px 0; font-size: 14px; opacity: 0.8; color: #bdc3c7;">
+            <p class="site-footer__subtitle">
                 Generate professional CS2 configs with autoexec, key binds, and video settings
             </p>
-            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center;">
-                <a href="https://github.com/LaGgIs/cs2-config-generator" target="_blank" 
-                   style="color: var(--accent-strong); text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: all 0.3s ease; padding: 8px 12px; border-radius: 8px; background: var(--accent-soft); border: 1px solid rgba(244,160,25,0.3);"
-                   onmouseover="this.style.background='rgba(244,160,25,0.28)'; this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(244,160,25,0.22)'; this.style.transform='translateY(0)'">
+            <div class="site-footer__links">
+                <a href="https://github.com/LaGgIs/cs2-config-generator" target="_blank" class="site-footer__github">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
                     View Source Code
                 </a>
                 <span style="color: var(--text-muted);">•</span>
-                <span style="color: #4CAF50; font-weight: bold; padding: 4px 8px; background: rgba(76, 175, 80, 0.1); border-radius: 6px; border: 1px solid rgba(76, 175, 80, 0.3);">✓ 100% Client-Side</span>
+                <span class="site-footer__badge--green">✓ 100% Client-Side</span>
                 <span style="color: var(--text-muted);">•</span>
-                <span style="color: #2196F3; font-weight: bold; padding: 4px 8px; background: rgba(33, 150, 243, 0.1); border-radius: 6px; border: 1px solid rgba(33, 150, 243, 0.3);">🛡️ Privacy Protected</span>
+                <span class="site-footer__badge--blue">🛡️ Privacy Protected</span>
             </div>
-            <p style="margin: 15px 0 0 0; font-size: 12px; opacity: 0.6; color: #95a5a6;">
+            <p class="site-footer__note">
                 Made with ❤️ for the CS2 community | No data collection, no tracking
             </p>
         </div>
     </footer>
 
     <!-- Modal Dialog for Input -->
-    <div id="input-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; backdrop-filter: blur(5px);">
+    <div id="input-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; backdrop-filter: blur(5px);" onclick="if(event.target===this) closeInputModal(false);">
         <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(145deg, rgba(10,13,18,0.98), rgba(5,6,8,0.99)); border: 1px solid rgba(244,160,25,0.2); border-radius: 15px; padding: 30px; min-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
             <h3 id="modal-title" style="color: var(--accent-strong); margin: 0 0 20px 0; font-size: 18px; text-align: center;"></h3>
             <input type="text" id="modal-input" style="width: 100%; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-elevated); color: var(--text-main); font-size: 16px; margin-bottom: 20px; box-sizing: border-box;" placeholder="Enter name...">

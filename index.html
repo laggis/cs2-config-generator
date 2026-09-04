@@ -582,6 +582,45 @@
             box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
         }
 
+        .public-btn {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            border: 1px solid rgba(14, 165, 233, 0.35);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            min-width: 100px;
+            margin: 0 4px;
+        }
+
+        .public-btn:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+        }
+
+        .public-config-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(14, 165, 233, 0.18);
+            border-left: 3px solid #0ea5e9;
+            border-radius: var(--radius-md);
+            background: rgba(14, 165, 233, 0.06);
+        }
+
+        .public-config-card__main { flex: 1; min-width: 220px; }
+        .public-config-card__name { font-weight: 700; color: var(--text-main); }
+        .public-config-card__meta { color: var(--text-muted); font-size: 0.82rem; margin-top: 3px; }
+        .public-config-status { margin-top: 12px; min-height: 1.2em; }
+
         .bind-row {
             display: flex;
             gap: 15px;
@@ -879,6 +918,7 @@
             <button class="tab-button" role="tab" aria-selected="false" aria-controls="binds" onclick="switchTab('binds', event)">⌨️ Binds</button>
             <button class="tab-button" role="tab" aria-selected="false" aria-controls="pro" onclick="switchTab('pro', event)">🌟 Pro Settings</button>
             <button class="tab-button" role="tab" aria-selected="false" aria-controls="launch" onclick="switchTab('launch', event)">🚀 Launch Options</button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="public-configs" onclick="switchTab('public-configs', event)">🌍 Public Configs</button>
             <button class="tab-button" role="tab" aria-selected="false" aria-controls="account" onclick="switchTab('account', event)">👤 Account</button>
         </div>
 
@@ -985,6 +1025,12 @@
 
         <!-- Competitive Setup Tab -->
         <div id="competitive" class="tab-content active">
+            <div class="import-cfg-bar">
+                <label for="import-autoexec-file">📂 Already have an autoexec.cfg? Import it here:</label>
+                <input type="file" id="import-autoexec-file" accept=".cfg,.txt" onchange="importAutoexecCfg(event)">
+                <span class="help-text">Loads your current config and pre-fills supported settings automatically</span>
+            </div>
+
             <div class="config-section">
                 <h3>⚙️ Quick Start</h3>
                 <div class="setting-group">
@@ -1844,7 +1890,7 @@
                 </div>
                 <div class="setting-group">
                     <label>Team ID Overhead Fade:</label>
-                    <input type="number" step="0.1" min="0" max="1" id="cl_teamid_overhead_fade_near_crosshair" value="0.7">
+                    <input type="number" step="0.1" min="0" max="1" id="cl_teamid_overhead_fade_near_crosshair" value="1">
                     <span class="help-text">👁️ Fade team ID when near crosshair (0=no fade, 1=full fade)</span>
                 </div>
                 <div class="setting-group">
@@ -2406,12 +2452,6 @@
 
             </div>
 
-            <div class="import-cfg-bar">
-                <label for="import-autoexec-file">📂 Import existing autoexec.cfg:</label>
-                <input type="file" id="import-autoexec-file" accept=".cfg,.txt" onchange="importAutoexecCfg(event)">
-                <span class="help-text">Paste your current config to pre-fill all fields automatically</span>
-            </div>
-
             <button class="generate-btn" onclick="generateAutoexec()">Generate Autoexec.cfg</button>
 
             <div id="autoexec-output" class="output-section" style="display: none;">
@@ -2421,6 +2461,7 @@
                     <button class="download-btn" onclick="downloadFile('autoexec', 'autoexec.cfg')">Download autoexec.cfg</button>
                     <button class="copy-btn" onclick="copyToClipboard('autoexec')">Copy to Clipboard</button>
                     <button class="save-btn" id="save-autoexec-btn" onclick="saveConfiguration('autoexec')" style="display: none;">💾 Save Configuration</button>
+                    <button class="public-btn" id="public-autoexec-btn" onclick="publishGeneratedConfiguration('autoexec')">🌍 Save Public</button>
                 </div>
             </div>
         </div>
@@ -2713,6 +2754,7 @@
                     <button class="download-btn" onclick="downloadFile('binds', 'binds.cfg')">Download binds.cfg</button>
                     <button class="copy-btn" onclick="copyToClipboard('binds')">Copy to Clipboard</button>
                     <button class="save-btn" id="save-binds-btn" onclick="saveConfiguration('binds')" style="display: none;">💾 Save Configuration</button>
+                    <button class="public-btn" id="public-binds-btn" onclick="publishGeneratedConfiguration('binds')">🌍 Save Public</button>
                 </div>
             </div>
         </div>
@@ -3403,10 +3445,10 @@
                 <div class="setting-group" style="background: #f0f8ff; border: 1px solid #4a90e2; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
                     <h4 style="margin: 0 0 10px 0; color: #2c5aa0;">🛡️ Privacy & Data Storage</h4>
                     <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #333;">
-                        <strong>What's stored locally:</strong> Your browser stores your username, password (base64 encoded), and CS2 game configurations in localStorage.<br>
-                        <strong>What we DON'T collect:</strong> We don't collect, store, or have access to any of your data, IP addresses, or personal information.<br>
-                        <strong>Where it's stored:</strong> Everything stays in your browser's local storage - nothing is sent to our servers or external services.<br>
-                        <strong>Your privacy:</strong> Your data never leaves your device and is completely private to you. We have no access to it.<br>
+                        <strong>What's stored locally:</strong> Your browser stores your username, password (base64 encoded), private CS2 configurations, and your publishing key in localStorage.<br>
+                        <strong>Private by default:</strong> Login details and normal saved configurations stay in your browser and are not uploaded.<br>
+                        <strong>Public publishing:</strong> No account is required. When you press <em>Save Public</em>, we ask for the public name/username to display, then upload only that config plus the chosen name to this site's public configuration storage so other visitors can view/download it.<br>
+                        <strong>Your privacy:</strong> Never publish a config containing secrets, passwords, API keys, tokens, or other private information.<br>
                         <strong>Open Source:</strong> <a href="https://github.com/LaGgIs/cs2-config-generator" target="_blank" style="color: #4a90e2; text-decoration: none;">View the source code on GitHub</a> to verify our privacy claims.
                     </p>
                 </div>
@@ -3425,7 +3467,7 @@
                     <div class="setting-group">
                         <button class="generate-btn" onclick="login()">Login</button>
                         <button class="generate-btn" onclick="register()">Register</button>
-                        <span class="help-text">💡 No account needed to use the site - only for saving configurations</span>
+                        <span class="help-text">💡 Accounts are only needed for private saved configs. 🌍 Save Public works without an account.</span>
                     </div>
                 </div>
 
@@ -3503,6 +3545,25 @@
                     <span class="help-text">🔄 Load your saved configurations</span>
                 </div>
             </div>
+
+        </div>
+
+        <!-- Public Configurations Tab -->
+        <div id="public-configs" class="tab-content">
+            <div id="public-configs-section" class="config-section">
+                <h3>🌍 Public Configurations</h3>
+                <div class="setting-group">
+                    <div style="flex:1;">
+                        <strong>Community configs</strong>
+                        <div class="help-text">Browse configs published by the community. Anyone can copy or download them, and your own published configs can be removed from the same browser that published them.</div>
+                    </div>
+                    <button class="public-btn" onclick="loadPublicConfigs()">🔄 Refresh Public List</button>
+                </div>
+                <div id="public-config-status" class="help-text public-config-status">Open this tab to load public configurations.</div>
+                <div id="public-configs-list">
+                    <p class="help-text">Public configurations will appear here.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -3538,6 +3599,10 @@
             
             if (tabName === 'launch') {
                 initLaunchOptions();
+            }
+
+            if (tabName === 'public-configs') {
+                loadPublicConfigs();
             }
         }
         
@@ -3673,6 +3738,7 @@
             setVal('snd_autodetect_latency', 1);
             setVal('snd_surround_speakers', 0);
             setVal('snd_mixahead', 0.05);
+            setVal('cl_teamid_overhead_fade_near_crosshair', 1);
         }
         
         // Generate all configs function
@@ -6264,7 +6330,8 @@
             users[username] = {
                 password: hashedPassword,
                 created: new Date().toISOString(),
-                configs: {}
+                configs: {},
+                publishToken: createPublishToken()
             };
             
             localStorage.setItem('cs2_users', JSON.stringify(users));
@@ -6309,6 +6376,8 @@
             const savedConfigsSection = document.getElementById('saved-configs-section');
             const saveAutoexecBtn = document.getElementById('save-autoexec-btn');
             const saveBindsBtn = document.getElementById('save-binds-btn');
+            const publicAutoexecBtn = document.getElementById('public-autoexec-btn');
+            const publicBindsBtn = document.getElementById('public-binds-btn');
             
             if (currentUser) {
                 // User is logged in
@@ -6320,7 +6389,11 @@
                 // Show save buttons
                 if (saveAutoexecBtn) saveAutoexecBtn.style.display = 'inline-block';
                 if (saveBindsBtn) saveBindsBtn.style.display = 'inline-block';
+                // Public publishing does not require an account.
+                if (publicAutoexecBtn) publicAutoexecBtn.style.display = 'inline-block';
+                if (publicBindsBtn) publicBindsBtn.style.display = 'inline-block';
                 
+                ensurePublishToken(currentUser);
                 loadSavedConfigs();
             } else {
                 // User is not logged in
@@ -6331,6 +6404,9 @@
                 // Hide save buttons
                 if (saveAutoexecBtn) saveAutoexecBtn.style.display = 'none';
                 if (saveBindsBtn) saveBindsBtn.style.display = 'none';
+                // Keep public publishing available even while logged out.
+                if (publicAutoexecBtn) publicAutoexecBtn.style.display = 'inline-block';
+                if (publicBindsBtn) publicBindsBtn.style.display = 'inline-block';
                 
                 // Clear form
                 document.getElementById('username').value = '';
@@ -6399,6 +6475,7 @@
                     <span class="help-text">Saved: ${new Date(config.saved).toLocaleDateString()}</span>
                     <button class="copy-btn" onclick="loadConfiguration('${config.type}_${config.name}')">Load</button>
                     <button class="download-btn" onclick="downloadSavedConfig('${config.type}_${config.name}')">Download</button>
+                    <button class="public-btn" onclick="publishSavedConfiguration('${config.type}_${config.name}')">🌍 Save Public</button>
                     <button class="delete-config-btn" onclick="deleteSavedConfig('${config.type}_${config.name}')">
                         🗑️ Delete
                     </button>
@@ -6475,6 +6552,341 @@
             }
         }
         
+        // Public configuration publishing -------------------------------------------------
+        const PUBLIC_CONFIG_API = 'api/public-configs.php';
+
+        function createPublishToken() {
+            if (window.crypto?.getRandomValues) {
+                const bytes = new Uint8Array(32);
+                window.crypto.getRandomValues(bytes);
+                return Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+            }
+            return `${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+        }
+
+        function ensurePublishToken(username) {
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            if (!users[username]) return null;
+            if (!users[username].publishToken) {
+                users[username].publishToken = createPublishToken();
+                localStorage.setItem('cs2_users', JSON.stringify(users));
+            }
+            return users[username].publishToken;
+        }
+
+        function getStoredPublicPublishers() {
+            try {
+                return JSON.parse(localStorage.getItem('cs2_public_publishers') || '{}');
+            } catch (_) {
+                return {};
+            }
+        }
+
+        function saveStoredPublicPublishers(publishers) {
+            localStorage.setItem('cs2_public_publishers', JSON.stringify(publishers));
+        }
+
+        function hasPublicPublisherKey(username) {
+            if (!username) return false;
+
+            // A logged-in local account may own the public name.
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            if (users[username]?.publishToken) return true;
+
+            // Guest/public-only names are stored separately so no account is required.
+            const publishers = getStoredPublicPublishers();
+            return Boolean(publishers[username]?.publishToken);
+        }
+
+        async function getPublishCredentials(options = {}) {
+            const { askForName = false, forceAsk = false } = options;
+            const currentUser = localStorage.getItem('cs2_current_user');
+            const publishers = getStoredPublicPublishers();
+            const lastPublicName = localStorage.getItem('cs2_last_public_username') || currentUser || '';
+
+            let username = currentUser || lastPublicName;
+
+            if (askForName && (forceAsk || !currentUser)) {
+                username = await showInputModal(
+                    'What name or username should be shown publicly?',
+                    'Public name / username...',
+                    lastPublicName
+                );
+                if (!username) return null;
+                username = username.trim();
+            }
+
+            if (!username) {
+                if (!askForName) return null;
+                username = await showInputModal(
+                    'What name or username should be shown publicly?',
+                    'Public name / username...'
+                );
+                if (!username) return null;
+                username = username.trim();
+            }
+
+            if (!username) return null;
+            if (username.length > 40) {
+                alert('Public username must be 40 characters or fewer.');
+                return null;
+            }
+
+            // Prefer the local account token when publishing under the logged-in account name.
+            if (currentUser === username) {
+                const accountToken = ensurePublishToken(username);
+                if (accountToken) {
+                    localStorage.setItem('cs2_last_public_username', username);
+                    return { username, publishToken: accountToken };
+                }
+            }
+
+            // Otherwise use/create a browser-local publishing key for this public name.
+            if (!publishers[username]?.publishToken) {
+                publishers[username] = {
+                    publishToken: createPublishToken(),
+                    created: new Date().toISOString()
+                };
+                saveStoredPublicPublishers(publishers);
+            }
+
+            localStorage.setItem('cs2_last_public_username', username);
+            return { username, publishToken: publishers[username].publishToken };
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[char]));
+        }
+
+        function setPublicStatus(message, isError = false) {
+            const el = document.getElementById('public-config-status');
+            if (!el) return;
+            el.textContent = message || '';
+            el.style.color = isError ? 'var(--danger)' : 'var(--text-muted)';
+        }
+
+        async function publicApi(action, payload = {}) {
+            let response;
+            try {
+                response = await fetch(PUBLIC_CONFIG_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ action, ...payload }),
+                    cache: 'no-store'
+                });
+            } catch (error) {
+                throw new Error(`Could not connect to ${PUBLIC_CONFIG_API}. Check that the site and API are on the same web server. (${error.message})`);
+            }
+
+            const raw = await response.text();
+            let result;
+            try {
+                result = JSON.parse(raw);
+            } catch (_) {
+                const contentType = response.headers.get('content-type') || 'unknown';
+                const preview = raw.trim().replace(/\s+/g, ' ').slice(0, 180);
+
+                if (raw.includes('<?php')) {
+                    throw new Error(`PHP is not being executed by the web server. ${PUBLIC_CONFIG_API} is being served as PHP source code instead of JSON. Enable/configure PHP for this site.`);
+                }
+                if (response.status === 404) {
+                    throw new Error(`API not found (HTTP 404): ${PUBLIC_CONFIG_API}. Make sure the api folder is inside the same web root as index.html.`);
+                }
+                if (response.status >= 500) {
+                    throw new Error(`The PHP API crashed with HTTP ${response.status}. This bundle includes a PHP 7.2+ compatible API. Check the web server/PHP error log if it continues.${preview ? ` Server response: ${preview}` : ''}`);
+                }
+                if (/^<!doctype|^<html/i.test(raw.trim())) {
+                    throw new Error(`The API returned an HTML page instead of JSON (HTTP ${response.status}, ${contentType}). Check the API path and PHP configuration.${preview ? ` Response: ${preview}` : ''}`);
+                }
+
+                throw new Error(`The public-config API returned invalid JSON (HTTP ${response.status}, ${contentType}).${preview ? ` Response: ${preview}` : ' The response was empty.'}`);
+            }
+
+            if (!response.ok || !result.ok) {
+                throw new Error(result.error || `Public-config API error (${response.status})`);
+            }
+            return result;
+        }
+
+        async function publishGeneratedConfiguration(type) {
+            // Public publishing is intentionally available without creating an account.
+            // Logged-out visitors are asked which name should be displayed publicly.
+            const creds = await getPublishCredentials({ askForName: true, forceAsk: !localStorage.getItem('cs2_current_user') });
+            if (!creds) return;
+
+            const textarea = document.getElementById(`${type}-textarea`);
+            const data = textarea?.value || '';
+            if (!data.trim()) {
+                alert(`Generate your ${type} configuration first.`);
+                return;
+            }
+
+            const name = await showInputModal(
+                `Public name for this ${type} configuration:`,
+                'Public configuration name...'
+            );
+            if (!name) return;
+
+            await publishPublicConfig({ ...creds, name, type, data });
+        }
+
+        async function publishSavedConfiguration(configKey) {
+            const currentUser = localStorage.getItem('cs2_current_user');
+            if (!currentUser) {
+                alert('Please login to access your private saved configurations.');
+                return;
+            }
+
+            const creds = await getPublishCredentials({ askForName: true });
+            if (!creds) return;
+
+            const users = JSON.parse(localStorage.getItem('cs2_users') || '{}');
+            const config = users[currentUser]?.configs?.[configKey];
+            if (!config) {
+                alert('Configuration not found.');
+                return;
+            }
+
+            const name = await showInputModal(
+                `Public name for this ${config.type} configuration:`,
+                'Public configuration name...',
+                config.name
+            );
+            if (!name) return;
+
+            await publishPublicConfig({
+                ...creds,
+                name,
+                type: config.type,
+                data: config.data
+            });
+        }
+
+        async function publishPublicConfig(payload) {
+            try {
+                setPublicStatus('Publishing configuration...');
+                const result = await publicApi('publish', payload);
+                setPublicStatus(`Published “${result.config.name}” by ${result.config.username}.`);
+                alert(`🌍 Configuration “${result.config.name}” is now public!`);
+                await loadPublicConfigs();
+            } catch (error) {
+                console.error('Public publish error:', error);
+                setPublicStatus(error.message, true);
+                alert(`Could not publish configuration:\n${error.message}`);
+            }
+        }
+
+        async function loadPublicConfigs() {
+            const list = document.getElementById('public-configs-list');
+            if (!list) return;
+
+            list.innerHTML = '<p class="help-text">Loading public configurations...</p>';
+            setPublicStatus('');
+
+            try {
+                const result = await publicApi('list');
+                const configs = Array.isArray(result.configs) ? result.configs : [];
+                const currentUser = localStorage.getItem('cs2_current_user');
+
+                if (!configs.length) {
+                    list.innerHTML = '<p class="help-text">No public configurations yet. Be the first to publish one!</p>';
+                    return;
+                }
+
+                window.publicConfigOwnerNames = {};
+                list.innerHTML = configs.map(config => {
+                    window.publicConfigOwnerNames[`${config.ownerKey}:${config.id}`] = config.username;
+                    const ownerControls = (currentUser === config.username || hasPublicPublisherKey(config.username))
+                        ? `<button class="delete-config-btn" onclick="deletePublicConfig('${config.ownerKey}', '${config.id}')">🗑️ Delete Public</button>`
+                        : '';
+                    const savedDate = config.saved ? new Date(config.saved).toLocaleString() : 'Unknown date';
+                    return `
+                        <div class="public-config-card">
+                            <div class="public-config-card__main">
+                                <div class="public-config-card__name">${escapeHtml(config.name)} <span class="help-text">(${escapeHtml(config.type)})</span></div>
+                                <div class="public-config-card__meta">👤 ${escapeHtml(config.username)} · ${escapeHtml(savedDate)} · ${Number(config.size || 0).toLocaleString()} bytes</div>
+                            </div>
+                            <button class="copy-btn" onclick="copyPublicConfig('${config.ownerKey}', '${config.id}')">Copy</button>
+                            <button class="download-btn" onclick="downloadPublicConfig('${config.ownerKey}', '${config.id}')">Download</button>
+                            ${ownerControls}
+                        </div>`;
+                }).join('');
+            } catch (error) {
+                console.error('Public list error:', error);
+                list.innerHTML = '<p class="help-text">Public configurations are unavailable right now.</p>';
+                setPublicStatus(error.message, true);
+            }
+        }
+
+        async function getPublicConfig(ownerKey, id) {
+            const result = await publicApi('get', { ownerKey, id });
+            return result.config;
+        }
+
+        async function copyPublicConfig(ownerKey, id) {
+            try {
+                const config = await getPublicConfig(ownerKey, id);
+                await navigator.clipboard.writeText(config.data);
+                alert(`Copied “${config.name}” by ${config.username} to clipboard!`);
+            } catch (error) {
+                alert(`Could not copy public config:\n${error.message}`);
+            }
+        }
+
+        async function downloadPublicConfig(ownerKey, id) {
+            try {
+                const config = await getPublicConfig(ownerKey, id);
+                const blob = new Blob([config.data], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const safeName = String(config.name || 'public_config').replace(/[^a-z0-9._-]+/gi, '_');
+                a.href = url;
+                a.download = `${safeName}_${config.type}.cfg`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                alert(`Could not download public config:\n${error.message}`);
+            }
+        }
+
+        async function deletePublicConfig(ownerKey, id) {
+            let creds = null;
+            const ownerUsername = window.publicConfigOwnerNames?.[`${ownerKey}:${id}`] || '';
+            const currentUser = localStorage.getItem('cs2_current_user');
+
+            if (currentUser === ownerUsername) {
+                const token = ensurePublishToken(currentUser);
+                if (token) creds = { username: currentUser, publishToken: token };
+            }
+
+            if (!creds && ownerUsername) {
+                const publishers = getStoredPublicPublishers();
+                const token = publishers[ownerUsername]?.publishToken;
+                if (token) creds = { username: ownerUsername, publishToken: token };
+            }
+
+            if (!creds) {
+                alert('This browser does not have the publishing key needed to delete that public configuration.');
+                return;
+            }
+            if (!confirm('Delete this public configuration?')) return;
+
+            try {
+                await publicApi('delete', { ...creds, ownerKey, id });
+                alert('Public configuration deleted successfully!');
+                await loadPublicConfigs();
+            } catch (error) {
+                alert(`Could not delete public config:\n${error.message}`);
+            }
+        }
+
         // Export all configurations to JSON file
         function exportAllConfigs() {
             const currentUser = localStorage.getItem('cs2_current_user');
@@ -7103,6 +7515,14 @@
 
         // ── 3. Live preview – re-run generate functions on field change ───────────
         function _livePreviewTick() {
+            // Do not regenerate configs while a save/publish name dialog is open.
+            // Typing in the modal used to trigger live preview and show validation
+            // warnings again while the user was trying to save a config.
+            const inputModal = document.getElementById('input-modal');
+            if (inputModal && inputModal.style.display === 'block') {
+                return;
+            }
+
             // Autoexec tab
             const autoexecOut = document.getElementById('autoexec-output');
             if (autoexecOut && autoexecOut.style.display !== 'none') {
@@ -7128,8 +7548,21 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             let _liveTimer;
-            document.addEventListener('input',  () => { clearTimeout(_liveTimer); _liveTimer = setTimeout(_livePreviewTick, 600); });
-            document.addEventListener('change', () => { clearTimeout(_liveTimer); _liveTimer = setTimeout(_livePreviewTick, 600); });
+
+            const scheduleLivePreview = (event) => {
+                // Modal fields are for naming/saving configs, not CS2 settings.
+                // Ignore them so Save Configuration / Save Public never causes
+                // the validation warning dialog to re-open.
+                if (event.target && event.target.closest && event.target.closest('#input-modal')) {
+                    return;
+                }
+
+                clearTimeout(_liveTimer);
+                _liveTimer = setTimeout(_livePreviewTick, 600);
+            };
+
+            document.addEventListener('input', scheduleLivePreview);
+            document.addEventListener('change', scheduleLivePreview);
         });
 
         // ── 4. Import existing autoexec.cfg ───────────────────────────────────────

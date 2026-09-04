@@ -1,0 +1,2 @@
+# Public config JSON should only be accessed through api/public-configs.php
+Require all denied

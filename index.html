@@ -897,6 +897,28 @@
 
 
 
+        /* Settings navigation: progressively enhanced, matching both themes. */
+        .settings-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 24px; padding: 24px; align-items: start; }
+        .settings-main { min-width: 0; }
+        .settings-sidebar { position: sticky; top: 16px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; max-height: calc(100dvh - 32px); overflow-y: auto; scrollbar-width: thin; }
+        .settings-sidebar summary { font-weight: 700; color: var(--text-main); margin-bottom: 14px; cursor: pointer; }
+        .settings-sidebar label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        #settings-search { width: 100%; min-width: 0; padding: 10px; color: var(--text-main); background: var(--bg-elevated-soft); border: 1px solid var(--border-subtle); border-radius: 8px; font: inherit; font-size: 13px; }
+        .settings-nav-group { margin-top: 18px; }
+        .settings-nav-group h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin: 0 0 7px; }
+        .settings-nav-link { display: block; padding: 8px 10px; border-radius: 8px; color: var(--text-main); text-decoration: none; font-size: 13px; line-height: 1.45; overflow-wrap: anywhere; border-left: 3px solid transparent; }
+        .settings-nav-link:hover { background: var(--bg-elevated-soft); }
+        .settings-nav-link[aria-current="location"] { background: var(--accent-soft); border-left-color: var(--accent); color: var(--accent-strong); }
+        .settings-nav-link small { display: block; color: var(--text-muted); font-size: 11px; margin-top: 3px; }
+        .settings-sidebar :focus-visible, .settings-main [tabindex="-1"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+        #settings-search-status { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+        .settings-main .config-section, .settings-main .setting-group { scroll-margin-top: 24px; }
+        @media (max-width: 900px) {
+            .settings-layout { grid-template-columns: minmax(0, 1fr); padding: 12px; gap: 14px; }
+            .settings-sidebar { top: 8px; z-index: 50; max-height: min(65dvh, 460px); padding: 12px; }
+            .settings-sidebar:not([open]) summary { margin-bottom: 0; }
+            .settings-main .config-section, .settings-main .setting-group { scroll-margin-top: 85px; }
+        }
     </style>
 </head>
 <body>
@@ -908,7 +930,7 @@
     <div class="container">
         <div class="header">
             <h1>CS2 Configuration Generator</h1>
-            <p>Generate professional CS2 configuration files with ease</p>
+            <p>Generate professional CS2 configuration files with ease</p><small style="color:var(--text-muted)">Sidebar v2</small>
         </div>
 
         <div class="tabs" role="tablist">
@@ -923,8 +945,17 @@
         </div>
 
 
+<div class="settings-layout">
+<details class="settings-sidebar" open>
+<summary>Browse settings</summary>
+<label for="settings-search">Find a setting or command</label>
+<input id="settings-search" type="search" placeholder="Audio, crosshair, snd_mixahead…" autocomplete="off" disabled>
+<p id="settings-search-status" role="status" aria-live="polite">Choose a category below.</p>
+<nav id="settings-navigation" aria-label="Settings categories"><div class="settings-nav-group"><h2>🏆 Competitive Setup</h2><a class="settings-nav-link" href="#settings-competitive-0" data-section="settings-competitive-0" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">⚙️ Quick Start</a><a class="settings-nav-link" href="#settings-competitive-1" data-section="settings-competitive-1" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🌐 Network Settings</a><a class="settings-nav-link" href="#settings-competitive-2" data-section="settings-competitive-2" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🖱️ Performance Settings</a><a class="settings-nav-link" href="#settings-competitive-3" data-section="settings-competitive-3" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🖱️ Mouse Settings</a><a class="settings-nav-link" href="#settings-competitive-4" data-section="settings-competitive-4" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🔊 Audio Settings</a><a class="settings-nav-link" href="#settings-competitive-5" data-section="settings-competitive-5" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🎯 HUD & Interface Settings</a><a class="settings-nav-link" href="#settings-competitive-6" data-section="settings-competitive-6" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🎮 Viewmodel Settings</a><a class="settings-nav-link" href="#settings-competitive-7" data-section="settings-competitive-7" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🎯 Crosshair / Scopes</a><a class="settings-nav-link" href="#settings-competitive-8" data-section="settings-competitive-8" onclick="switchTab('competitive', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">⚙️ Advanced Settings</a></div><div class="settings-nav-group"><h2>🎯 Practice Mode</h2><a class="settings-nav-link" href="#settings-practice-0" data-section="settings-practice-0" onclick="switchTab('practice', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🎯 Bot Management</a><a class="settings-nav-link" href="#settings-practice-1" data-section="settings-practice-1" onclick="switchTab('practice', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">⚠️ Practice Commands (Requires sv_cheats 1)</a><a class="settings-nav-link" href="#settings-practice-2" data-section="settings-practice-2" onclick="switchTab('practice', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">📥 Generate Practice Config</a></div><div class="settings-nav-group"><h2>📺 Video Settings</h2><a class="settings-nav-link" href="#settings-video-0" data-section="settings-video-0" onclick="switchTab('video', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🖥️ Display Settings</a><a class="settings-nav-link" href="#settings-video-1" data-section="settings-video-1" onclick="switchTab('video', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🎮 Graphics Quality</a><a class="settings-nav-link" href="#settings-video-2" data-section="settings-video-2" onclick="switchTab('video', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🌟 Visual Effects</a><a class="settings-nav-link" href="#settings-video-3" data-section="settings-video-3" onclick="switchTab('video', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">⚡ Performance & Latency</a><a class="settings-nav-link" href="#settings-video-4" data-section="settings-video-4" onclick="switchTab('video', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🔧 Advanced Settings</a><a class="settings-nav-link" href="#settings-video-5" data-section="settings-video-5" onclick="switchTab('video', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🚀 Performance Recommendations</a></div><div class="settings-nav-group"><h2>⌨️ Binds</h2><a class="settings-nav-link" href="#settings-binds-0" data-section="settings-binds-0" onclick="switchTab('binds', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">⚙️ Advanced Binding Options</a><a class="settings-nav-link" href="#settings-binds-1" data-section="settings-binds-1" onclick="switchTab('binds', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🎯 Slot Binds (Scancode)</a><a class="settings-nav-link" href="#settings-binds-2" data-section="settings-binds-2" onclick="switchTab('binds', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">Movement Binds</a><a class="settings-nav-link" href="#settings-binds-3" data-section="settings-binds-3" onclick="switchTab('binds', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">Weapon Binds</a><a class="settings-nav-link" href="#settings-binds-4" data-section="settings-binds-4" onclick="switchTab('binds', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">Utility Binds</a><a class="settings-nav-link" href="#settings-binds-5" data-section="settings-binds-5" onclick="switchTab('binds', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">Custom Binds</a></div><div class="settings-nav-group"><h2>🌟 Pro Settings</h2><a class="settings-nav-link" href="#settings-pro-0" data-section="settings-pro-0" onclick="switchTab('pro', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🏆 Professional Player Profiles</a></div><div class="settings-nav-group"><h2>🚀 Launch Options</h2><a class="settings-nav-link" href="#settings-launch-0" data-section="settings-launch-0" onclick="switchTab('launch', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🚀 Launch Options</a></div><div class="settings-nav-group"><h2>🌍 Public Configs</h2><a class="settings-nav-link" href="#public-configs-section" data-section="public-configs-section" onclick="switchTab('public-configs', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🌍 Public Configurations</a></div><div class="settings-nav-group"><h2>👤 Account</h2><a class="settings-nav-link" href="#settings-account-0" data-section="settings-account-0" onclick="switchTab('account', null); if(window.innerWidth &lt;= 900) this.closest('details').open=false;">🔐 Account Management</a></div></nav>
+</details>
+<div class="settings-main">
         <div id="launch" class="tab-content">
-            <div class="config-section">
+            <div id="settings-launch-0" class="config-section">
                 <h3>🚀 Launch Options</h3>
                 <div class="setting-group">
                     <div class="label-spacer"></div>
@@ -1031,7 +1062,7 @@
                 <span class="help-text">Loads your current config and pre-fills supported settings automatically</span>
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-0" class="config-section">
                 <h3>⚙️ Quick Start</h3>
                 <div class="setting-group">
                     <div class="label-spacer"></div>
@@ -1045,7 +1076,7 @@
                     </div>
                 </div>
             </div>
-            <div class="config-section">
+            <div id="settings-competitive-1" class="config-section">
                 <h3>🌐 Network Settings</h3>
                 <div class="setting-group">
                     <label>Rate:</label>
@@ -1160,7 +1191,7 @@
 
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-2" class="config-section">
                 <h3>🖱️ Performance Settings</h3>
                 <div class="setting-group">
                     <label>FPS Max:</label>
@@ -1296,7 +1327,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-3" class="config-section">
                 <h3>🖱️ Mouse Settings</h3>
                 <div class="setting-group">
                     <label>Sensitivity:</label>
@@ -1321,7 +1352,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-4" class="config-section">
                 <h3>🔊 Audio Settings</h3>
                 <div class="setting-group">
                     <label>Master Volume:</label>
@@ -1527,7 +1558,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-5" class="config-section">
                 <h3>🎯 HUD & Interface Settings</h3>
                 <div class="setting-group">
                     <label>HUD Scaling:</label>
@@ -2091,7 +2122,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-6" class="config-section">
                 <h3>🎮 Viewmodel Settings</h3>
                 <div class="setting-group">
                     <label>Viewmodel Preset:</label>
@@ -2124,7 +2155,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-7" class="config-section">
                 <h3>🎯 Crosshair / Scopes</h3>
                 <p class="help-text">September 2026 compatibility draft: new Circle, Dot Only and Quad style command mappings are pending verification. The editor below uses legacy controls.</p>
                 <div class="setting-group">
@@ -2367,7 +2398,7 @@
                 <!-- cl_crosshairdynamic removed - deprecated in CS2 -->
             </div>
 
-            <div class="config-section">
+            <div id="settings-competitive-8" class="config-section">
                 <h3>⚙️ Advanced Settings</h3>
                 <div class="setting-group">
                     <label>Violence Blood:</label>
@@ -2469,7 +2500,7 @@
 
         <!-- Binds Tab -->
         <div id="binds" class="tab-content">
-            <div class="config-section">
+            <div id="settings-binds-0" class="config-section">
                 <h3>⚙️ Advanced Binding Options</h3>
                 <div class="setting-group">
                     <label>Use Scancode Binds:</label>
@@ -2559,7 +2590,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-binds-1" class="config-section">
                 <h3>🎯 Slot Binds (Scancode)</h3>
                 <div id="slot-binds">
                     <div class="bind-row">
@@ -2614,7 +2645,7 @@
                 <button class="add-btn" onclick="addBind('slot-binds')">Add Slot Bind</button>
             </div>
 
-            <div class="config-section">
+            <div id="settings-binds-2" class="config-section">
                 <h3>Movement Binds</h3>
                 <div id="movement-binds">
                     <div class="bind-row">
@@ -2666,7 +2697,7 @@
                 <button class="add-btn" onclick="addBind('movement-binds')">Add Movement Bind</button>
             </div>
 
-            <div class="config-section">
+            <div id="settings-binds-3" class="config-section">
                 <h3>Weapon Binds</h3>
                 <div id="weapon-binds">
                     <div class="bind-row">
@@ -2700,7 +2731,7 @@
                 <button class="add-btn" onclick="addBind('weapon-binds')">Add Weapon Bind</button>
             </div>
 
-            <div class="config-section">
+            <div id="settings-binds-4" class="config-section">
                 <h3>Utility Binds</h3>
                 <div id="utility-binds">
                     <div class="bind-row">
@@ -2725,7 +2756,7 @@
                 <button class="add-btn" onclick="addBind('utility-binds')">Add Utility Bind</button>
             </div>
 
-            <div class="config-section">
+            <div id="settings-binds-5" class="config-section">
                 <h3>Custom Binds</h3>
                 <div id="custom-binds">
                     <div class="bind-row">
@@ -2762,7 +2793,7 @@
 
         <!-- Video Tab -->
         <div id="video" class="tab-content">
-            <div class="config-section">
+            <div id="settings-video-0" class="config-section">
                 <h3>🖥️ Display Settings</h3>
                 <div class="setting-group">
                     <label>Resolution:</label>
@@ -2809,7 +2840,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-video-1" class="config-section">
                 <h3>🎮 Graphics Quality</h3>
                 <div class="setting-group">
                     <label>Shader Quality:</label>
@@ -2852,7 +2883,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-video-2" class="config-section">
                 <h3>🌟 Visual Effects</h3>
                 <div class="setting-group">
                     <label>Shadow Quality:</label>
@@ -2945,7 +2976,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-video-3" class="config-section">
                 <h3>⚡ Performance & Latency</h3>
                 <div class="setting-group">
                     <label>FidelityFX Super Resolution:</label>
@@ -2993,7 +3024,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-video-4" class="config-section">
                 <h3>🔧 Advanced Settings</h3>
                 <div class="setting-group">
                     <label>GPU Memory Level:</label>
@@ -3040,7 +3071,7 @@
             </div>
 
             <!-- Performance Recommendations Section -->
-            <div class="config-section">
+            <div id="settings-video-5" class="config-section">
                 <h3>🚀 Performance Recommendations</h3>
                 <div class="setting-group">
                     <button class="generate-btn" onclick="analyzePerformance()" style="background: linear-gradient(135deg, #4CAF50, #45a049); margin-bottom: 15px;">
@@ -3080,7 +3111,7 @@
                     Load the config in CS2 console with <code style="background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 3px;">exec cs2_practice</code> to apply all settings at once.
                 </p>
             </div>
-            <div class="config-section">
+            <div id="settings-practice-0" class="config-section">
                 <h3>🎯 Bot Management</h3>
                 <div class="setting-group">
                     <label>Add Bot Team:</label>
@@ -3135,7 +3166,7 @@
                 </div>
             </div>
 
-            <div class="config-section">
+            <div id="settings-practice-1" class="config-section">
                 <h3>⚠️ Practice Commands (Requires sv_cheats 1)</h3>
                 <div class="setting-group" style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
                     <h4 style="margin: 0 0 10px 0; color: #856404;">⚠️ Important Notice</h4>
@@ -3218,7 +3249,7 @@
 
             
             <!-- Generate Config Section for Practice Mode -->
-            <div class="config-section">
+            <div id="settings-practice-2" class="config-section">
                 <h3>📥 Generate Practice Config</h3>
                 <div class="generate-section">
                     <button onclick="generateConfig('practice')" class="generate-btn">
@@ -3237,7 +3268,7 @@
 
         <!-- Pro Settings Tab -->
         <div id="pro" class="tab-content">
-            <div class="config-section">
+            <div id="settings-pro-0" class="config-section">
                 <h3>🏆 Professional Player Profiles</h3>
                 <p style="margin-bottom: 20px; color: #666;">Choose from the world's best CS2 players and apply their complete settings with one click.</p>
                 
@@ -3439,7 +3470,7 @@
 
         <!-- Account Tab -->
         <div id="account" class="tab-content">
-            <div class="config-section">
+            <div id="settings-account-0" class="config-section">
                 <h3>🔐 Account Management</h3>
                 
                 <!-- Privacy Disclaimer -->
@@ -3568,6 +3599,7 @@
         </div>
     </div>
 
+</div></div>
     <script>
         // Tab switching functionality
         function switchTab(tabName, event) {
@@ -3598,6 +3630,8 @@
                 }
             }
             
+            document.dispatchEvent(new Event('settings-tab-changed'));
+
             if (tabName === 'launch') {
                 initLaunchOptions();
             }
@@ -7856,5 +7890,91 @@
             </div>
         </div>
     </div>
+<script>
+    // Category navigation and search; no settings inputs are recreated or reset.
+    function initSettingsNavigation() {
+        const sidebar = document.querySelector('.settings-sidebar');
+        if (!sidebar || sidebar.dataset.initialized) return;
+        sidebar.dataset.initialized = 'true';
+        sidebar.open = window.innerWidth > 900;
+        const nav = sidebar.querySelector('nav');
+        const search = sidebar.querySelector('input');
+        search.disabled = false;
+        const status = sidebar.querySelector('[role="status"]');
+        const groups = Array.from(document.querySelectorAll('.tabs .tab-button')).map(button => {
+            const panel = document.getElementById(button.getAttribute('aria-controls'));
+            const sections = Array.from(panel.querySelectorAll('.config-section')).map((section, i) => {
+                if (!section.id) section.id = 'settings-' + panel.id + '-' + i;
+                const title = section.querySelector('h3');
+                const fields = Array.from(section.querySelectorAll('.setting-group')).map((field, j) => {
+                    if (!field.id) field.id = section.id + '-field-' + j;
+                    const label = field.querySelector('label')?.textContent.trim();
+                    const commands = Array.from(field.querySelectorAll('input[id],select[id],textarea[id]')).map(el => el.id);
+                    return {target: field, title: label || commands[0] || '', commands};
+                }).filter(field => field.title);
+                return {target: section, title: title?.textContent.trim() || 'Settings', fields, panel};
+            });
+            return {title: button.textContent.trim(), panel, sections};
+        });
+        const available = section => !section.target.hidden && section.target.style.display !== 'none';
+        function addLink(parent, title, target, section, detail) {
+            const link = document.createElement('a'); link.className = 'settings-nav-link';
+            link.href = '#' + target.id; link.textContent = title; link.dataset.section = section.target.id;
+            if (detail) { const small = document.createElement('small'); small.textContent = detail; link.append(small); }
+            link.addEventListener('click', event => {
+                event.preventDefault();
+                switchTab(section.panel.id, null);
+                if (window.innerWidth <= 900) sidebar.open = false;
+                requestAnimationFrame(() => {
+                    target.setAttribute('tabindex', '-1'); target.focus({preventScroll: true});
+                    target.scrollIntoView({behavior: 'auto', block: 'start'});
+                    updateCurrent();
+                });
+            });
+            parent.append(link);
+        }
+        function render() {
+            nav.replaceChildren(); const query = search.value.trim().toLowerCase(); let matches = 0;
+            groups.forEach(group => {
+                const block = document.createElement('div'); block.className = 'settings-nav-group';
+                const heading = document.createElement('h2'); heading.textContent = group.title; block.append(heading);
+                group.sections.filter(available).forEach(section => {
+                    const categoryMatch = !query || (group.title + ' ' + section.title).toLowerCase().includes(query);
+                    if (categoryMatch) { addLink(block, section.title, section.target, section); matches++; }
+                    if (query) section.fields.filter(field => (field.title + ' ' + field.commands.join(' ')).toLowerCase().includes(query)).forEach(field => {
+                        addLink(block, field.title, field.target, section, field.commands.join(' · ')); matches++;
+                    });
+                });
+                if (block.children.length > 1) nav.append(block);
+            });
+            status.textContent = query ? (matches ? matches + ' matches' : 'No matches. Try a category or command name.') : 'Jump to a category, or search every settings page.';
+            updateCurrent();
+        }
+        function updateCurrent() {
+            const active = groups.find(group => group.panel.classList.contains('active'));
+            const sections = active?.sections.filter(available) || [];
+            let current = sections[0];
+            const threshold = window.innerWidth <= 900 ? 100 : 60;
+            sections.forEach(section => { if (section.target.getBoundingClientRect().top <= threshold) current = section; });
+            nav.querySelectorAll('a').forEach(link => {
+                if (link.dataset.section === current?.target.id) link.setAttribute('aria-current', 'location');
+                else link.removeAttribute('aria-current');
+            });
+        }
+        search.addEventListener('input', render);
+        let scheduled = false;
+        window.addEventListener('scroll', () => {
+            if (scheduled) return; scheduled = true;
+            requestAnimationFrame(() => { scheduled = false; updateCurrent(); });
+        }, {passive: true});
+        document.addEventListener('settings-tab-changed', updateCurrent);
+        const observer = new MutationObserver(render);
+        groups.forEach(group => group.sections.forEach(section => observer.observe(section.target, {attributes: true, attributeFilter: ['style', 'hidden']})));
+        render();
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSettingsNavigation);
+    else initSettingsNavigation();
+
+</script>
 </body>
 </html>

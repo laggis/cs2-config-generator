@@ -1107,19 +1107,16 @@
                     <span class="help-text">💀 Show client-side ragdoll effects before server confirms kill</span>
                 </div>
                 <div class="setting-group">
-                    <label>Buffer Ticks Use Interpolation:</label>
-                    <select id="cl_net_buffer_ticks_use_interp">
-                        <option value="0">Disabled</option>
-                        <option value="1" selected>Enabled</option>
+                    <label for="cl_net_buffer_ticks">Buffering to smooth packet loss / jitter:</label>
+                    <select id="cl_net_buffer_ticks">
+                        <option value="0" selected>0 — No extra manual buffering (stable connection)</option>
+                        <option value="1">1 — More tolerance for jitter</option>
+                        <option value="2">2 — More buffering, more delay</option>
                     </select>
-                    <span class="help-text">🔄 Use interpolation for network buffer ticks</span>
+                    <span class="help-text">Start at 0. If network jitter causes stuttering or late packets, compare 1, then 2. More buffering trades responsiveness for smoother delivery; it does not repair your connection or remove ping. CS2 can still buffer automatically at 0.</span>
                 </div>
 
-                <div class="setting-group">
-                    <label>Tick Packet Queue Length:</label>
-                    <input type="number" id="cl_tickpacket_desired_queuelength" value="0">
-                    <span class="help-text">📦 Desired queue length for tick packets (0 = automatic)</span>
-                </div>
+
                 <div class="setting-group">
                     <label>Session Search QoS Timeout:</label>
                     <input type="number" id="mm_session_search_qos_timeout" value="20">
@@ -1256,15 +1253,7 @@
                 <!-- CS2 Network & Interpolation Settings -->
                 <h4>⚡ Network & Interpolation</h4>
 
-                <div class="setting-group">
-                    <label>Interpolation Ratio:</label>
-                    <select id="cl_interp_ratio">
-                        <option value="1" selected>1 (Recommended)</option>
-                        <option value="2">2 (Higher Latency)</option>
-                        <option value="3">3 (Highest Latency)</option>
-                    </select>
-                    <span class="help-text">🔄 Interpolation ratio for network smoothing (1 = best performance)</span>
-                </div>
+
 
 
                 
@@ -1404,8 +1393,8 @@
                 </div>
                 <div class="setting-group">
                     <label>Mix Ahead (seconds):</label>
-                    <input type="number" step="0.001" min="0" max="0.1" id="snd_mixahead" value="0.05">
-                    <span class="help-text">🎵 Audio buffer mix ahead time (0.05 recommended for best audio latency, lower values may cause crackling)</span>
+                    <input type="number" step="0.001" min="0.001" max="0.1" id="snd_mixahead" value="0.001">
+                    <span class="help-text">Audio mix-ahead target in seconds: 0.001 = 1 ms, not total headphone latency. If you hear static, crackling, pops or dropouts, try 0.005, 0.01, 0.025, then 0.05 until stable. Test during a busy match. Smaller is not automatically better; the audio device and driver also matter.</span>
                 </div>
                 <div class="setting-group">
                     <label>Menu Music Volume:</label>
@@ -2136,24 +2125,33 @@
             </div>
 
             <div class="config-section">
-                <h3>🎯 Crosshair Settings</h3>
+                <h3>🎯 Crosshair / Scopes</h3>
+                <p class="help-text">September 2026 compatibility draft: new Circle, Dot Only and Quad style command mappings are pending verification. The editor below uses legacy controls.</p>
+                <div class="setting-group">
+                    <label for="preserve_game_crosshair">Crosshair export:</label>
+                    <select id="preserve_game_crosshair">
+                        <option value="0" selected>Export editor settings</option>
+                        <option value="1">Keep my in-game crosshair and scope settings</option>
+                    </select>
+                    <span class="help-text">Choose Keep to omit this entire section from the generated autoexec, preserving a new style you selected inside CS2.</span>
+                </div>
                 <div class="crosshair-preview-container">
-                    <h4>Live Preview:</h4>
+                    <h4>Shape Preview (approximate, enlarged):</h4><p class="help-text">Static illustration only. Weapon spread, recoil, dynamic splitting and exact in-game sizing are not simulated.</p>
                     <canvas id="crosshairPreview" width="200" height="200"></canvas>
                 </div>
                 <div class="setting-group">
                     <label>Size:</label>
-                    <input type="number" id="cl_crosshairsize" value="4">
+                    <input type="number" step="0.1" id="cl_crosshairsize" value="4">
                     <span class="help-text">Crosshair size (default: 4)</span>
                 </div>
                 <div class="setting-group">
                     <label>Thickness:</label>
-                    <input type="number" id="cl_crosshairthickness" value="1">
+                    <input type="number" step="0.1" id="cl_crosshairthickness" value="1">
                     <span class="help-text">Crosshair thickness (default: 1)</span>
                 </div>
                 <div class="setting-group">
                     <label>Gap:</label>
-                    <input type="number" id="cl_crosshairgap" value="-1">
+                    <input type="number" step="0.1" id="cl_crosshairgap" value="-1">
                     <span class="help-text">Gap between crosshair lines (default: -1)</span>
                 </div>
                 <div class="setting-group">
@@ -2166,7 +2164,7 @@
                         <option value="4">Cyan</option>
                         <option value="5">Custom</option>
                     </select>
-                    <span class="help-text">🌈 Crosshair color (green recommended for visibility)</span>
+                    <span class="help-text">Colour presets are exported as RGB components; the old preset command is not exported.</span>
                 </div>
                 <div class="setting-group">
                     <label>Outline:</label>
@@ -2176,17 +2174,20 @@
                     </select>
                     <span class="help-text">⚫ Black outline for better visibility</span>
                 </div>
+<div class="setting-group"><label for="cl_crosshair_outlinethickness">Outline Thickness:</label><input type="number" id="cl_crosshair_outlinethickness" value="1" min="0" max="3" step="0.1"></div>
+<div class="setting-group"><label for="cl_crosshaircolor_a">Opacity (0 = transparent, 255 = opaque):</label><input type="number" id="cl_crosshaircolor_a" value="255" min="0" max="255" step="1"></div>
+<div class="setting-group"><label for="cl_crosshairusealpha">Use Opacity:</label><select id="cl_crosshairusealpha"><option value="1" selected>Enabled</option><option value="0">Disabled (fully opaque)</option></select></div>
                 <div class="setting-group">
                     <label>Style:</label>
                     <select id="cl_crosshairstyle">
-                        <option value="0">Default</option>
-                        <option value="1">Default Static</option>
-                        <option value="2">Classic Dynamic</option>
-                        <option value="3">Classic Static</option>
-                        <option value="4" selected>Classic</option>
-                        <option value="5">Classic 1.6</option>
+                        <option value="0">Legacy value 0 (unverified)</option>
+                        <option value="1">Legacy value 1 (unverified)</option>
+                        <option value="2">Dynamic Cross (Classic)</option>
+                        <option value="3">Legacy value 3 (unverified)</option>
+                        <option value="4" selected>Static Cross</option>
+                        <option value="5">Dynamic Cross (Legacy/Shot Feedback)</option>
                     </select>
-                    <span class="help-text">🎯 Crosshair style (Classic recommended)</span>
+                    <span class="help-text">Legacy style values retained for compatibility. New style values are pending verification.</span>
                 </div>
                 <div class="setting-group">
                     <label>Follow Recoil:</label>
@@ -2228,17 +2229,17 @@
                 <div class="setting-group">
                     <label>Custom Red (0-255):</label>
                     <input type="number" id="cl_crosshaircolor_R" value="0" min="0" max="255">
-                    <span class="help-text">🔴 Custom red value (works with Custom color)</span>
+                    <span class="help-text">🔴 Red component (used when Custom is selected)</span>
                 </div>
                 <div class="setting-group">
                     <label>Custom Green (0-255):</label>
                     <input type="number" id="cl_crosshaircolor_G" value="255" min="0" max="255">
-                    <span class="help-text">🟢 Custom green value (works with Custom color)</span>
+                    <span class="help-text">🟢 Green component (used when Custom is selected)</span>
                 </div>
                 <div class="setting-group">
                     <label>Custom Blue (0-255):</label>
                     <input type="number" id="cl_crosshaircolor_B" value="0" min="0" max="255">
-                    <span class="help-text">🔵 Custom blue value (works with Custom color)</span>
+                    <span class="help-text">🔵 Blue component (used when Custom is selected)</span>
                 </div>
                 <div class="setting-group">
                     <label>Show Target ID:</label>
@@ -3699,8 +3700,6 @@
             setVal('cl_predict_body_shot_fx', 'false');
             setVal('cl_predict_head_shot_fx', 'false');
             setVal('cl_predict_kill_ragdolls', 'true');
-            setVal('cl_net_buffer_ticks_use_interp', 1);
-            setVal('cl_tickpacket_desired_queuelength', 0);
             setVal('mm_session_search_qos_timeout', 20);
             setVal('mm_csgo_community_search_players_min', 3);
             setVal('lobby_default_privacy_bits2', 0);
@@ -3721,7 +3720,6 @@
             setVal('cl_particle_fallback_base', 0);
             setVal('cl_particle_fallback_multiplier', 1);
             setVal('r_render_thread_count', 0);
-            setVal('cl_interp_ratio', 1);
             
             setVal('sensitivity', 2.5);
             setVal('zoom_sensitivity_ratio', 1.0);
@@ -3737,7 +3735,8 @@
             setVal('snd_steamaudio_reverb_level_db', -3);
             setVal('snd_autodetect_latency', 1);
             setVal('snd_surround_speakers', 0);
-            setVal('snd_mixahead', 0.05);
+            setVal('snd_mixahead', 0.001);
+            setVal('cl_net_buffer_ticks', 0);
             setVal('cl_teamid_overhead_fade_near_crosshair', 1);
         }
         
@@ -4176,6 +4175,15 @@
             return message;
         }
 
+        // Presets remain a UI convenience; RGBA components are exported directly.
+        function resolveCrosshairRGB(config) {
+            const presets = [[255,0,0], [0,255,0], [255,255,0], [0,0,255], [0,255,255]];
+            return presets[Number(config.cl_crosshaircolor)] || ['R','G','B'].map(channel => {
+                const n = Number(config['cl_crosshaircolor_' + channel]);
+                return Number.isFinite(n) ? Math.max(0, Math.min(255, Math.round(n))) : 0;
+            });
+        }
+
         // Helper function to safely get element value
         function getElementValue(id, defaultValue = '') {
             const element = document.getElementById(id);
@@ -4188,10 +4196,19 @@
 
         function generateAutoexec() {
             console.log('generateAutoexec() function called');
+            const mixAhead = Number(document.getElementById('snd_mixahead').value);
+            const bufferTicks = document.getElementById('cl_net_buffer_ticks').value;
+            if (!Number.isFinite(mixAhead) || mixAhead < 0.001 || mixAhead > 0.1 ||
+                !['0', '1', '2'].includes(bufferTicks)) {
+                alert('Use an audio mix-ahead value between 0.001 and 0.1 seconds and network buffering of 0, 1 or 2 ticks.');
+                return;
+            }
+
             
             try {
                 const config = {
                 // Network Settings
+                cl_net_buffer_ticks: getElementValue('cl_net_buffer_ticks', '0'),
                 rate: getElementValue('rate', '786432'),
                 mm_dedicated_search_maxping: getElementValue('mm_dedicated_search_maxping', '50'),
                 // cl_lagcompensation and cl_predictweapons removed - deprecated in CS2
@@ -4202,8 +4219,6 @@
                 cl_predict_body_shot_fx: getElementValue('cl_predict_body_shot_fx', '1'),
                 cl_predict_head_shot_fx: getElementValue('cl_predict_head_shot_fx', '1'),
                 cl_predict_kill_ragdolls: getElementValue('cl_predict_kill_ragdolls', '1'),
-                cl_net_buffer_ticks_use_interp: getElementValue('cl_net_buffer_ticks_use_interp', '1'),
-                cl_tickpacket_desired_queuelength: getElementValue('cl_tickpacket_desired_queuelength', '1'),
                 mm_session_search_qos_timeout: getElementValue('mm_session_search_qos_timeout', '20000'),
                 mm_csgo_community_search_players_min: getElementValue('mm_csgo_community_search_players_min', '3'),
                 lobby_default_privacy_bits2: getElementValue('lobby_default_privacy_bits2', '0'),
@@ -4244,7 +4259,6 @@
                 r_low_latency_wait: getElementValue('r_low_latency_wait', '0'),
                 
                 // CS2 Subtick System Settings
-                cl_interp_ratio: getElementValue('cl_interp_ratio', '1'),
                 
                 // Advanced Performance Settings
                 engine_low_latency_sleep_after_client_tick: getElementValue('engine_low_latency_sleep_after_client_tick', '0'),
@@ -4269,7 +4283,7 @@
                 snd_steamaudio_reverb_level_db: getElementValue('snd_steamaudio_reverb_level_db', '-6'),
                 snd_autodetect_latency: getElementValue('snd_autodetect_latency', '1'),
                 snd_surround_speakers: getElementValue('snd_surround_speakers', '0'),
-                snd_mixahead: getElementValue('snd_mixahead', '0.1'),
+                snd_mixahead: getElementValue('snd_mixahead', '0.001'),
                 snd_menumusic_volume: getElementValue('snd_menumusic_volume', '0.5'),
                 snd_menumap_volume: getElementValue('snd_menumap_volume', '0.5'),
                 snd_roundstart_volume: getElementValue('snd_roundstart_volume', '0.5'),
@@ -4375,6 +4389,9 @@
                 viewmodel_offset_z: getElementValue('viewmodel_offset_z', '-1.5'),
                 
                 // Crosshair Settings
+                cl_crosshair_outlinethickness: getElementValue('cl_crosshair_outlinethickness', '1'),
+                cl_crosshaircolor_a: getElementValue('cl_crosshaircolor_a', '255'),
+                cl_crosshairusealpha: getElementValue('cl_crosshairusealpha', '1'),
                 cl_crosshairsize: getElementValue('cl_crosshairsize', '5'),
                 cl_crosshairthickness: getElementValue('cl_crosshairthickness', '1'),
                 cl_crosshairgap: getElementValue('cl_crosshairgap', '-1'),
@@ -4489,17 +4506,14 @@
                 `mm_dedicated_search_maxping "${config.mm_dedicated_search_maxping}"  // Max ping for matchmaking`,
                 // cl_lagcompensation and cl_predictweapons removed - deprecated in CS2 sub-tick system
                 `cl_resend "${config.cl_resend}"  // Packet resend count`,
-                'cl_net_buffer_ticks "0"  // Set to 1 or 2 if you have packet loss',
+                `cl_net_buffer_ticks "${config.cl_net_buffer_ticks}"  // 0: stable network; try 1 or 2 for jitter, at the cost of added delay`,
                 `cl_timeout "${config.cl_timeout}"  // Connection timeout in seconds`,
                 `cq_buffer_bloat_msecs_max "${config.cq_buffer_bloat_msecs_max}"  // Maximum buffer bloat before reset`,
                 `net_client_steamdatagram_enable_override "${config.net_client_steamdatagram_enable_override}"  // Steam Datagram Relay setting`,
                 `cl_predict_body_shot_fx "${config.cl_predict_body_shot_fx}"  // Predict body shot effects`,
                 `cl_predict_head_shot_fx "${config.cl_predict_head_shot_fx}"  // Predict headshot effects`,
                 `cl_predict_kill_ragdolls "${config.cl_predict_kill_ragdolls}"  // Predict kill ragdolls`,
-                `cl_net_buffer_ticks_use_interp "${config.cl_net_buffer_ticks_use_interp}"  // Use interpolation for network buffer ticks`,
-                `cl_interp_ratio "${config.cl_interp_ratio}"  // Interpolation ratio for network smoothing`,
 
-                `cl_tickpacket_desired_queuelength "${config.cl_tickpacket_desired_queuelength}"  // Desired queue length for tick packets`,
                 `mm_session_search_qos_timeout "${config.mm_session_search_qos_timeout}"  // QoS timeout for session search`,
                 `mm_csgo_community_search_players_min "${config.mm_csgo_community_search_players_min}"  // Minimum players for community search`,
                 `lobby_default_privacy_bits2 "${config.lobby_default_privacy_bits2}"  // Default lobby privacy settings`,
@@ -4568,7 +4582,7 @@
                 `snd_steamaudio_reverb_level_db "${config.snd_steamaudio_reverb_level_db}"  // Steam Audio reverb`,
                 `snd_autodetect_latency "${config.snd_autodetect_latency}"  // Auto-detect latency`,
                 `snd_surround_speakers "${config.snd_surround_speakers}"  // Force Stereo (0) recommended for clarity`,
-                `snd_mixahead "${config.snd_mixahead}"  // Audio buffer mix ahead`,
+                `snd_mixahead "${config.snd_mixahead}"  // Mix-ahead target, not total latency. If crackling/dropouts: try 0.005, 0.01, 0.025, then 0.05`,
                 `snd_menumusic_volume "${config.snd_menumusic_volume}"  // Menu music volume`,
                 `snd_menumap_volume "${config.snd_menumap_volume}"  // Menu map volume`,
                 `snd_roundstart_volume "${config.snd_roundstart_volume}"  // Round start volume`,
@@ -4686,7 +4700,6 @@
                 `cl_crosshairsize "${config.cl_crosshairsize}"  // Crosshair size`,
                 `cl_crosshairthickness "${config.cl_crosshairthickness}"  // Crosshair thickness`,
                 `cl_crosshairgap "${config.cl_crosshairgap}"  // Crosshair gap`,
-                `cl_crosshaircolor "${config.cl_crosshaircolor}"  // Crosshair color`,
                 `cl_crosshair_drawoutline "${config.cl_crosshair_drawoutline}"  // Crosshair outline`,
                 `cl_crosshairstyle "${config.cl_crosshairstyle}"  // Crosshair style`,
                 `cl_crosshair_recoil "${config.cl_crosshair_recoil}"  // Crosshair recoil`,
@@ -4694,9 +4707,9 @@
                 `cl_fixedcrosshairgap "${config.cl_fixedcrosshairgap}"  // Fixed crosshair gap`,
                 `cl_crosshairdot "${config.cl_crosshairdot}"  // Crosshair dot`,
                 `cl_crosshair_t "${config.cl_crosshair_t}"  // T-style crosshair`,
-                `cl_crosshaircolor_R "${config.cl_crosshaircolor_R}"  // Crosshair red color`,
-                `cl_crosshaircolor_G "${config.cl_crosshaircolor_G}"  // Crosshair green color`,
-                `cl_crosshaircolor_B "${config.cl_crosshaircolor_B}"  // Crosshair blue color`,
+                `cl_crosshaircolor_r "${resolveCrosshairRGB(config)[0]}"  // Crosshair red color`,
+                `cl_crosshaircolor_g "${resolveCrosshairRGB(config)[1]}"  // Crosshair green color`,
+                `cl_crosshaircolor_b "${resolveCrosshairRGB(config)[2]}"  // Crosshair blue color`,
                 `hud_showtargetid "${config.hud_showtargetid}"  // Show target ID`,
                 `cl_crosshair_friendly_warning "${config.cl_crosshair_friendly_warning}"  // Friendly warning`,
                 `cl_ironsight_usecrosshaircolor "${config.cl_ironsight_usecrosshaircolor}"  // Iron sight crosshair color`,
@@ -4718,9 +4731,8 @@
                 `cl_grenadecrosshairdelay_flash "${config.cl_grenadecrosshairdelay_flash}"  // Flash grenade crosshair delay`,
                 `cl_grenadecrosshairdelay_smoke "${config.cl_grenadecrosshairdelay_smoke}"  // Smoke grenade crosshair delay`,
                 // cl_crosshairdynamic removed - deprecated in CS2
-                'cl_crosshair_outlinethickness "1"  // Crosshair outline thickness',
-                'cl_crosshairusealpha "1"  // Use crosshair alpha',
-                'cl_crosshairalpha "255"  // Crosshair alpha value',
+                `cl_crosshair_outlinethickness "${config.cl_crosshair_outlinethickness}"  // Crosshair outline thickness`,
+                `cl_crosshaircolor_a "${config.cl_crosshairusealpha === '1' ? config.cl_crosshaircolor_a : '255'}"  // Crosshair alpha value`,
                 '',
                 '// ========================================',
                 '// VISUAL EFFECTS SETTINGS',
@@ -4788,6 +4800,15 @@
                 'echo "CS2 Competitive Config Loaded Successfully! By LaGgIs"'
             ];
 
+            if (document.getElementById('preserve_game_crosshair').value === '1') {
+                // All emitted crosshair and scope settings live in this section.
+                const start = configLines.indexOf('// CROSSHAIR SETTINGS');
+                const end = configLines.indexOf('// VISUAL EFFECTS SETTINGS');
+                if (start >= 1 && end > start) {
+                    configLines.splice(start - 1, end - start,
+                        '// Crosshair and scope settings preserved from CS2.', '');
+                }
+            }
             const configContent = configLines.join('\n');
             console.log('Config content generated, length:', configContent.length);
             
@@ -4859,7 +4880,6 @@
                         
                         // Competitive Settings
                         cl_teamid_overhead: '1',
-                        cl_interp_ratio: '1',
                         r_drawtracers_firstperson: '1'
                     }
                 },
@@ -4893,7 +4913,6 @@
                         
                         // Competitive Settings
                         cl_teamid_overhead: '1',
-                        cl_interp_ratio: '1',
                         r_drawtracers_firstperson: '1'
                     }
                 },
@@ -4927,7 +4946,6 @@
                         
                         // Competitive Settings
                         cl_teamid_overhead: '2',
-                        cl_interp_ratio: '1',
                         r_drawtracers_firstperson: '1'
                     }
                 },
@@ -4961,7 +4979,6 @@
                         
                         // Competitive Settings
                         cl_teamid_overhead: '1',
-                        cl_interp_ratio: '1',
                         r_drawtracers_firstperson: '1'
                     }
                 },
@@ -4995,7 +5012,6 @@
                         
                         // Competitive Settings
                         cl_teamid_overhead: '1',
-                        cl_interp_ratio: '1',
                         r_drawtracers_firstperson: '1'
                     }
                 },
@@ -5029,7 +5045,6 @@
                         
                         // Competitive Settings
                         cl_teamid_overhead: '1',
-                        cl_interp_ratio: '1',
                         r_drawtracers_firstperson: '1'
                     }
                 }
@@ -5064,11 +5079,11 @@
                  'cl_crosshair_gap': 'cl_crosshairgap',
                  'cl_crosshair_dot': 'cl_crosshairdot',
                  'cl_crosshair_drawoutline': 'cl_crosshair_drawoutline',
+                 'cl_crosshair_outlinethickness': 'cl_crosshair_outlinethickness',
                  'cl_crosshaircolor': 'cl_crosshaircolor',
                  
                  // Competitive Settings
                  'cl_teamid_overhead': 'cl_teamid_overhead_mode',
-                 'cl_interp_ratio': 'cl_interp_ratio',
                  'r_drawtracers_firstperson': 'r_drawtracers_firstperson'
              };
 
@@ -5536,7 +5551,11 @@
             configContent += `cl_crosshairgap "${profile.settings.cl_crosshairgap}"\n`;
             configContent += `cl_crosshairdot "${profile.settings.cl_crosshairdot}"\n`;
             configContent += `cl_crosshair_drawoutline "${profile.settings.cl_crosshair_drawoutline}"\n`;
-            configContent += `cl_crosshaircolor "${profile.settings.cl_crosshaircolor}"\n`;
+            const profileRGB = resolveCrosshairRGB(profile.settings);
+            ['r','g','b'].forEach((channel, index) => {
+                configContent += `cl_crosshaircolor_${channel} "${profileRGB[index]}"\n`;
+            });
+            configContent += 'cl_crosshaircolor_a "255"\n';
             configContent += `cl_ironsight_usecrosshaircolor "${profile.settings.cl_ironsight_usecrosshaircolor ?? '1'}"\n`;
             configContent += `cl_ironsight_dot_scale "${profile.settings.cl_ironsight_dot_scale ?? '1.0'}"\n\n`;
             
@@ -6144,116 +6163,46 @@
         function drawCrosshair() {
             const canvas = document.getElementById('crosshairPreview');
             if (!canvas) return;
-            
             const ctx = canvas.getContext('2d');
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            
-            // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Get crosshair settings
-            const size = parseInt(document.getElementById('cl_crosshairsize').value) || 4;
-            const thickness = parseInt(document.getElementById('cl_crosshairthickness').value) || 1;
-            const gap = parseInt(document.getElementById('cl_crosshairgap').value) || -1;
-            const color = document.getElementById('cl_crosshaircolor').value;
-            const outline = document.getElementById('cl_crosshair_drawoutline').value === '1';
-            const style = parseInt(document.getElementById('cl_crosshairstyle').value) || 4;
-            const dot = document.getElementById('cl_crosshairdot').value === '1';
-            const tStyle = document.getElementById('cl_crosshair_t').value === '1';
-            
-            // Color mapping
-            const colors = {
-                '0': '#FF0000', // Red
-                '1': '#00FF00', // Green
-                '2': '#FFFF00', // Yellow
-                '3': '#0000FF', // Blue
-                '4': '#00FFFF', // Cyan
-                '5': `rgb(${document.getElementById('cl_crosshaircolor_R').value}, ${document.getElementById('cl_crosshaircolor_G').value}, ${document.getElementById('cl_crosshaircolor_B').value})` // Custom
+            const number = (id, fallback) => {
+                const value = parseFloat(document.getElementById(id)?.value);
+                return Number.isFinite(value) ? value : fallback;
             };
-            
-            const crosshairColor = colors[color] || '#00FF00';
-            
-            // Scale factor for better visibility
-            const scale = 3;
-            const scaledSize = size * scale;
-            const scaledThickness = Math.max(1, thickness * scale);
-            const scaledGap = gap * scale;
-            
-            // Draw outline if enabled
-            if (outline) {
-                ctx.strokeStyle = '#000000';
-                ctx.lineWidth = scaledThickness + 2;
-                ctx.lineCap = 'square';
-                
-                // Draw outline lines
-                if (style === 0 || style === 1 || style === 4) {
-                    // Horizontal line
-                    ctx.beginPath();
-                    ctx.moveTo(centerX - scaledSize - scaledGap, centerY);
-                    ctx.lineTo(centerX - scaledGap, centerY);
-                    ctx.moveTo(centerX + scaledGap, centerY);
-                    ctx.lineTo(centerX + scaledSize + scaledGap, centerY);
-                    ctx.stroke();
-                    
-                    // Vertical line (skip top if T-style)
-                    if (!tStyle) {
-                        ctx.beginPath();
-                        ctx.moveTo(centerX, centerY - scaledSize - scaledGap);
-                        ctx.lineTo(centerX, centerY - scaledGap);
-                        ctx.stroke();
-                    }
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(centerX, centerY + scaledGap);
-                    ctx.lineTo(centerX, centerY + scaledSize + scaledGap);
-                    ctx.stroke();
-                }
+            const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
+            const style = number('cl_crosshairstyle', 4);
+            if (document.getElementById('preserve_game_crosshair').value === '1' || ![2,4,5].includes(style)) {
+                ctx.fillStyle = '#ffffff'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
+                ctx.fillText('Preview unavailable', canvas.width / 2, canvas.height / 2);
+                return;
             }
-            
-            // Draw main crosshair
-            ctx.strokeStyle = crosshairColor;
-            ctx.lineWidth = scaledThickness;
-            ctx.lineCap = 'square';
-            
-            if (style === 0 || style === 1 || style === 4) {
-                // Horizontal line
-                ctx.beginPath();
-                ctx.moveTo(centerX - scaledSize - scaledGap, centerY);
-                ctx.lineTo(centerX - scaledGap, centerY);
-                ctx.moveTo(centerX + scaledGap, centerY);
-                ctx.lineTo(centerX + scaledSize + scaledGap, centerY);
-                ctx.stroke();
-                
-                // Vertical line (skip top if T-style)
-                if (!tStyle) {
-                    ctx.beginPath();
-                    ctx.moveTo(centerX, centerY - scaledSize - scaledGap);
-                    ctx.lineTo(centerX, centerY - scaledGap);
-                    ctx.stroke();
-                }
-                
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY + scaledGap);
-                ctx.lineTo(centerX, centerY + scaledSize + scaledGap);
-                ctx.stroke();
+            const size = Math.max(0, number('cl_crosshairsize', 4)) * 3;
+            const width = Math.max(0.5, number('cl_crosshairthickness', 1) * 3);
+            const gap = (number('cl_crosshairgap', -1) + 4) * 3;
+            const outline = document.getElementById('cl_crosshair_drawoutline').value === '1'
+                ? clamp(number('cl_crosshair_outlinethickness', 1), 0, 3) * 3 : 0;
+            const colors = ['#ff0000', '#00ff00', '#ffff00', '#0000ff', '#00ffff'];
+            const rgb = ['R','G','B'].map(c => clamp(number('cl_crosshaircolor_' + c, c === 'G' ? 255 : 0), 0, 255));
+            const color = colors[number('cl_crosshaircolor', 1)] || `rgb(${rgb.join(',')})`;
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.globalAlpha = document.getElementById('cl_crosshairusealpha').value === '1'
+                ? clamp(number('cl_crosshaircolor_a', 255), 0, 255) / 255 : 1;
+            const rects = [];
+            if (size > 0) {
+                rects.push([-gap-size,-width/2,size,width], [gap,-width/2,size,width], [-width/2,gap,width,size]);
+                if (document.getElementById('cl_crosshair_t').value !== '1') rects.push([-width/2,-gap-size,width,size]);
             }
-            
-            // Draw center dot if enabled
-            if (dot) {
-                ctx.fillStyle = crosshairColor;
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, scaledThickness, 0, 2 * Math.PI);
-                ctx.fill();
-                
-                if (outline) {
-                    ctx.strokeStyle = '#000000';
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-                }
+            if (document.getElementById('cl_crosshairdot').value === '1') rects.push([-width/2,-width/2,width,width]);
+            if (outline > 0) {
+                ctx.fillStyle = '#000000';
+                rects.forEach(([x,y,w,h]) => ctx.fillRect(x-outline,y-outline,w+2*outline,h+2*outline));
             }
+            ctx.fillStyle = color;
+            rects.forEach(rect => ctx.fillRect(...rect));
+            ctx.restore();
         }
-        
+
         // Function to check music volume conflict
         function checkMusicVolumeConflict() {
             const musicVolume = parseFloat(document.getElementById('snd_musicvolume')?.value || 0);
@@ -6279,7 +6228,8 @@
                 'cl_crosshairsize', 'cl_crosshairthickness', 'cl_crosshairgap',
                 'cl_crosshaircolor', 'cl_crosshair_drawoutline', 'cl_crosshairstyle',
                 'cl_crosshairdot', 'cl_crosshair_t', 'cl_crosshaircolor_R',
-                'cl_crosshaircolor_G', 'cl_crosshaircolor_B', 'r_fullscreen_gamma'
+                'cl_crosshaircolor_G', 'cl_crosshaircolor_B', 'r_fullscreen_gamma',
+                'cl_crosshair_outlinethickness', 'cl_crosshaircolor_a', 'cl_crosshairusealpha', 'preserve_game_crosshair'
             ];
             
             crosshairInputs.forEach(id => {
